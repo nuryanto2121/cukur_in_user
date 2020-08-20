@@ -1,0 +1,15 @@
+[INFO][(*ContOrder)][cont_c_order.go:153]2020/08/16 15:04:17 {"barber_id":1,"order_date":1342340,"customer_name":"Yanto","telp":"01912","paket_ids":[{"paket_id":1,"paket_name":"PBA","price":50000}]}
+[QUERY][(*repoOrderH)][repo_order_h.go:95]2020/08/16 15:05:59 &{SELECT * FROM "order_h"  WHERE "order_h"."order_id" = ? [1]}
+[QUERY][(*repoOrderD)][repo_order_d.go:95]2020/08/16 15:07:13 &{SELECT * FROM "order_d"  WHERE "order_d"."order_d_id" = ? AND "order_d"."order_id" = ? [1 1]}
+[INFO][Res][response.go:31]2020/08/16 15:07:13 {"message":"Ok","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/08/16 21:54:52 {"account":"0000","pwd":"1"}
+[QUERY][(*repoAuth)][repo_ss_fileupload.go:40]2020/08/16 21:54:52 &{SELECT * FROM "sa_file_upload"  WHERE (file_id = ?) [0]}
+[INFO][Res][response.go:31]2020/08/16 21:54:52 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owner"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsInVzZXJfbmFtZSI6IjAwMDAiLCJ1c2VyX3R5cGUiOiJPd25lciIsImV4cCI6MTU5Nzg0ODg5MiwiaXNzIjoiUHJvcGVydHlGcmFtZXdvcmsifQ.oo_W9M1T_mVk8orFhyFKPe8Ha_SJTy8l6E6vuN-TP9c"}}
+[INFO][(*ContOrder)][cont_c_order.go:153]2020/08/16 21:55:14 {"barber_id":1,"capster_id":1,"order_date":1000,"customer_name":"Om 1","telp":"01010","paket_ids":[{"paket_id":1,"paket_name":"PBA","price":50000}]}
+[QUERY][(*repoOrderH)][repo_order_h.go:95]2020/08/16 21:55:40 &{SELECT * FROM "order_h"  WHERE "order_h"."order_id" = ? [2]}
+[QUERY][(*repoOrderD)][repo_order_d.go:95]2020/08/16 21:55:40 &{SELECT * FROM "order_d"  WHERE "order_d"."order_d_id" = ? AND "order_d"."order_id" = ? [2 2]}
+[INFO][Res][response.go:31]2020/08/16 21:55:58 {"message":"Ok","data":null}
+[INFO][(*ContOrder)][cont_c_order.go:153]2020/08/16 21:57:48 {"barber_id":2,"capster_id":2,"order_date":1000,"customer_name":"Om 2","telp":"01010","paket_ids":[{"paket_id":2,"paket_name":"Halus","price":60000}]}
+[QUERY][(*repoOrderH)][repo_order_h.go:95]2020/08/16 21:57:56 &{SELECT * FROM "order_h"  WHERE "order_h"."order_id" = ? [3]}
+[QUERY][(*repoOrderD)][repo_order_d.go:95]2020/08/16 21:57:56 &{SELECT * FROM "order_d"  WHERE "order_d"."order_d_id" = ? AND "order_d"."order_id" = ? [3 3]}
+[INFO][Res][response.go:31]2020/08/16 21:57:56 {"message":"Ok","data":null}

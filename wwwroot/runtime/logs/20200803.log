@@ -1,0 +1,28 @@
+[INFO][(*ContAuth)][cont_auth.go:76]2020/08/03 05:31:44 {"account":"0000","pwd":"1"}
+[QUERY][(*repoAuth)][repo_auth.go:26]2020/08/03 05:31:45 
+	select a.user_id ,
+		a.name ,
+		a.email ,
+		a.telp ,
+		a.join_date ,
+		a.user_type ,
+		a.file_id ,
+		b.file_name ,
+		b.file_path ,
+		a.pwd
+	from public.ss_user a
+	left join sa_file_upload b
+		on a.file_id = b.file_id 
+	where (a.email ilike $1 or a.telp = $2);     0000 0000
+[INFO][Res][response.go:31]2020/08/03 05:31:45 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTY2NjY3MDUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.pXn2TpljX4g1qm35slR88X_E4WoenIBZ2WNi-nY20Bo"}}
+[INFO][Res][response.go:31]2020/08/03 05:35:13 {"message":"record not found","data":null}
+[INFO][Res][response.go:31]2020/08/03 05:43:35 {"message":"Ok","data":{"user_id":1,"name":"Admin","telp":"0000","email":"admin@cukur.in","is_active":true,"join_date":"2020-07-16T22:12:03.726103Z","pwd":"","file_id":0,"user_type":"Owber","user_input":"Manual","user_edit":"Manual","time_input":"2020-07-16T22:12:03.726103Z","time_edit":"2020-07-16T22:12:03.726103Z"}}
+[INFO][Res][response.go:31]2020/08/03 05:44:04 {"message":"Ok","data":{"user_id":2,"name":"Danniel","telp":"12345","email":"Danniel@gmail.com","is_active":true,"join_date":"2020-07-18T13:50:58.619758Z","pwd":"","file_id":0,"user_type":"Capster","user_input":"nuryanto","user_edit":"1","time_input":"2020-07-18T13:50:58.619758Z","time_edit":"2020-07-18T15:56:44.279208Z"}}
+[ERROR][Res][response.go:53]2020/08/03 05:48:18 {"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":"pq: column \"id\" does not exist"}
+[INFO][Res][response.go:31]2020/08/03 05:50:23 {"message":"","data":{"page":1,"total":4,"last_page":2,"define_size":"","define_column":"","all_column":"","data":[{"user_id":1,"name":"Admin","telp":"0000","email":"admin@cukur.in","is_active":true,"join_date":"2020-07-16T22:12:03.726103Z","pwd":"","file_id":0,"user_type":"Owber","user_input":"Manual","user_edit":"Manual","time_input":"2020-07-16T22:12:03.726103Z","time_edit":"2020-07-16T22:12:03.726103Z"},{"user_id":2,"name":"Danniel","telp":"12345","email":"Danniel@gmail.com","is_active":true,"join_date":"2020-07-18T13:50:58.619758Z","pwd":"","file_id":0,"user_type":"Capster","user_input":"nuryanto","user_edit":"1","time_input":"2020-07-18T13:50:58.619758Z","time_edit":"2020-07-18T15:56:44.279208Z"}],"message":""}}
+[INFO][Res][response.go:31]2020/08/03 05:50:53 {"message":"Ok","data":{"user_id":2,"name":"Danniel","telp":"12345","email":"Danniel@gmail.com","is_active":true,"join_date":"2020-07-18T13:50:58.619758Z","pwd":"","file_id":0,"user_type":"Capster","user_input":"nuryanto","user_edit":"1","time_input":"2020-07-18T13:50:58.619758Z","time_edit":"2020-07-18T15:56:44.279208Z"}}
+[INFO][Res][response.go:31]2020/08/03 06:17:36 {"message":"Ok","data":null}
+[ERROR][Res][response.go:43]2020/08/03 06:38:03 {"message":"Name.Required. Can not be empty","data":null}
+[INFO][Res][response.go:31]2020/08/03 06:39:05 {"message":"Ok","data":null}
+[INFO][Res][response.go:31]2020/08/03 06:39:33 {"message":"strconv.Atoi: parsing \"\": invalid syntax","data":null}
+[INFO][Res][response.go:31]2020/08/03 06:42:14 {"message":"Ok","data":null}

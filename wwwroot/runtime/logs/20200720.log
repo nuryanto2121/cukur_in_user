@@ -1,0 +1,66 @@
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/20 23:37:18 {"account":"0000","pwd":"1"}
+[QUERY][(*repoAuth)][repo_auth.go:26]2020/07/20 23:37:18 
+	select a.user_id ,
+		a.name ,
+		a.email ,
+		a.telp ,
+		a.join_date ,
+		a.user_type ,
+		a.file_id ,
+		b.file_name ,
+		b.file_path ,
+		a.pwd
+	from public.ss_user a
+	left join sa_file_upload b
+		on a.file_id = b.file_id 
+	where (a.email ilike $1 or a.telp = $2);     0000 0000
+[INFO][Res][response.go:31]2020/07/20 23:37:18 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTU1MjIyMzgsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.d7JaybaYr8eDRyY2t6-9Fq0rDz4xTBPUFAa3yAXPndg"}}
+[ERROR][Res][response.go:43]2020/07/20 23:44:49 {"message":"invalid request param: option_url","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/20 23:48:41 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/20 23:49:11  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[ERROR][Res][response.go:43]2020/07/20 23:51:08 {"message":"Post parameter function not valid.","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/20 23:55:30 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/20 23:56:00  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[ERROR][Res][response.go:43]2020/07/20 23:56:42 {"message":"Post parameter function not valid.","data":null}

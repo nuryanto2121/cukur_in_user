@@ -1,0 +1,519 @@
+[INFO][(*ContDynamic)][cont_dynamic.go:60]2020/07/21 08:48:23 {"menu_url":""}
+[ERROR][Res][response.go:43]2020/07/21 08:48:23 {"message":"invalid request param: code=400, message=Unmarshal type error: expected=string, got=object, field=in_data, offset=65, internal=json: cannot unmarshal object into Go struct field PostMulti.in_data of type string","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:60]2020/07/21 08:51:11 {"menu_url":"","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[ERROR][Res][response.go:43]2020/07/21 08:51:30 {"message":"MenuUrl.Required. Can not be empty","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:12:04 {"menu_url":"","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[ERROR][Res][response.go:43]2020/07/21 09:12:17 {"message":"MenuUrl.Required. Can not be empty","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:12:43 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:13:35 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[ERROR][Res][response.go:43]2020/07/21 09:14:48 {"message":"write tcp 192.168.100.2:63498-\u003e34.101.133.247:1400: write: broken pipe","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:15:31 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:16:01 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:16:39  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:18:06 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:map[file_id:0 is_active:false join_date:2020-07-19T17:45:00 name:Otnay top_collection:[map[file_id:1] map[file_id:2] map[file_id:3]] user_input:5 user_type:capster]]
+[ERROR][Res][response.go:43]2020/07/21 09:19:09 {"message":"sql: converting argument $1 type: unsupported type map[string]interface {}, a map","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:23:26 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:23:32 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:23:38  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:26:31 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:26:31 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:26:31  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:27:42 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:27:42 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:27:42  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:28:34 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 09:29:10 {"message":"pq: column \"json_data\" does not exist","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:37:04 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:37:04 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:37:04  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:37:57 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 09:46:02 {"message":"pq: relation \"public.ss_capster_collection\" does not exist","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:46:16 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:46:16 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:46:16  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:46:22 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 09:46:58 {"message":"pq: 1","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:47:49 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:47:49 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:47:49  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:47:49 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 09:47:49 {"message":"pq: header id : 5","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:47:58 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:47:58 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:47:59  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:48:05 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 09:48:05 {"message":"pq: header id : 6","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:61]2020/07/21 09:52:51 {"menu_url":"Capster","in_data":{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 09:52:51 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 09:52:51  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 09:52:58 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":0,"is_active":false,"join_date":"2020-07-19T17:45:00","name":"Otnay","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[INFO][Res][response.go:31]2020/07/21 09:53:28 {"message":"Ok","data":[{"row_id":0}]}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 22:59:26 {"menu_url":"","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[ERROR][Res][response.go:43]2020/07/21 22:59:26 {"message":"MenuUrl.Required. Can not be empty","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 22:59:43 {"menu_url":"Capster","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 22:59:58 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 22:59:58  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_u
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:00:05 
+		SELECT fss_user_capster_u as row_id FROM public.fss_user_capster_u (:in_data);
+	 map[in_data:{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 23:01:38 {"message":"pq: relation \"public.ss_capster_collection\" does not exist","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 23:01:42 {"menu_url":"Capster","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:01:47 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:01:48  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_u
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:01:53 
+		SELECT fss_user_capster_u as row_id FROM public.fss_user_capster_u (:in_data);
+	 map[in_data:{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 23:02:55 {"message":"pq: column \"v_user_input\" does not exist","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 23:03:01 {"menu_url":"Capster","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:03:07 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:03:07  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_u
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:03:13 
+		SELECT fss_user_capster_u as row_id FROM public.fss_user_capster_u (:in_data);
+	 map[in_data:{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 23:06:05 {"message":"pq: null value in column \"capster_id\" of relation \"capster_collection\" violates not-null constraint","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 23:06:17 {"menu_url":"Capster","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:06:24 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:06:24  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_u
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:06:30 
+		SELECT fss_user_capster_u as row_id FROM public.fss_user_capster_u (:in_data);
+	 map[in_data:{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}]
+[ERROR][Res][response.go:43]2020/07/21 23:07:36 {"message":"pq: null value in column \"capster_id\" of relation \"capster_collection\" violates not-null constraint","data":null}
+[INFO][(*ContDynamic)][cont_dynamic.go:107]2020/07/21 23:08:21 {"menu_url":"Capster","in_data":{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:08:27 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:08:28  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_u
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:08:33 
+		SELECT fss_user_capster_u as row_id FROM public.fss_user_capster_u (:in_data);
+	 map[in_data:{"capster_id":7,"file_id":0,"is_active":false,"join_date":"2020-07-22T17:45:00","name":"Otnay uchiha","top_collection":[{"file_id":6},{"file_id":4},{"file_id":5}],"user_edit":5,"user_type":"capster"}]
+[INFO][Res][response.go:31]2020/07/21 23:08:40 {"message":"Ok","data":[{"row_id":0}]}
+[INFO][(*ContDynamic)][cont_dynamic.go:66]2020/07/21 23:12:00 {"menu_url":"Capster","in_data":{"file_id":1,"is_active":true,"join_date":"2020-07-22T17:45:00","name":"Saskeh","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:12:00 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:12:00  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_capster_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:12:08 
+		SELECT fss_user_capster_i as row_id FROM public.fss_user_capster_i (:in_data);
+	 map[in_data:{"file_id":1,"is_active":true,"join_date":"2020-07-22T17:45:00","name":"Saskeh","top_collection":[{"file_id":1},{"file_id":2},{"file_id":3}],"user_input":5,"user_type":"capster"}]
+[INFO][Res][response.go:31]2020/07/21 23:12:18 {"message":"Ok","data":[{"row_id":8}]}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/21 23:52:06 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/21 23:52:34  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_define_column_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/21 23:53:26 
+		SELECT * FROM public.fss_define_column_i ();
+	 map[p_column_field:no,name,rating,join_date,owner_id,row_id,lastupdatestamp p_line_no:0 p_option_url:Capster p_user_input:1]
+[ERROR][Res][response.go:53]2020/07/21 23:53:26 {"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":"pq: function public.fss_define_column_i() does not exist"}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/22 00:00:49 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/22 00:00:53  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_define_column_i
+[QUERY][(*repoOptionDB)][repo_option.go:47]2020/07/22 00:01:17 
+		SELECT * FROM public.fss_define_column_i (:p_option_url,:p_line_no,:p_column_field,:p_user_input);
+	 map[p_column_field:no,name,rating,join_date,owner_id,row_id,lastupdatestamp p_line_no:0 p_option_url:Capster p_user_input:1]
+[QUERY][(*repoOptionDB)][repo_option.go:58]2020/07/22 00:03:08 
+		WITH result_set AS
+		(
+			SELECT
+				row_number() OVER (ORDER BY time_edit desc) as no,
+				name,rating,TO_CHAR(join_date,'DD/MM/YYYY HH24:MI') as join_date,owner_id,row_id,lastupdatestamp
+			FROM vcapster
+			WHERE owner_id=5
+		)
+		SELECT * FROM result_set
+		LIMIT $1
+		OFFSET $2 ;
+	 5 0
+[ERROR][Res][response.go:53]2020/07/22 00:03:08 {"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":"pq: operator does not exist: character varying = integer"}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/22 00:09:07 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:58]2020/07/22 00:09:49 
+		WITH result_set AS
+		(
+			SELECT
+				row_number() OVER (ORDER BY time_edit desc) as no,
+				name,TO_CHAR(join_date,'DD/MM/YYYY HH24:MI') as join_date,owner_id,row_id,lastupdatestamp,TO_CHAR(time_edit,'DD/MM/YYYY HH24:MI') as time_edit
+			FROM vcapster
+			WHERE owner_id=0000
+		)
+		SELECT * FROM result_set
+		LIMIT $1
+		OFFSET $2 ;
+	 5 0
+[ERROR][Res][response.go:53]2020/07/22 00:09:49 {"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":"pq: operator does not exist: character varying = integer"}

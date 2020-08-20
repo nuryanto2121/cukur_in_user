@@ -1,0 +1,153 @@
+[INFO][(*ContAuth)][cont_auth.go:92]2020/07/18 20:01:13 {"key":"otnay","value":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:03:02 {"message":"Ok","data":null}
+[INFO][Res][response.go:31]2020/07/18 20:05:27 {"message":"Ok","data":""}
+[INFO][(*ContAuth)][cont_auth.go:96]2020/07/18 20:06:55 {"key":"otnay","value":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:13 {"message":"Ok","data":null}
+[INFO][Res][response.go:31]2020/07/18 20:07:20 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:25 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:35 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:39 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:42 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:42 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:44 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:45 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:46 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:48 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:51 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:52 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:53 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:07:58 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:08:01 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:08:03 {"message":"Ok","data":"fatih"}
+[INFO][Res][response.go:31]2020/07/18 20:08:13 {"message":"Ok","data":""}
+[INFO][Res][response.go:31]2020/07/18 20:11:59 {"message":"Ok","data":{"gen_code":"8537","redis":""}}
+[INFO][Res][response.go:31]2020/07/18 20:12:01 {"message":"Ok","data":{"gen_code":"9162","redis":""}}
+[INFO][Res][response.go:31]2020/07/18 20:12:04 {"message":"Ok","data":{"gen_code":"7111","redis":""}}
+[INFO][Res][response.go:31]2020/07/18 20:12:05 {"message":"Ok","data":{"gen_code":"2557","redis":""}}
+[INFO][Res][response.go:31]2020/07/18 20:12:08 {"message":"Ok","data":{"gen_code":"8057","redis":""}}
+[INFO][(*ContAuth)][cont_auth.go:151]2020/07/18 20:39:18 {"name":"nuryanto","user_type":"Capster","account":"nuryanto.4j4h@gmail.com","pwd":"1","confirm_pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/18 20:39:20 {"message":"535 5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials v10sm11079738pfc.118 - gsmtp","data":null}
+[INFO][(*ContAuth)][cont_auth.go:151]2020/07/18 20:40:30 {"name":"nuryanto","user_type":"Capster","account":"nuryanto.4j4h@gmail.com","pwd":"1","confirm_pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/18 20:42:49 {"message":"pq: duplicate key value violates unique constraint \"ss_user_pkey\"","data":null}
+[INFO][(*ContAuth)][cont_auth.go:151]2020/07/18 20:43:02 {"name":"nuryanto","user_type":"Capster","account":"nuryanto.4j4h@gmail.com","pwd":"1","confirm_pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/18 20:49:44 {"message":"535 5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials b8sm5657919pjm.31 - gsmtp","data":null}
+[INFO][(*ContAuth)][cont_auth.go:151]2020/07/18 20:50:44 {"name":"nuryanto","user_type":"Capster","account":"nuryanto.4j4h@gmail.com","pwd":"1","confirm_pwd":"1"}
+[INFO][Res][response.go:31]2020/07/18 20:51:38 {"message":"Ok","data":{"gen_code":"8901"}}
+[ERROR][Res][response.go:43]2020/07/18 22:45:17 {"message":"invalid request param: code=400, message=Syntax error: offset=20, error=invalid character 'U' after object key:value pair, internal=invalid character 'U' after object key:value pair","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:27]2020/07/18 22:45:45 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 UbahProfile
+[QUERY][(*repoOptionDB)][repo_option.go:36]2020/07/18 22:45:45  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_u
+[QUERY][(*repoOptionDB)][repo_option.go:46]2020/07/18 22:45:45  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 map[p_email:Danniel@gmail.com p_file_id:<nil> p_name:Danniel p_user_edit:1 p_user_id:5 p_user_type:Capster]
+[ERROR][Res][response.go:43]2020/07/18 22:45:46 {"message":"could not find name p_telp in map[string]interface {}{\"p_email\":\"Danniel@gmail.com\", \"p_file_id\":interface {}(nil), \"p_name\":\"Danniel\", \"p_user_edit\":1, \"p_user_id\":5, \"p_user_type\":\"Capster\"}","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:27]2020/07/18 22:48:43 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 UbahProfile
+[QUERY][(*repoOptionDB)][repo_option.go:36]2020/07/18 22:48:57  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_u
+[QUERY][(*repoOptionDB)][repo_option.go:46]2020/07/18 22:51:18  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 map[p_email:Danniel@gmail.com p_file_id:<nil> p_name:Danniel p_user_edit:1 p_user_id:5 p_user_type:Capster]
+[ERROR][Res][response.go:43]2020/07/18 22:51:18 {"message":"could not find name p_telp in map[string]interface {}{\"p_email\":\"Danniel@gmail.com\", \"p_file_id\":interface {}(nil), \"p_name\":\"Danniel\", \"p_user_edit\":1, \"p_user_id\":5, \"p_user_type\":\"Capster\"}","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:27]2020/07/18 22:52:20 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 UbahProfile
+[QUERY][(*repoOptionDB)][repo_option.go:36]2020/07/18 22:52:31  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fss_user_u
+[QUERY][(*repoOptionDB)][repo_option.go:46]2020/07/18 22:56:00  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 map[p_email:Danniel@gmail.com p_file_id:<nil> p_name:Danniel p_telp:12345 p_user_edit:1 p_user_id:5 p_user_type:Capster]
+[INFO][Res][response.go:31]2020/07/18 22:56:57 {"message":"Ok","data":[{"row_id":1}]}

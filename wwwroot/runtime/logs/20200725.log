@@ -1,0 +1,72 @@
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/25 22:37:35 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 BarberPaket
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/25 22:38:12  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fmst_paket_i
+[ERROR][Res][response.go:43]2020/07/25 22:39:57 {"message":"Post parameter function not valid.","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/25 22:40:16 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 BarberPaket
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/25 22:40:22  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fmst_paket_i
+[ERROR][Res][response.go:43]2020/07/25 22:46:53 {"message":"Post parameter function not valid.","data":null}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/25 22:50:54 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 BarberPaket
+[QUERY][(*repoOptionDB)][repo_option.go:37]2020/07/25 22:51:00  
+			SELECT routines.routine_name,
+				parameters.parameter_name,
+				parameters.data_type,
+				parameters.ordinal_position
+			FROM information_schema.routines
+			LEFT JOIN information_schema.parameters ON routines.specific_name = parameters.specific_name
+			WHERE 	routines.specific_catalog = current_database() AND
+					routines.specific_schema = 'public' AND
+					routines.routine_name iLIKE $1 AND
+					parameters.parameter_mode = 'IN'
+			ORDER BY routines.specific_name, routines.routine_name, parameters.ordinal_position;
+
+	
+	 fmst_paket_i
+[ERROR][Res][response.go:43]2020/07/25 22:52:00 {"message":"Post parameter function not valid.","data":null}

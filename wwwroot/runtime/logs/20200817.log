@@ -1,0 +1,146 @@
+[INFO][(*ContAuth)][cont_auth.go:76]2020/08/17 11:15:15 {"account":"0000","pwd":"1"}
+[QUERY][(*repoAuth)][repo_ss_fileupload.go:40]2020/08/17 11:15:16 &{SELECT * FROM "sa_file_upload"  WHERE (file_id = ?) [0]}
+[INFO][Res][response.go:31]2020/08/17 11:15:16 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owner"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsInVzZXJfbmFtZSI6IjAwMDAiLCJ1c2VyX3R5cGUiOiJPd25lciIsImV4cCI6MTU5Nzg5NjkxNiwiaXNzIjoiUHJvcGVydHlGcmFtZXdvcmsifQ.0MAHGdeXPPvo7YEPyUyNOhGoAI3fgXimccC-4tUHbS8"}}
+[QUERY][(*repoOrderH)][repo_order_h.go:104]2020/08/17 11:15:53 &{SELECT * FROM "order_h"  WHERE (owner_id = 1) LIMIT 10 OFFSET 0 []}
+[ERROR][Res][response.go:43]2020/08/17 11:15:53 {"message":"pq: column \"owner_id\" does not exist","data":{"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":""}}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:92]2020/08/17 11:51:49 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type LIMIT 10 OFFSET 0 []}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:130]2020/08/17 11:51:49 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type []}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:35]2020/08/17 11:53:59 &{ select 
+			count(case a.status when 'P' then 1 else null end) as progres_status,
+			count(case a.status when 'F' then 1 else null end) as finish_status,
+			count(case a.status when 'C' then 1 else null end) as cancel_status,
+			sum(d.price ) as income_price
+		from order_h a inner join barber b on a.barber_id = b.barber_id 
+		inner join order_d d on d.order_id = a.order_id 
+			and d.barber_id = b.barber_id 
+		where b.owner_id = ? [1]}
+[INFO][Res][response.go:31]2020/08/17 11:55:51 {"message":"unsupported destination, should be slice or struct","data":null}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:35]2020/08/17 12:03:12 &{ select 
+			count(case a.status when 'P' then 1 else null end) as progress_status,
+			count(case a.status when 'F' then 1 else null end) as finish_status,
+			count(case a.status when 'C' then 1 else null end) as cancel_status,
+			sum(d.price ) as income_price
+		from order_h a inner join barber b on a.barber_id = b.barber_id 
+		inner join order_d d on d.order_id = a.order_id 
+			and d.barber_id = b.barber_id 
+		where b.owner_id = ? [1]}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:36]2020/08/17 12:07:07 &{ select 
+			count(case a.status when 'P' then 1 else null end) as progress_status,
+			count(case a.status when 'F' then 1 else null end) as finish_status,
+			count(case a.status when 'C' then 1 else null end) as cancel_status,
+			sum(d.price ) as income_price
+		from order_h a inner join barber b on a.barber_id = b.barber_id 
+		inner join order_d d on d.order_id = a.order_id 
+			and d.barber_id = b.barber_id 
+		where b.owner_id = ? [1]}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:93]2020/08/17 12:08:27 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type LIMIT 10 OFFSET 0 []}
+[ERROR][Res][response.go:43]2020/08/17 12:08:36 {"message":"read tcp 192.168.100.2:50549-\u003e34.101.133.247:1400: read: operation timed out","data":{"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":""}}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:36]2020/08/17 12:09:53 &{ select 
+			count(case a.status when 'P' then 1 else null end) as progress_status,
+			count(case a.status when 'F' then 1 else null end) as finish_status,
+			count(case a.status when 'C' then 1 else null end) as cancel_status,
+			sum(d.price ) as income_price
+		from order_h a inner join barber b on a.barber_id = b.barber_id 
+		inner join order_d d on d.order_id = a.order_id 
+			and d.barber_id = b.barber_id 
+		where b.owner_id = ? [1]}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:93]2020/08/17 12:09:53 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type LIMIT 10 OFFSET 0 []}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:131]2020/08/17 12:09:53 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type []}
+[INFO][Res][response.go:31]2020/08/17 12:09:53 {"message":"","data":{"data_list":{"page":1,"total":2,"last_page":1,"define_size":"","define_column":"","all_column":"","data":[{"barber_id":1,"barber_name":"Asgard","file_id":3,"file_name":"1597248249_naruto.jpg","file_path":"/wwwroot/uploads/Capster/1597248249_naruto.jpg","file_type":".jpg","price":100000},{"barber_id":2,"barber_name":"Hunter","file_id":0,"file_name":"","file_path":"","file_type":"","price":60000}],"message":""},"status_order":{"progress_status":1,"finish_status":2,"cancel_status":0,"income_price":160000}}}
+[QUERY][(*repoOrderH)][repo_order_h.go:78]2020/08/17 12:12:36 &{SELECT * FROM "order_h"  WHERE (owner_id = 1) LIMIT 4 OFFSET 0 []}
+[ERROR][Res][response.go:53]2020/08/17 12:12:36 {"page":0,"total":0,"last_page":0,"define_size":"","define_column":"","all_column":"","data":null,"message":"pq: column \"owner_id\" does not exist"}
+[QUERY][(*repoOrderH)][repo_order_h.go:81]2020/08/17 17:21:39 &{SELECT barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
+			order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+			(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price FROM "barber" inner join order_h 
+			on order_h.barber_id = barber.barber_id inner join ss_user on ss_user.user_id = order_h.capster_id left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id WHERE (barber.owner_id = 1) LIMIT 4 OFFSET 0 []}
+[QUERY][(*repoOrderH)][repo_order_h.go:156]2020/08/17 17:22:19 &{SELECT barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
+	order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+	(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price FROM "barber" inner join order_h 
+	on order_h.barber_id = barber.barber_id inner join ss_user on ss_user.user_id = order_h.capster_id left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id WHERE (barber.owner_id = 1) []}
+[INFO][Res][response.go:63]2020/08/17 17:22:31 {"page":1,"total":3,"last_page":1,"define_size":"","define_column":"","all_column":"","data":[{"barber_id":1,"barber_name":"Asgard","order_id":1,"status":"F","from_apps":false,"capster_id":1,"capster_name":"Admin","order_date":1597658441,"file_id":0,"file_name":"","file_path":"","price":50000},{"barber_id":1,"barber_name":"Asgard","order_id":2,"status":"P","from_apps":false,"capster_id":1,"capster_name":"Admin","order_date":1597658469,"file_id":0,"file_name":"","file_path":"","price":50000},{"barber_id":2,"barber_name":"Hunter","order_id":3,"status":"F","from_apps":false,"capster_id":2,"capster_name":"Danniel","order_date":1597658469,"file_id":0,"file_name":"","file_path":"","price":60000}],"message":""}
+[QUERY][(*repoOrderH)][repo_order_h.go:89]2020/08/17 18:20:16 &{SELECT barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
+			order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+			(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price FROM "barber" inner join order_h 
+			on order_h.barber_id = barber.barber_id inner join ss_user on ss_user.user_id = order_h.capster_id left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id WHERE (barber.owner_id = 1) LIMIT 5 OFFSET 0 []}
+[QUERY][(*repoOrderH)][repo_order_h.go:164]2020/08/17 18:20:16 &{SELECT barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
+	order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+	(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price FROM "barber" inner join order_h 
+	on order_h.barber_id = barber.barber_id inner join ss_user on ss_user.user_id = order_h.capster_id left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id WHERE (barber.owner_id = 1) []}
+[INFO][Res][response.go:63]2020/08/17 18:20:16 {"page":1,"total":3,"last_page":1,"define_size":"","define_column":"","all_column":"","data":[{"barber_id":1,"barber_name":"Asgard","order_id":1,"status":"F","from_apps":false,"capster_id":1,"capster_name":"Admin","order_date":1597658441,"file_id":0,"file_name":"","file_path":"","price":50000},{"barber_id":1,"barber_name":"Asgard","order_id":2,"status":"P","from_apps":false,"capster_id":1,"capster_name":"Admin","order_date":1597658469,"file_id":0,"file_name":"","file_path":"","price":50000},{"barber_id":2,"barber_name":"Hunter","order_id":3,"status":"F","from_apps":false,"capster_id":2,"capster_name":"Danniel","order_date":1597658469,"file_id":0,"file_name":"","file_path":"","price":60000}],"message":""}
+[QUERY][(*repoOrderH)][repo_order_h.go:35]2020/08/17 18:20:47 &{ select barber.barber_name ,order_h.capster_id ,ss_user."name" as capster_name,
+					sa_file_upload.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+					order_d.paket_id ,order_d.paket_name ,order_d.price ,order_d.durasi_start,order_d.durasi_end
+				from order_h inner join order_d 
+				on order_h.order_id = order_d.order_id 
+				inner join barber on barber.barber_id =order_h.order_id 
+				inner join ss_user on ss_user.user_id = order_h.capster_id
+				left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id
+				where order_h.order_id = ?  [1]}
+[INFO][Res][response.go:31]2020/08/17 18:20:47 {"message":"Ok","data":{"barber_name":"","capster_name":"","file_id":0,"file_name":"","file_path":"","paket_id":0,"paket_name":"","durasi_start":0,"durasi_end":0,"price":0}}
+[QUERY][(*repoOrderH)][repo_order_h.go:35]2020/08/17 18:23:11 &{ select barber.barber_name ,order_h.capster_id ,ss_user."name" as capster_name,
+					sa_file_upload.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+					order_d.paket_id ,order_d.paket_name ,order_d.price ,order_d.durasi_start,order_d.durasi_end
+				from order_h inner join order_d 
+				on order_h.order_id = order_d.order_id 
+				inner join barber on barber.barber_id =order_h.order_id 
+				inner join ss_user on ss_user.user_id = order_h.capster_id
+				left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id
+				where order_h.order_id = ?  [1]}
+[INFO][Res][response.go:31]2020/08/17 18:24:29 {"message":"Ok","data":{"barber_name":"","capster_name":"","file_id":0,"file_name":"","file_path":"","paket_id":0,"paket_name":"","durasi_start":0,"durasi_end":0,"price":0}}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:36]2020/08/17 18:26:52 &{ select 
+			count(case a.status when 'P' then 1 else null end) as progress_status,
+			count(case a.status when 'F' then 1 else null end) as finish_status,
+			count(case a.status when 'C' then 1 else null end) as cancel_status,
+			sum(d.price ) as income_price
+		from order_h a inner join barber b on a.barber_id = b.barber_id 
+		inner join order_d d on d.order_id = a.order_id 
+			and d.barber_id = b.barber_id 
+		where b.owner_id = ? [1]}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:93]2020/08/17 18:26:52 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type LIMIT 10 OFFSET 0 []}
+[QUERY][(*repoBerandaBarber)][repo_beranda_barber.go:131]2020/08/17 18:26:52 &{SELECT barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type ,
+											sum(order_d.price ) as price FROM "barber" 
+											left join sa_file_upload  on sa_file_upload.file_id = barber.file_id 
+											left join order_d on order_d.barber_id = barber.barber_id WHERE (barber.owner_id = 1) GROUP BY barber.barber_id ,barber.barber_name ,barber.file_id ,
+											sa_file_upload.file_name ,sa_file_upload.file_path ,sa_file_upload.file_type []}
+[INFO][Res][response.go:31]2020/08/17 18:26:52 {"message":"","data":{"data_list":{"page":1,"total":2,"last_page":1,"define_size":"","define_column":"","all_column":"","data":[{"barber_id":1,"barber_name":"Asgard","file_id":3,"file_name":"1597248249_naruto.jpg","file_path":"/wwwroot/uploads/Capster/1597248249_naruto.jpg","file_type":".jpg","price":100000},{"barber_id":2,"barber_name":"Hunter","file_id":0,"file_name":"","file_path":"","file_type":"","price":60000}],"message":""},"status_order":{"progress_status":1,"finish_status":2,"cancel_status":0,"income_price":160000}}}
+[QUERY][(*repoOrderH)][repo_order_h.go:35]2020/08/17 18:28:33 &{ select barber.barber_name ,order_h.capster_id ,ss_user."name" as capster_name,
+					sa_file_upload.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
+					order_d.paket_id ,order_d.paket_name ,order_d.price ,order_d.durasi_start,order_d.durasi_end
+				from order_h inner join order_d 
+				on order_h.order_id = order_d.order_id 
+				inner join barber on barber.barber_id =order_h.order_id 
+				inner join ss_user on ss_user.user_id = order_h.capster_id
+				left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id
+				where order_h.order_id = ?  [1]}
+[INFO][Res][response.go:31]2020/08/17 18:28:33 {"message":"Ok","data":{"barber_name":"Asgard","capster_id":1,"capster_name":"Admin","file_id":0,"file_name":"","file_path":"","paket_id":1,"paket_name":"PBA","price":50000,"durasi_start":10,"durasi_end":30}}

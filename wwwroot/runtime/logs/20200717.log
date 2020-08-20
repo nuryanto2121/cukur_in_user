@@ -1,0 +1,70 @@
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:07:57 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:07:57 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:10:11 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:10:11 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:13:19 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:13:19 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:16:23 {"account":"adm","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:18:23 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:18:30 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:20:16 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:23:24 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:114]2020/07/17 00:25:15 {"account":"0000","pwd":"1","confirm_pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 00:25:56 {"message":"Ok","data":"Please Login"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:30:49 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:31:08 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:36:00 {"account":"adm","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:37:59 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:38:06 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:39:24 {"account":"adm","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:39:57 {"account":"adm","pwd":"1"}
+[ERROR][Res][response.go:43]2020/07/17 00:40:19 {"message":"Your Account not valid.","data":null}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:41:11 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 00:41:19 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODA0NzksImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.3ZeSzliSq9fybUTss43mj88jsGuUpv2ITKcBUHH8AOA"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 00:43:42 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 00:43:42 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODA2MjIsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.qLousEcAFivH1ZFdbYGEtTX86Ki4hAwAA8JgCFroBAw"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:02:35 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:02:35 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODE3NTUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.rwt2l36M6V3X9G-C1O4s7sUBdiC2n_ULXadBzsG_QiE"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:03:24 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:03:24 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODE4MDQsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.3tp4GhQu6CTcSvquRQ9ORSIr_Y-6t2DuL4WDmhtH4n4"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:03:29 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:03:29 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODE4MDksImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.gZLd1y8VoNebm-RP1J6Xg0nYOVxiqAZc7CF5rRPtqw8"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:30:49 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:31:03 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODM0NjMsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.D1Wrk8jgkp8OdcFCwuTizrWogH66PJ8Y4oRmnSO9-tU"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:37:30 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:37:45 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODM4NjUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.1owo7AE2-frwPGgSMyDRzrMojQXt-glvnbzruRdzZ48"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:39:04 {"account":"0000","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:51:27 {"account":"0000","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:53:19 {"account":"0000","pwd":"1"}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:54:56 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:55:45 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODQ5NDUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.ghceXzSYXcu0Rr_VTjXtNrQMBa8NwoEo67ppRegc1g4"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:09 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:09 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwODksImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.-7YH8UQ7GS5at19j-eBgmecxdpMStddpBMbpp5hlK7Q"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:11 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:11 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTEsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.9cTGYRx_P0tSeHg6UfcQRig_vXcWP8tkvJdWprwwhPU"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:12 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:12 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTIsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.Q_t3l4LlrUk_qxVobfn0rEIQWHvpdm-KKbxkA3Go4fI"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:13 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:14 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTQsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.yy19V_WD9-w4ida_cYgaYWYbLCmvCfybCASWw92b-oo"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:14 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:15 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.4VtFzC9pWm8wohjcUsUGfL5wLBphz-l8JxVWGp6BVEo"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:15 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:15 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTUsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.4VtFzC9pWm8wohjcUsUGfL5wLBphz-l8JxVWGp6BVEo"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:16 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:16 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTYsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.wrGsBQnjN5DMpKYke2AhOD0foQb3hOC0Cpd5JYtPRl8"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:17 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:17 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTcsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.ZcC3i218QD8uFcJHj3qSKbYW65WhmbJren_H5QMhOsA"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:18 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:18 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTgsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.S2247HS6U0Zd41I4h6_80Q3Sim_2Cmz3NB7T-OApRMM"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:19 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:19 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTksImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.e5KFmQmseFMw9AhnS6IW60hRvo3-f1oFsIDTw2bp_D0"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:19 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:19 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUwOTksImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.e5KFmQmseFMw9AhnS6IW60hRvo3-f1oFsIDTw2bp_D0"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:20 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:20 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUxMDAsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.PxqOhCxeB8lMps36jLI9sXrBpnk0oZ_TtPDJOJMCU-U"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:21 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:21 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUxMDEsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.9l71IZ7NfmeIgIl5IbB_usplOLCnPz39gmtUrxRc_LU"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:21 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:21 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUxMDEsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.9l71IZ7NfmeIgIl5IbB_usplOLCnPz39gmtUrxRc_LU"}}
+[INFO][(*ContAuth)][cont_auth.go:76]2020/07/17 01:58:22 {"account":"0000","pwd":"1"}
+[INFO][Res][response.go:31]2020/07/17 01:58:22 {"message":"Ok","data":{"data_user":{"email":"admin@cukur.in","file_id":0,"file_name":"","file_path":"","id":1,"telp":"0000","user_name":"Admin","user_type":"Owber"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiIwMDAwIiwidXNlcl90eXBlIjoiT3diZXIiLCJleHAiOjE1OTUxODUxMDIsImlzcyI6IlByb3BlcnR5RnJhbWV3b3JrIn0.GdCmK9tH971kYQ5keimmsGoK2IwzeRlq53ebnIEOQEQ"}}

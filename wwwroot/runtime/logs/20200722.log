@@ -1,0 +1,44 @@
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/22 00:11:39 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:58]2020/07/22 00:12:03 
+		WITH result_set AS
+		(
+			SELECT
+				row_number() OVER (ORDER BY time_edit desc) as no,
+				name,TO_CHAR(join_date,'DD/MM/YYYY HH24:MI') as join_date,owner_id,row_id,lastupdatestamp,TO_CHAR(time_edit,'DD/MM/YYYY HH24:MI') as time_edit
+			FROM vcapster
+			WHERE owner_id='1'
+		)
+		SELECT * FROM result_set
+		LIMIT $1
+		OFFSET $2 ;
+	 5 0
+[INFO][Res][response.go:31]2020/07/22 00:12:03 {"message":"","data":{"page":1,"total":0,"last_page":0,"define_size":"S,S,S,S,S","define_column":"no,name,join_date,owner_id,row_id,lastupdatestamp","all_column":"name,join_date,owner_id,row_id,lastupdatestamp,time_edit","data":[],"message":""}}
+[QUERY][(*repoOptionDB)][repo_option.go:28]2020/07/22 00:12:25 SELECT 	option_id, option_url, method_api, 
+									sp, line_no, table_name, 
+									user_input, user_edit, time_input, 
+									time_edit
+						  FROM public.ss_option_db
+						  		WHERE option_url iLIKE $1
+						  ORDER BY line_no , method_api;					  
+	 Capster
+[QUERY][(*repoOptionDB)][repo_option.go:58]2020/07/22 00:12:35 
+		WITH result_set AS
+		(
+			SELECT
+				row_number() OVER (ORDER BY time_edit desc) as no,
+				name,TO_CHAR(join_date,'DD/MM/YYYY HH24:MI') as join_date,owner_id,row_id,lastupdatestamp,TO_CHAR(time_edit,'DD/MM/YYYY HH24:MI') as time_edit
+			FROM vcapster
+			WHERE owner_id='5'
+		)
+		SELECT * FROM result_set
+		LIMIT $1
+		OFFSET $2 ;
+	 5 0
+[INFO][Res][response.go:31]2020/07/22 00:12:35 {"message":"","data":{"page":1,"total":2,"last_page":1,"define_size":"S,S,S,S,S","define_column":"no,name,join_date,owner_id,row_id,lastupdatestamp","all_column":"name,join_date,owner_id,row_id,lastupdatestamp,time_edit","data":[{"join_date":"22/07/2020 17:45","lastupdatestamp":586,"name":"Saskeh","no":1,"owner_id":"5","row_id":8,"time_edit":"21/07/2020 16:12"},{"join_date":"22/07/2020 17:45","lastupdatestamp":585,"name":"Otnay uchiha","no":2,"owner_id":"5","row_id":7,"time_edit":"21/07/2020 16:08"}],"message":""}}
