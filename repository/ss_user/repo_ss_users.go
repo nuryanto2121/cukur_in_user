@@ -35,7 +35,24 @@ func (db *repoSysUser) GetByAccount(Account string) (result models.SsUser, err e
 
 	return result, err
 }
-
+func (db *repoSysUser) UpdatePasswordByEmail(Email string, Password string) error {
+	var (
+		logger = logging.Logger{}
+		err    error
+		// tUser  models.SsUser
+	)
+	// query := db.Conn.Model(&tUser).Where("user_id = ?", ID).Updates(data)
+	query := db.Conn.Exec(`UPDATE ss_user
+							set password = ?
+						  where user_type IN ('capster','owner')
+						  AND email = ?`, Password, Email)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	err = query.Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func (db *repoSysUser) GetDataBy(ID int) (result *models.SsUser, err error) {
 	var sysUser = &models.SsUser{}
 	query := db.Conn.Where("user_id = ? ", ID).Find(sysUser)

@@ -12,6 +12,7 @@ type Repository interface {
 	Create(data *models.SsUser) (err error)
 	Update(ID int, data interface{}) (err error)
 	Delete(ID int) (err error)
+	UpdatePasswordByEmail(Email string, Password string) error
 	Count(queryparam models.ParamList) (result int, err error)
 }
 type Usecase interface {

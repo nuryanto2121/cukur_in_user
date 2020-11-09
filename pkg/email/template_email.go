@@ -29,7 +29,8 @@ const (
 	<p>Hi {Name},</p>
 	<p>Selamat, saat ini akun kamu telah aktif.</p>
 	<p><strong>INFORMASI LOGIN</strong></p>
-	<p>Username : {Email} <br/> PassWord : {PasswordCode}</p>
+	<p>Username : {Email} <br/> 
+	OTP : {OTP}</p>
 	<ul>
 	<li>Usahakan agar kamu langsung mengganti password dan lakukan pergantian password secara berkala</li>
 	<li>Password terdiri dari minimal 4 karakter &amp; maksimal 8 karakter dengan kombinasi huruf besar dan kecil, serta angka. Contoh : cuKuRin1</li>

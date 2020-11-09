@@ -28,6 +28,6 @@ func getVerifyBody(R *Register) string {
 
 	registerHTML = strings.ReplaceAll(registerHTML, `{Name}`, R.Name)
 	registerHTML = strings.ReplaceAll(registerHTML, `{Email}`, R.Email)
-	registerHTML = strings.ReplaceAll(registerHTML, `{PasswordCode}`, R.PasswordCd)
+	registerHTML = strings.ReplaceAll(registerHTML, `{OTP}`, R.PasswordCd)
 	return registerHTML
 }

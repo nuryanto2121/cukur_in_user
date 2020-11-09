@@ -282,6 +282,35 @@ paths:
       summary: Register
       tags:
       - Auth
+  /user/auth/register/verify:
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.VerifyForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      summary: Register Verify
+      tags:
+      - Auth
   /user/auth/verify:
     post:
       parameters:

@@ -40,6 +40,7 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 	r.POST("/forgot", cont.ForgotPassword)
 	r.POST("/change_password", cont.ChangePassword)
 	r.POST("/verify", cont.Verify)
+	r.POST("/register/verify", cont.RegisterVerify)
 	r.POST("/register", cont.Register)
 }
 
@@ -197,6 +198,43 @@ func (u *ContAuth) Verify(e echo.Context) error {
 	return appE.Response(http.StatusOK, "Ok", nil)
 }
 
+// Register Verify :
+// @Summary Register Verify
+// @Tags Auth
+// @Produce json
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
+// @Param req body models.VerifyForm true "req param #changes are possible to adjust the form of the registration form from frontend"
+// @Success 200 {object} tool.ResponseModel
+// @Router /user/auth/register/verify [post]
+func (u *ContAuth) RegisterVerify(e echo.Context) error {
+	ctx := e.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	var (
+		logger = logging.Logger{} // wajib
+		appE   = tool.Res{R: e}   // wajib
+		// client sa_models.SaClient
+
+		form = models.VerifyForm{}
+	)
+
+	// validasi and bind to struct
+	httpCode, errMsg := app.BindAndValid(e, &form)
+	logger.Info(util.Stringify(form))
+	if httpCode != 200 {
+		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
+	}
+
+	dataUser, err := u.useAuth.VerifyRegister(ctx, form)
+	if err != nil {
+		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
+	}
+	return appE.Response(http.StatusOK, "Ok", dataUser)
+}
+
 // ForgotPassword :
 // @Summary Forgot Password
 // @Tags Auth
@@ -225,11 +263,14 @@ func (u *ContAuth) ForgotPassword(e echo.Context) error {
 		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
 	}
 
-	err := u.useAuth.ForgotPassword(ctx, &form)
+	OTP, err := u.useAuth.ForgotPassword(ctx, &form)
 	if err != nil {
 		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
 	}
+	result := map[string]interface{}{
+		"otp": OTP,
+	}
 
-	return appE.Response(http.StatusOK, "Check Your Email", nil)
+	return appE.Response(http.StatusOK, "Check Your Email", result)
 
 }
