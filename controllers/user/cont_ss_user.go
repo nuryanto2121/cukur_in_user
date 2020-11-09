@@ -30,7 +30,7 @@ func NewContUser(e *echo.Echo, a iusers.Usecase) {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.GET("/health_check", controller.HealthCheck)
 
-	r := e.Group("/barber/user")
+	r := e.Group("/user/user")
 	r.Use(midd.JWT)
 	r.GET("/:id", controller.GetDataBy)
 	r.GET("", controller.GetList)
@@ -48,7 +48,7 @@ func NewContUser(e *echo.Echo, a iusers.Usecase) {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Success 200 {object} tool.ResponseModel
-// @Router /barber/user/{id} [get]
+// @Router /user/user/{id} [get]
 func (u *ContUser) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -87,7 +87,7 @@ func (u *ContUser) GetDataBy(e echo.Context) error {
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
 // @Success 200 {object} models.ResponseModelList
-// @Router /barber/user [get]
+// @Router /user/user [get]
 func (u *ContUser) GetList(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -135,7 +135,7 @@ func (u *ContUser) GetList(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.AddUser true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /barber/user [post]
+// @Router /user/user [post]
 func (u *ContUser) Create(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -186,7 +186,7 @@ func (u *ContUser) Create(e echo.Context) error {
 // @Param id path string true "ID"
 // @Param req body models.UpdateUser true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /barber/user/{id} [put]
+// @Router /user/user/{id} [put]
 func (u *ContUser) Update(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -234,7 +234,7 @@ func (u *ContUser) Update(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Success 200 {object} tool.ResponseModel
-// @Router /barber/user/{id} [delete]
+// @Router /user/user/{id} [delete]
 func (u *ContUser) Delete(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

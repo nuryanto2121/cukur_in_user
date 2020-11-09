@@ -3,7 +3,7 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:1.12.8 as builder
+FROM golang:1.15.3 as builder
 
 # Add Maintainer Info
 LABEL maintainer="Nuryanto <nuryantofattih@gmail.com>"
@@ -29,6 +29,10 @@ FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
+RUN apk add --no-cache tzdata
+
+ENV TZ Asia/Jakarta
+
 WORKDIR /root/
 
 
@@ -46,7 +50,7 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/config.json .
 
 # Expose port 8080 to the outside world
-EXPOSE 9191
+EXPOSE 9193
 
 # Declare volumes to mount
 VOLUME [${LOG_DIR}]

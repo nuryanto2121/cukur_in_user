@@ -66,8 +66,6 @@ definitions:
         type: string
       pwd:
         type: string
-      user_type:
-        type: string
     type: object
   models.ResetPasswd:
     properties:
@@ -127,7 +125,6 @@ info:
     name: Nuryanto
     url: https://www.linkedin.com/in/nuryanto-1b2721156/
   description: Backend REST API for golang nuryanto2121
-  license: {}
   title: Starter
   version: "1.0"
 paths:
@@ -169,7 +166,7 @@ paths:
       summary: File Upload
       tags:
       - FileUpload
-  /barber/auth/change_password:
+  /user/auth/change_password:
     post:
       parameters:
       - description: OS Device
@@ -182,14 +179,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.ResetPasswd'
-          type: object
       produces:
       - application/json
       responses:
@@ -200,7 +195,7 @@ paths:
       summary: Change Password
       tags:
       - Auth
-  /barber/auth/forgot:
+  /user/auth/forgot:
     post:
       parameters:
       - description: OS Device
@@ -213,14 +208,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.ForgotForm'
-          type: object
       produces:
       - application/json
       responses:
@@ -231,7 +224,7 @@ paths:
       summary: Forgot Password
       tags:
       - Auth
-  /barber/auth/login:
+  /user/auth/login:
     post:
       parameters:
       - description: OS Device
@@ -244,14 +237,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.LoginForm'
-          type: object
       produces:
       - application/json
       responses:
@@ -262,7 +253,7 @@ paths:
       summary: Login
       tags:
       - Auth
-  /barber/auth/register:
+  /user/auth/register:
     post:
       parameters:
       - description: OS Device
@@ -275,14 +266,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.RegisterForm'
-          type: object
       produces:
       - application/json
       responses:
@@ -293,7 +282,7 @@ paths:
       summary: Register
       tags:
       - Auth
-  /barber/auth/verify:
+  /user/auth/verify:
     post:
       parameters:
       - description: OS Device
@@ -306,14 +295,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.VerifyForm'
-          type: object
       produces:
       - application/json
       responses:
@@ -324,7 +311,7 @@ paths:
       summary: Verify
       tags:
       - Auth
-  /barber/order:
+  /user/order:
     get:
       parameters:
       - description: OS Device
@@ -383,14 +370,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.OrderPost'
-          type: object
       produces:
       - application/json
       responses:
@@ -403,7 +388,7 @@ paths:
       summary: Add Order
       tags:
       - Order
-  /barber/order/{id}:
+  /user/order/{id}:
     delete:
       parameters:
       - description: OS Device
@@ -479,14 +464,12 @@ paths:
         name: id
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.OrderPost'
-          type: object
       produces:
       - application/json
       responses:
@@ -499,7 +482,7 @@ paths:
       summary: Rubah Profile
       tags:
       - Order
-  /barber/user:
+  /user/user:
     get:
       parameters:
       - description: OS Device
@@ -558,14 +541,12 @@ paths:
         name: Version
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.AddUser'
-          type: object
       produces:
       - application/json
       responses:
@@ -578,7 +559,7 @@ paths:
       summary: Add User
       tags:
       - User
-  /barber/user/{id}:
+  /user/user/{id}:
     delete:
       parameters:
       - description: OS Device
@@ -654,14 +635,12 @@ paths:
         name: id
         required: true
         type: string
-      - description: 'req param #changes are possible to adjust the form of the registration
-          form from frontend'
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
         in: body
         name: req
         required: true
         schema:
           $ref: '#/definitions/models.UpdateUser'
-          type: object
       produces:
       - application/json
       responses:

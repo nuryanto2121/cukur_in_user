@@ -104,12 +104,9 @@ func Versioning(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 			return e.JSON(http.StatusHTTPVersionNotSupported, resp)
 		}
-		if dataVersion.Version < Version {
-			resp := tool.ResponseModel{
-				Msg:  "Version Not Support",
-				Data: dataVersion.Version,
-			}
-			return e.JSON(http.StatusHTTPVersionNotSupported, resp)
+		if dataVersion.Version <= Version {
+
+			return next(e)
 		}
 
 		//end

@@ -3,7 +3,7 @@ package postgresdb
 import (
 	"fmt"
 	"log"
-	"nuryanto2121/cukur_in_user/models"
+	version "nuryanto2121/cukur_in_user/middleware/versioning"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
 	"time"
@@ -54,15 +54,16 @@ func autoMigrate() {
 	Conn.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
-		models.SsUser{},
-		models.Paket{},
-		models.CapsterCollection{},
-		models.Barber{},
-		models.BarberPaket{},
-		models.BarberCapster{},
-		models.SaFileUpload{},
-		models.OrderH{},
-		models.OrderD{},
+		version.SsVersion{},
+		// models.SsUser{},
+		// models.Paket{},
+		// models.CapsterCollection{},
+		// models.Barber{},
+		// models.BarberPaket{},
+		// models.BarberCapster{},
+		// models.SaFileUpload{},
+		// models.OrderH{},
+		// models.OrderD{},
 	)
 
 	log.Println("FINISHING AUTO MIGRATE ")
