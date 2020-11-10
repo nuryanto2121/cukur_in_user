@@ -3,14 +3,24 @@ package models
 import "time"
 
 type Capster struct {
-	Name string `json:"name" valid:"Required"`
-	// Telp      string    `json:"telp"`
-	// Email     string    `json:"email"`
+	Name          string    `json:"name" valid:"Required"`
+	Telp          string    `json:"telp,omitempty"`
+	Email         string    `json:"email"  valid:"Required"`
 	UserType      string    `json:"user_type" valid:"Required"`
 	IsActive      bool      `json:"is_active" valid:"Required"`
-	JoinDate      time.Time `json:"join_date,omitempty"`
+	JoinDate      time.Time `json:"join_date" valid:"Required"`
 	FileID        int       `json:"file_id,omitempty"`
 	TopCollection []Collections
+}
+
+type CapsterUpdate struct {
+	Name     string    `json:"name" valid:"Required"`
+	Telp     string    `json:"telp,omitempty"`
+	Email    string    `json:"email"  valid:"Required"`
+	UserType string    `json:"user_type" valid:"Required"`
+	IsActive bool      `json:"is_active" valid:"Required"`
+	JoinDate time.Time `json:"join_date" valid:"Required"`
+	FileID   int       `json:"file_id,omitempty"`
 }
 
 type CapsterCollection struct {
@@ -34,8 +44,13 @@ type Collections struct {
 
 type CapsterList struct {
 	CapsterID int    `json:"capster_id" valid:"Required"`
+	UserName  string `json:"user_name,omitempty"`
 	Name      string `json:"name" valid:"Required"`
 	IsActive  bool   `json:"is_active" valid:"Required"`
 	SaFileOutput
-	Rating float32 `json:"rating,omitempty"`
+	Rating    float32   `json:"rating,omitempty"`
+	UserType  string    `json:"user_type"`
+	InUse     bool      `json:"in_user"`
+	UserInput string    `json:"user_input"`
+	TimeEdit  time.Time `json:"time_edit"`
 }

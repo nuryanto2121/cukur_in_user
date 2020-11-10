@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	version "nuryanto2121/cukur_in_user/middleware/versioning"
+	"nuryanto2121/cukur_in_user/models"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
 	"time"
@@ -55,15 +56,7 @@ func autoMigrate() {
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
 		version.SsVersion{},
-		// models.SsUser{},
-		// models.Paket{},
-		// models.CapsterCollection{},
-		// models.Barber{},
-		// models.BarberPaket{},
-		// models.BarberCapster{},
-		// models.SaFileUpload{},
-		// models.OrderH{},
-		// models.OrderD{},
+		models.BarberFavorit{},
 	)
 
 	log.Println("FINISHING AUTO MIGRATE ")
