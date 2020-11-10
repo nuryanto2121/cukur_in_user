@@ -35,11 +35,11 @@ func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (outpu
 	DataUser, err := u.repoAuth.GetByAccount(dataLogin.Account) //u.repoUser.GetByEmailSaUser(dataLogin.UserName)
 	if err != nil {
 		// return util.GoutputErrCode(http.StatusUnauthorized, "Your User/Email not valid.") //appE.ResponseError(util.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
-		return nil, errors.New("Your Account not valid.")
+		return nil, errors.New("Email anda belum terdaftar.")
 	}
 
 	if !util.ComparePassword(DataUser.Password, util.GetPassword(dataLogin.Password)) {
-		return nil, errors.New("Your Password not valid.")
+		return nil, errors.New("Password yang anda masukkan salah. Silahkan coba lagi..")
 	}
 	DataFile, err := u.repoFile.GetBySaFileUpload(ctx, DataUser.FileID)
 
@@ -79,7 +79,7 @@ func (u *useAuht) ForgotPassword(ctx context.Context, dataForgot *models.ForgotF
 		return "", errors.New("Your Account not valid.")
 	}
 	if DataUser.Name == "" {
-		return "", errors.New("Your AccountF not valid.")
+		return "", errors.New("Your Account not valid.")
 	}
 	GenOTP := util.GenerateNumber(4)
 	// send generate password
@@ -110,6 +110,9 @@ func (u *useAuht) ForgotPassword(ctx context.Context, dataForgot *models.ForgotF
 }
 
 func (u *useAuht) ResetPassword(ctx context.Context, dataReset *models.ResetPasswd) (err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+
 	if dataReset.Passwd != dataReset.ConfirmPasswd {
 		return errors.New("Password dan Confirm Password tidak boleh sama.")
 	}

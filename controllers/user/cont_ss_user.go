@@ -35,6 +35,7 @@ func NewContUser(e *echo.Echo, a iusers.Usecase) {
 	r.GET("/:id", controller.GetDataBy)
 	r.GET("", controller.GetList)
 	r.POST("", controller.Create)
+	r.POST("/change_password", controller.ChangePassword)
 	r.PUT("/:id", controller.Update)
 	r.DELETE("/:id", controller.Delete)
 }
@@ -65,8 +66,11 @@ func (u *ContUser) GetDataBy(e echo.Context) error {
 	if err != nil {
 		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
 	}
-
-	data, err := u.useUser.GetDataBy(ctx, ID)
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+	data, err := u.useUser.GetDataBy(ctx, claims, ID)
 	if err != nil {
 		return appE.Response(http.StatusInternalServerError, fmt.Sprintf("%v", err), nil)
 	}
@@ -115,8 +119,11 @@ func (u *ContUser) GetList(e echo.Context) error {
 	// if !claims.IsAdmin {
 	// 	paramquery.InitSearch = " id_created = " + strconv.Itoa(claims.UserID)
 	// }
-
-	responseList, err = u.useUser.GetList(ctx, paramquery)
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.ResponseErrorList(http.StatusBadRequest, fmt.Sprintf("%v", err), responseList)
+	}
+	responseList, err = u.useUser.GetList(ctx, claims, paramquery)
 	if err != nil {
 		// return e.JSON(http.StatusBadRequest, err.Error())
 		return appE.ResponseErrorList(tool.GetStatusCode(err), fmt.Sprintf("%v", err), responseList)
@@ -157,23 +164,63 @@ func (u *ContUser) Create(e echo.Context) error {
 	if httpCode != 200 {
 		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
 	}
-	// claims, err := app.GetClaims(e)
-	// if err != nil {
-	// 	return appE.ResponseError(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
-	// }
-	// mapping to struct model saRole
+
 	err := mapstructure.Decode(form, &sysUser)
 	if err != nil {
 		return appE.ResponseError(http.StatusInternalServerError, fmt.Sprintf("%v", err), nil)
 
 	}
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.ResponseError(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
 	// sysUser.UserInput = claims.UserID
-	err = u.useUser.Create(ctx, &sysUser)
+	err = u.useUser.Create(ctx, claims, &sysUser)
 	if err != nil {
 		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
 	}
 
 	return appE.Response(http.StatusCreated, "Ok", sysUser)
+}
+
+func (u *ContUser) ChangePassword(e echo.Context) error {
+	ctx := e.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	var (
+		// logger = logging.Logger{} // wajib
+		appE = tool.Res{R: e} // wajib
+		err  error
+		// valid  validation.Validation                 // wajib
+		form = models.ChangePassword{}
+	)
+	// user := e.Get("user").(*jwt.Token)
+	// claims := user.Claims.(*util.Claims)
+
+	// logger.Info(id)
+	if err != nil {
+		return appE.ResponseError(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.ResponseError(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+	// validasi and bind to struct
+	httpCode, errMsg := app.BindAndValid(e, &form)
+	// logger.Info(util.Stringify(form))
+	if httpCode != 200 {
+		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
+	}
+
+	// form.UpdatedBy = claims.UserName
+	err = u.useUser.ChangePassword(ctx, claims, form)
+	if err != nil {
+		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
+	}
+	return appE.Response(http.StatusCreated, "Ok", nil)
 }
 
 // UpdateSaUser :
@@ -216,9 +263,12 @@ func (u *ContUser) Update(e echo.Context) error {
 	if httpCode != 200 {
 		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
 	}
-
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.ResponseError(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
 	// form.UpdatedBy = claims.UserName
-	err = u.useUser.Update(ctx, MenuID, &form)
+	err = u.useUser.Update(ctx, claims, MenuID, form)
 	if err != nil {
 		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
 	}

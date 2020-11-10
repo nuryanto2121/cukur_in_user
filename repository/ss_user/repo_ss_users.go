@@ -44,7 +44,7 @@ func (db *repoSysUser) UpdatePasswordByEmail(Email string, Password string) erro
 	// query := db.Conn.Model(&tUser).Where("user_id = ?", ID).Updates(data)
 	query := db.Conn.Exec(`UPDATE ss_user
 							set password = ?
-						  where user_type IN ('capster','owner')
+						  where user_type IN ('user')
 						  AND email = ?`, Password, Email)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error

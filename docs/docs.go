@@ -1036,6 +1036,9 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
+                "file_id": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },

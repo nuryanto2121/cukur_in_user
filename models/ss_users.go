@@ -29,7 +29,27 @@ type AddUser struct {
 }
 
 type UpdateUser struct {
-	Email string `json:"email" valid:"Required"`
-	Telp  string `json:"telp"`
-	Name  string `json:"name" valid:"Required"`
+	Email  string `json:"email" valid:"Required"`
+	Telp   string `json:"telp"`
+	Name   string `json:"name" valid:"Required"`
+	FileID int    `json:"file_id,omitempty"`
+}
+type UserList struct {
+	UserID   int       `json:"user_id" gorm:"PRIMARY_KEY"`
+	UserName string    `json:"user_name" gorm:"type:varchar(20)"`
+	Name     string    `json:"name" gorm:"type:varchar(60);not null"`
+	Telp     string    `json:"telp" gorm:"type:varchar(20)"`
+	Email    string    `json:"email" gorm:"type:varchar(60)"`
+	IsActive bool      `json:"is_active" gorm:"type:boolean"`
+	JoinDate time.Time `json:"join_date" gorm:"type:timestamp(0)"`
+	// FileID    int       `json:"file_id" gorm:"type:integer"`
+	UserType string `json:"user_type" gorm:"type:varchar(10)"`
+	UserEdit string `json:"user_edit" gorm:"type:varchar(20)"`
+	SaFileOutput
+}
+
+type ChangePassword struct {
+	OldPassword     string `json:"old_password" valid:"Required"`
+	NewPassword     string `json:"new_password" valid:"Required"`
+	ConfirmPassword string `json:"confirm_password" valid:"Required"`
 }
