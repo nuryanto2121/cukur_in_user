@@ -183,6 +183,16 @@ func (u *ContUser) Create(e echo.Context) error {
 	return appE.Response(http.StatusCreated, "Ok", sysUser)
 }
 
+// ChangePassword :
+// @Summary Rubah Password
+// @Security ApiKeyAuth
+// @Tags User
+// @Produce json
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
+// @Param req body models.ChangePassword true "req param #changes are possible to adjust the form of the registration form from frontend"
+// @Success 200 {object} tool.ResponseModel
+// @Router /user/user/change_password [post]
 func (u *ContUser) ChangePassword(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

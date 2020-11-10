@@ -51,7 +51,7 @@ func (u *useSysUser) ChangePassword(ctx context.Context, Claims util.Claims, Dat
 	}
 
 	if DataChangePwd.NewPassword != DataChangePwd.ConfirmPassword {
-		return errors.New("Password dan confirm password tidak boleh sama.")
+		return errors.New("Password dan confirm password tidak sama.")
 	}
 
 	if util.ComparePassword(dataUser.Password, util.GetPassword(DataChangePwd.NewPassword)) {
