@@ -1,4 +1,9 @@
 definitions:
+  models.AddBarberFavorit:
+    properties:
+      barber_id:
+        type: integer
+    type: object
   models.AddUser:
     properties:
       email:
@@ -55,7 +60,7 @@ definitions:
       customer_name:
         type: string
       order_date:
-        type: integer
+        type: string
       paket_ids:
         items:
           $ref: '#/definitions/models.OrderDPost'
@@ -110,7 +115,7 @@ definitions:
         type: string
       file_id:
         type: integer
-      name:
+      owner_name:
         type: string
       telp:
         type: string
@@ -351,6 +356,87 @@ paths:
       summary: Verify
       tags:
       - Auth
+  /user/favorit:
+    get:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: PerPage
+        in: query
+        name: perpage
+        required: true
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: InitSearch
+        in: query
+        name: initsearch
+        type: string
+      - description: SortField
+        in: query
+        name: sortfield
+        type: string
+      - description: ParamView
+        in: query
+        name: paramview
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseModelList'
+      security:
+      - ApiKeyAuth: []
+      summary: GetList Barber Favorit
+      tags:
+      - Barber Favorit
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddBarberFavorit'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Add Or Delete Barber Favorit
+      tags:
+      - Barber Favorit
   /user/order:
     get:
       parameters:

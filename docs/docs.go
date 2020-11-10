@@ -350,6 +350,131 @@ var doc = `{
                 }
             }
         },
+        "/user/favorit": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Barber Favorit"
+                ],
+                "summary": "GetList Barber Favorit",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "OS",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "Version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "PerPage",
+                        "name": "perpage",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "InitSearch",
+                        "name": "initsearch",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SortField",
+                        "name": "sortfield",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ParamView",
+                        "name": "paramview",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseModelList"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Barber Favorit"
+                ],
+                "summary": "Add Or Delete Barber Favorit",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "OS",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "Version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AddBarberFavorit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tool.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/user/order": {
             "get": {
                 "security": [
@@ -931,6 +1056,14 @@ var doc = `{
         }
     },
     "definitions": {
+        "models.AddBarberFavorit": {
+            "type": "object",
+            "properties": {
+                "barber_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.AddUser": {
             "type": "object",
             "properties": {
@@ -1017,7 +1150,7 @@ var doc = `{
                     "type": "string"
                 },
                 "order_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "paket_ids": {
                     "type": "array",
@@ -1102,7 +1235,7 @@ var doc = `{
                 "file_id": {
                     "type": "integer"
                 },
-                "name": {
+                "owner_name": {
                     "type": "string"
                 },
                 "telp": {

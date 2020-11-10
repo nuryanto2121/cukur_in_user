@@ -12,6 +12,10 @@ import (
 	_repoFile "nuryanto2121/cukur_in_user/repository/ss_fileupload"
 	_useFile "nuryanto2121/cukur_in_user/usecase/ss_fileupload"
 
+	_saBarberFavoritcont "nuryanto2121/cukur_in_user/controllers/barber_favorit"
+	_repoBarberFavorit "nuryanto2121/cukur_in_user/repository/barber_favorit"
+	_useBarberFavorit "nuryanto2121/cukur_in_user/usecase/barber_favorit"
+
 	_contUser "nuryanto2121/cukur_in_user/controllers/user"
 	_repoUser "nuryanto2121/cukur_in_user/repository/ss_user"
 	_useUser "nuryanto2121/cukur_in_user/usecase/ss_user"
@@ -47,6 +51,9 @@ func (e *EchoRoutes) InitialRouter() {
 	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, timeoutContext)
 	_contOrder.NewContOrder(e.E, useOrder)
 
+	repoBarberFavorit := _repoBarberFavorit.NewRepoBarberFavorit(postgresdb.Conn)
+	useBarberFavorit := _useBarberFavorit.NewBarberFavorit(repoBarberFavorit, timeoutContext)
+	_saBarberFavoritcont.NewContBarberFavorit(e.E, useBarberFavorit)
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)
