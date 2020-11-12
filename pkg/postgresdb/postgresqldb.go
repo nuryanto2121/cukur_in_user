@@ -68,6 +68,7 @@ func autoMigrate() {
 	Conn.AutoMigrate(
 		version.SsVersion{},
 		models.BarberFavorit{},
+		models.FeedbackRating{},
 	)
 
 	log.Println("FINISHING AUTO MIGRATE ")
