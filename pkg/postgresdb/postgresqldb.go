@@ -52,7 +52,18 @@ func Setup() {
 // autoMigrate : create or alter table from struct
 func autoMigrate() {
 	// Add auto migrate bellow this line
-	Conn.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
+	Conn.Exec(`
+		CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+		CREATE OR REPLACE FUNCTION fn_distance(lat1 FLOAT, lon1 FLOAT, lat2 FLOAT, lon2 FLOAT) RETURNS FLOAT AS $$
+		DECLARE                                                   
+			x float = 111.12  * (lat2 - lat1);                           
+			y float = 111.12  * (lon2 - lon1) * cos(lat1 / 92.215);        
+		BEGIN                                                     
+			RETURN sqrt(x * x + y * y);                               
+		END  
+		$$ LANGUAGE plpgsql;
+	`)
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
 		version.SsVersion{},
