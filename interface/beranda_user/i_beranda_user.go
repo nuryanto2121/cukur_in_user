@@ -7,7 +7,7 @@ import (
 )
 
 type Usecase interface {
-	GetClosestBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamDynamicList)
-	GetRecomentCapster(ctx context.Context, Claims util.Claims, queryparam models.ParamDynamicList)
-	GetRecomentBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamDynamicList)
+	GetClosestBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error)
+	GetRecomentCapster(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error)
+	GetRecomentBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error)
 }

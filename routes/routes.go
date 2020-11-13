@@ -16,6 +16,15 @@ import (
 	_repoBarberFavorit "nuryanto2121/cukur_in_user/repository/barber_favorit"
 	_useBarberFavorit "nuryanto2121/cukur_in_user/usecase/barber_favorit"
 
+	_BerandaUsercont "nuryanto2121/cukur_in_user/controllers/beranda_user"
+	_useBerandaUser "nuryanto2121/cukur_in_user/usecase/beranda_user"
+
+	_saBarbercont "nuryanto2121/cukur_in_user/controllers/barber"
+	_repoBarber "nuryanto2121/cukur_in_user/repository/barber"
+	_repoBarberCapster "nuryanto2121/cukur_in_user/repository/barber_capster"
+	_repoBarberPaket "nuryanto2121/cukur_in_user/repository/barber_paket"
+	_useBarber "nuryanto2121/cukur_in_user/usecase/barber"
+
 	_contUser "nuryanto2121/cukur_in_user/controllers/user"
 	_repoUser "nuryanto2121/cukur_in_user/repository/ss_user"
 	_useUser "nuryanto2121/cukur_in_user/usecase/ss_user"
@@ -54,6 +63,15 @@ func (e *EchoRoutes) InitialRouter() {
 	repoBarberFavorit := _repoBarberFavorit.NewRepoBarberFavorit(postgresdb.Conn)
 	useBarberFavorit := _useBarberFavorit.NewBarberFavorit(repoBarberFavorit, timeoutContext)
 	_saBarberFavoritcont.NewContBarberFavorit(e.E, useBarberFavorit)
+
+	repoBarberPaket := _repoBarberPaket.NewRepoBarberPaket(postgresdb.Conn)
+	repoBarberCapster := _repoBarberCapster.NewRepoBarberCapster(postgresdb.Conn)
+	repoBarber := _repoBarber.NewRepoBarber(postgresdb.Conn)
+	useBarber := _useBarber.NewUserMBarber(repoBarber, repoBarberPaket, repoBarberCapster, repoFile, timeoutContext)
+	_saBarbercont.NewContBarber(e.E, useBarber)
+
+	useBerandaUser := _useBerandaUser.NewUseBerandaUser(useBarber, repoFile, timeoutContext)
+	_BerandaUsercont.NewContBerandaUser(e.E, useBerandaUser)
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)
