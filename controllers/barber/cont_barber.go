@@ -80,7 +80,9 @@ func (u *ContBarber) GetDataBy(e echo.Context) error {
 // @Tags Barber
 // @Produce  json
 // @Param OS header string true "OS Device"
-// @Param Version header string true "OS Device"
+// @Param Version header string true "Version Device"
+// @Param latitude number true "Latitude"
+// @Param longitude number true "Longitude"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
@@ -98,9 +100,10 @@ func (u *ContBarber) GetList(e echo.Context) error {
 		// logger = logging.Logger{}
 		appE = tool.Res{R: e} // wajib
 		//valid      validation.Validation // wajib
-		paramquery   = models.ParamList{} // ini untuk list
+		paramquery   = models.ParamListGeo{} // ini untuk list
 		responseList = models.ResponseModelList{}
 		err          error
+		// geoBarber    = models.GeoBarber{}
 	)
 
 	httpCode, errMsg := app.BindAndValid(e, &paramquery)

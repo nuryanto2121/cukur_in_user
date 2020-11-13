@@ -92,7 +92,7 @@ func (u *useBarber) GetDataFirst(ctx context.Context, Claims util.Claims, ID int
 	defer cancel()
 
 	OwnerID, _ := strconv.Atoi(Claims.UserID)
-	result, err := u.repoBarber.GetDataFirs(OwnerID, ID)
+	result, err := u.repoBarber.GetDataFirst(OwnerID, ID)
 	if err != nil {
 		return result, err
 	}
@@ -119,7 +119,7 @@ func (u *useBarber) GetDataFirst(ctx context.Context, Claims util.Claims, ID int
 
 	return response, nil
 }
-func (u *useBarber) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamList) (result models.ResponseModelList, err error) {
+func (u *useBarber) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
@@ -131,9 +131,9 @@ func (u *useBarber) GetList(ctx context.Context, Claims util.Claims, queryparam 
 	}
 
 	if queryparam.InitSearch != "" {
-		queryparam.InitSearch += fmt.Sprintf(" AND owner_id = %s", Claims.UserID)
+		queryparam.InitSearch += fmt.Sprintf(" AND distance <= 10")
 	} else {
-		queryparam.InitSearch = fmt.Sprintf("owner_id = %s", Claims.UserID)
+		queryparam.InitSearch = fmt.Sprintf("distance <= 10")
 	}
 	result.Data, err = u.repoBarber.GetList(queryparam)
 	if err != nil {

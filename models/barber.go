@@ -21,35 +21,40 @@ type BarbersList struct {
 	BarberCD       string    `json:"barber_cd"`
 	BarberName     string    `json:"barber_name" valid:"Required"`
 	Address        string    `json:"address" valid:"Required"`
-	Latitude       float64   `json:"latitude" gorm:"type:float8"`
-	Longitude      float64   `json:"longitude" gorm:"type:float8"`
 	OperationStart time.Time `json:"operation_start" valid:"Required"`
 	OperationEnd   time.Time `json:"operation_end" valid:"Required"`
 	IsActive       bool      `json:"is_active" valid:"Required"`
+	IsFavorit      bool      `json:"is_favorit"`
+	Distance       float32   `json:"distance"`
+	BarberRating   float32   `json:"barber_rating"`
 	SaFileOutput
+	GeoBarber
 }
 type BarbersUpdate struct {
 	BarberName     string    `json:"barber_name" valid:"Required"`
 	Address        string    `json:"address" valid:"Required"`
 	FileID         int       `json:"file_id,omitempty"`
-	Latitude       float64   `json:"latitude" gorm:"type:float8"`
-	Longitude      float64   `json:"longitude" gorm:"type:float8"`
 	OperationStart time.Time `json:"operation_start" valid:"Required"`
 	OperationEnd   time.Time `json:"operation_end" valid:"Required"`
 	IsActive       bool      `json:"is_active" valid:"Required"`
+	GeoBarber
 }
 
 type BarbersPost struct {
 	BarberName     string              `json:"barber_name" valid:"Required"`
 	Address        string              `json:"address" valid:"Required"`
 	FileID         int                 `json:"file_id,omitempty"`
-	Latitude       float64             `json:"latitude" gorm:"type:float8"`
-	Longitude      float64             `json:"longitude" gorm:"type:float8"`
 	OperationStart time.Time           `json:"operation_start" valid:"Required"`
 	OperationEnd   time.Time           `json:"operation_end" valid:"Required"`
 	IsActive       bool                `json:"is_active" valid:"Required"`
 	BarberPaket    []BarberPaketPost   `json:"barber_paket"`
 	BarberCapster  []BarberCapsterPost `json:"barber_capster"`
+	GeoBarber
+}
+
+type GeoBarber struct {
+	Latitude  float64 `json:"latitude" gorm:"type:float8"`
+	Longitude float64 `json:"longitude" gorm:"type:float8"`
 }
 
 type BarberPaketPost struct {

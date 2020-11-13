@@ -34,7 +34,7 @@ func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
 	}
 	return mBarber, nil
 }
-func (db *repoBarber) GetDataFirs(OwnerID int, BarberID int) (result *models.Barber, err error) {
+func (db *repoBarber) GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error) {
 	var (
 		logger  = logging.Logger{}
 		mBarber = &models.Barber{}
@@ -72,7 +72,7 @@ func (db *repoBarber) GetDataFirs(OwnerID int, BarberID int) (result *models.Bar
 
 	return mBarber, nil
 }
-func (db *repoBarber) GetList(queryparam models.ParamList) (result []*models.BarbersList, err error) {
+func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error) {
 
 	var (
 		pageNum  = 0
@@ -101,6 +101,9 @@ func (db *repoBarber) GetList(queryparam models.ParamList) (result []*models.Bar
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
+	sSql := fmt.Sprintf(`
+		SELECT * FROM fbarber_beranda_user_s(%f,%f)
+	`, queryparam.Latitude, queryparam.Longitude)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -108,25 +111,37 @@ func (db *repoBarber) GetList(queryparam models.ParamList) (result []*models.Bar
 		} else {
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Table("barber b ").Select(`
-		b.barber_id,b.barber_cd,b.barber_name,
-		b.address,b.latitude,b.longitude,
-		b.operation_start,b.operation_end,
-		b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type
-		`).Joins(`
-		left join sa_file_upload c
-		on b.file_id = c.file_id 
-	`).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		// 	query = db.Conn.Table("barber b ").Select(`
+		// 	b.barber_id,b.barber_cd,b.barber_name,
+		// 	b.address,b.latitude,b.longitude,
+		// 	b.operation_start,b.operation_end,
+		// 	b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,
+		// 	case when a.barber_id  is not null then true else false end as is_favorit,
+		// 	fn_distance(-6.1706062,106.8479235,b.latitude,b.longitude) as distance
+		// 	`).Joins(`
+		// 	left join barber_favorit a
+		// 	on a.barber_id = b.barber_id
+		// 	`).Joins(`
+		// 	left join sa_file_upload c
+		// 	on b.file_id = c.file_id
+		// `).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	} else {
-		query = db.Conn.Table("barber b ").Select(`
-		b.barber_id,b.barber_cd,b.barber_name,
-		b.address,b.latitude,b.longitude,
-		b.operation_start,b.operation_end,
-		b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type
-		`).Joins(`
-		left join sa_file_upload c
-		on b.file_id = c.file_id 
-	`).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		// 	query = db.Conn.Table("barber b ").Select(`
+		// 	b.barber_id,b.barber_cd,b.barber_name,
+		// 	b.address,b.latitude,b.longitude,
+		// 	b.operation_start,b.operation_end,
+		// 	b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,
+		// 	case when a.barber_id  is not null then true else false end as is_favorit,
+		// 	fn_distance(-6.1706062,106.8479235,b.latitude,b.longitude) as distance
+		// 	`).Joins(`
+		// 	left join barber_favorit a
+		// 	on a.barber_id = b.barber_id
+		// 	`).Joins(`
+		// 	left join sa_file_upload c
+		// 	on b.file_id = c.file_id
+		// `).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
@@ -180,7 +195,7 @@ func (db *repoBarber) Delete(ID int) error {
 	}
 	return nil
 }
-func (db *repoBarber) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err error) {
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
@@ -200,9 +215,25 @@ func (db *repoBarber) Count(queryparam models.ParamList) (result int, err error)
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
 
-		query = db.Conn.Model(&models.Barber{}).Where(sWhere, queryparam.Search).Count(&result)
+		query = db.Conn.Table("barber b ").Select(`
+		1
+		`).Joins(`
+		left join barber_favorit a
+		on a.barber_id = b.barber_id		
+		`).Joins(`
+		left join sa_file_upload c
+		on b.file_id = c.file_id 
+	`).Where(sWhere, queryparam.Search).Count(&result)
 	} else {
-		query = db.Conn.Model(&models.Barber{}).Where(sWhere).Count(&result)
+		query = db.Conn.Table("barber b ").Select(`
+		1
+		`).Joins(`
+		left join barber_favorit a
+		on a.barber_id = b.barber_id		
+		`).Joins(`
+		left join sa_file_upload c
+		on b.file_id = c.file_id 
+	`).Where(sWhere).Count(&result)
 	}
 	// end where
 

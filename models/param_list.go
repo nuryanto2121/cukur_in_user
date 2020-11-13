@@ -9,6 +9,11 @@ type ParamList struct {
 	SortField  string `json:"sort_field,omitempty"`
 }
 
+type ParamListGeo struct {
+	GeoBarber
+	ParamList
+}
+
 type ParamListOrder struct {
 	BarberId   int    `json:"barber_id"`
 	Page       int    `json:"page" valid:"Required"`

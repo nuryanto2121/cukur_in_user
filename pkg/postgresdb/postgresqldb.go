@@ -63,6 +63,43 @@ func autoMigrate() {
 			RETURN sqrt(x * x + y * y);                               
 		END  
 		$$ LANGUAGE plpgsql;
+
+		CREATE OR replace FUNCTION public.fbarber_beranda_user_s(p_latitude FLOAT, p_longitude FLOAT)
+		RETURNS TABLE(
+			barber_id integer, 	barber_cd varchar, 	barber_name varchar, 
+			address varchar, 	latitude float, 	longitude float,
+			operation_start timestamp, 	operation_end timestamp,
+			is_active bool, 	file_id integer, 	file_name varchar, 	file_path varchar, 	file_type varchar, 
+			is_favorit bool, 	distance float,		barber_rating float
+		)
+		LANGUAGE plpgsql
+		AS $function$
+			DECLARE v_id INTEGER; 
+			BEGIN 	
+				RETURN QUERY                
+					select
+								b.barber_id,b.barber_cd,b.barber_name,
+								b.address,b.latitude,b.longitude,
+								b.operation_start,b.operation_end,
+								b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,
+								case when a.barber_id  is not null then true else false end as is_favorit,
+								fn_distance(p_latitude,p_longitude,b.latitude,b.longitude) as distance,
+								(
+									select (sum(fr.barber_rating)/count(fr.order_id))::float
+									from feedback_rating fr 
+									where fr.barber_id = b.barber_id 
+								)::float as barber_rating
+						from barber b 
+						left join barber_favorit a
+							on a.barber_id = b.barber_id 
+						left join sa_file_upload c
+								on b.file_id = c.file_id 
+			;
+						
+			END;
+			$function$
+		;
+
 	`)
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
