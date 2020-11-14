@@ -43,14 +43,16 @@ type Collections struct {
 }
 
 type CapsterList struct {
-	CapsterID int    `json:"capster_id" valid:"Required"`
-	UserName  string `json:"user_name,omitempty"`
-	Name      string `json:"name" valid:"Required"`
-	IsActive  bool   `json:"is_active" valid:"Required"`
+	CapsterID      int       `json:"capster_id" valid:"Required"`
+	CapsterName    string    `json:"capster_name,omitempty"`
+	CapsterRating  float32   `json:"capster_rating"`
+	IsActive       bool      `json:"is_active" valid:"Required"`
+	BarberID       int       `json:"barber_id"`
+	BarberName     string    `json:"barber_name"`
+	Distance       float32   `json:"distance"`
+	IsBarberOpen   bool      `json:"is_barber_open"`
+	IsBarberActive bool      `json:"is_barber_active"`
+	OperationStart time.Time `json:"operation_start"`
+	OperationEnd   time.Time `json:"operation_end"`
 	SaFileOutput
-	Rating    float32   `json:"rating,omitempty"`
-	UserType  string    `json:"user_type"`
-	InUse     bool      `json:"in_user"`
-	UserInput string    `json:"user_input"`
-	TimeEdit  time.Time `json:"time_edit"`
 }

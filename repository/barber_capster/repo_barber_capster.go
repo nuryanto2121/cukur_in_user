@@ -34,7 +34,7 @@ func (db *repoBarberCapster) GetDataBy(ID int) (result *models.BarberCapster, er
 	}
 	return mBarberCapster, nil
 }
-func (db *repoBarberCapster) GetList(queryparam models.ParamList) (result []*models.CapsterList, err error) {
+func (db *repoBarberCapster) GetList(queryparam models.ParamListGeo) (result []*models.CapsterList, err error) {
 
 	var (
 		pageNum  = 0
@@ -42,6 +42,7 @@ func (db *repoBarberCapster) GetList(queryparam models.ParamList) (result []*mod
 		sWhere   = ""
 		logger   = logging.Logger{}
 		orderBy  = queryparam.SortField
+		query    *gorm.DB
 	)
 	// pagination
 	if queryparam.Page > 0 {
@@ -62,19 +63,23 @@ func (db *repoBarberCapster) GetList(queryparam models.ParamList) (result []*mod
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
+	sSql := fmt.Sprintf(`
+		SELECT * FROM fbarber_capster_s(%f,%f)
+	`, queryparam.Latitude, queryparam.Longitude)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
-			sWhere += " and " + queryparam.Search
+			sWhere += " and lower(capster_name) LIKE ?" //+ queryparam.Search
 		} else {
-			sWhere += queryparam.Search
+			sWhere += "lower(capster_name) LIKE ?" //queryparam.Search
 		}
+		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+
+	} else {
+		query = db.Conn.Raw(sSql).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+
 	}
 
-	// end where
-
-	// query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-	query := db.Conn.Table("ss_user").Select("ss_user.user_id as capster_id,ss_user.name,ss_user.is_active,sa_file_upload.file_id,sa_file_upload.file_id,sa_file_upload.file_name,sa_file_upload.file_path,sa_file_upload.file_type, '0' as rating").Joins("left join sa_file_upload ON sa_file_upload.file_id = ss_user.file_id").Joins("inner join barber_capster ON barber_capster.capster_id = ss_user.user_id").Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 
@@ -140,10 +145,11 @@ func (db *repoBarberCapster) DeleteByCapster(ID int) error {
 	}
 	return nil
 }
-func (db *repoBarberCapster) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, err error) {
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
+		query  *gorm.DB
 	)
 	result = 0
 
@@ -151,16 +157,22 @@ func (db *repoBarberCapster) Count(queryparam models.ParamList) (result int, err
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
-
+	sSql := fmt.Sprintf(`
+	SELECT * FROM fbarber_capster_s(%f,%f)
+`, queryparam.Latitude, queryparam.Longitude)
 	if queryparam.Search != "" {
 		if sWhere != "" {
-			sWhere += " and " + queryparam.Search
+			sWhere += " and lower(capster_name) LIKE ?" //+ queryparam.Search
+		} else {
+			sWhere += "lower(capster_name) LIKE ?" //queryparam.Search
 		}
+		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Count(&result)
+
+	} else {
+		query = db.Conn.Raw(sSql).Where(sWhere).Count(&result)
 	}
 	// end where
 
-	// query := db.Conn.Model(&models.BarberCapster{}).Where(sWhere).Count(&result)
-	query := db.Conn.Table("ss_user").Select("ss_user.user_id as barber_id,ss_user.name,ss_user.is_active, 0 as rating").Where(sWhere).Count(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 	if err != nil {

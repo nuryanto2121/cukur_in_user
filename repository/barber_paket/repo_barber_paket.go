@@ -34,7 +34,7 @@ func (db *repoBarberPaket) GetDataBy(ID int) (result *models.BarberPaket, err er
 	}
 	return mBarberPaket, nil
 }
-func (db *repoBarberPaket) GetList(queryparam models.ParamList) (result []*models.Paket, err error) {
+func (db *repoBarberPaket) GetList(queryparam models.ParamListGeo) (result []*models.Paket, err error) {
 
 	var (
 		pageNum  = 0

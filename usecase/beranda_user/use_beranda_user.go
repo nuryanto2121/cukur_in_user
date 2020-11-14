@@ -2,25 +2,31 @@ package useberandauser
 
 import (
 	"context"
+	"fmt"
+	"math"
 	ibarber "nuryanto2121/cukur_in_user/interface/barber"
+	ibarbercapster "nuryanto2121/cukur_in_user/interface/barber_capster"
 	iberandauser "nuryanto2121/cukur_in_user/interface/beranda_user"
 	ifileupload "nuryanto2121/cukur_in_user/interface/fileupload"
 	"nuryanto2121/cukur_in_user/models"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
+	"strings"
 	"time"
 )
 
 type useBerandaUser struct {
-	useBarber      ibarber.Usecase
-	repoFile       ifileupload.Repository
-	contextTimeOut time.Duration
+	useBarber         ibarber.Usecase
+	repoFile          ifileupload.Repository
+	repoBarberCapster ibarbercapster.Repository
+	contextTimeOut    time.Duration
 }
 
-func NewUseBerandaUser(a ibarber.Usecase, b ifileupload.Repository, timeout time.Duration) iberandauser.Usecase {
+func NewUseBerandaUser(a ibarber.Usecase, b ifileupload.Repository, c ibarbercapster.Repository, timeout time.Duration) iberandauser.Usecase {
 	return &useBerandaUser{
-		useBarber:      a,
-		repoFile:       b,
-		contextTimeOut: timeout,
+		useBarber:         a,
+		repoFile:          b,
+		repoBarberCapster: c,
+		contextTimeOut:    timeout,
 	}
 }
 
@@ -37,7 +43,46 @@ func (u *useBerandaUser) GetClosestBarber(ctx context.Context, Claims util.Claim
 
 	return result, nil
 }
-func (u *useBerandaUser) GetRecomentCapster(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error)
+func (u *useBerandaUser) GetRecomentCapster(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+
+	queryparam.PerPage = 7
+	queryparam.SortField = "capster_rating desc,distance"
+	if queryparam.Search != "" {
+		// queryparam.Search = fmt.Sprintf("lower(barber_name) iLIKE '%%%s%%' ", queryparam.Search)
+		queryparam.Search = strings.ToLower(fmt.Sprintf("%%%s%%", queryparam.Search))
+	}
+
+	if queryparam.InitSearch != "" {
+		queryparam.InitSearch += fmt.Sprintf(` 
+		AND distance <= 10
+		and is_barber_active = true
+		and is_barber_open = true
+		and is_active = true`)
+	} else {
+		queryparam.InitSearch = fmt.Sprintf(`
+		distance <= 10
+		and is_barber_active = true
+		and is_barber_open = true
+		and is_active = true`)
+	}
+	result.Data, err = u.repoBarberCapster.GetList(queryparam)
+	if err != nil {
+		return result, err
+	}
+
+	result.Total, err = u.repoBarberCapster.Count(queryparam)
+	if err != nil {
+		return result, err
+	}
+
+	// d := float64(result.Total) / float64(queryparam.PerPage)
+	result.LastPage = int(math.Ceil(float64(result.Total) / float64(queryparam.PerPage)))
+	result.Page = queryparam.Page
+
+	return result, nil
+}
 func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()

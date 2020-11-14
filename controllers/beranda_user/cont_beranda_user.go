@@ -37,8 +37,8 @@ func NewContBerandaUser(e *echo.Echo, a iberandauser.Usecase) {
 // @Produce  json
 // @Param OS header string true "OS Device"
 // @Param Version header string true "Version Device"
-// @Param latitude number true "Latitude"
-// @Param longitude number true "Longitude"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Success 200 {object} models.ResponseModelList
 // @Router /user/beranda [get]
 func (c *contBerandaUser) GetBeranda(e echo.Context) error {

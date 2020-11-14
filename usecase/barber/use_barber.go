@@ -43,7 +43,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int) (
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 	var (
-		queryparam models.ParamList
+		queryparam models.ParamListGeo
 	)
 
 	result, err := u.repoBarber.GetDataBy(ID)

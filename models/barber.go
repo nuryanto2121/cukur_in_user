@@ -27,6 +27,7 @@ type BarbersList struct {
 	IsFavorit      bool      `json:"is_favorit"`
 	Distance       float32   `json:"distance"`
 	BarberRating   float32   `json:"barber_rating"`
+	IsBarberOpen   bool      `json:"is_barber_open"`
 	SaFileOutput
 	GeoBarber
 }

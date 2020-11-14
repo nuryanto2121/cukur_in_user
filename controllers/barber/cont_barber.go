@@ -81,8 +81,8 @@ func (u *ContBarber) GetDataBy(e echo.Context) error {
 // @Produce  json
 // @Param OS header string true "OS Device"
 // @Param Version header string true "Version Device"
-// @Param latitude number true "Latitude"
-// @Param longitude number true "Longitude"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
