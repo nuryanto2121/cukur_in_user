@@ -36,6 +36,7 @@ func (u *useBerandaUser) GetClosestBarber(ctx context.Context, Claims util.Claim
 
 	queryparam.PerPage = 5
 	queryparam.SortField = "distance"
+	queryparam.InitSearch = "is_active = true and is_barber_open = true"
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)
 	if err != nil {
 		return result, err
@@ -87,6 +88,7 @@ func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Clai
 
 	queryparam.PerPage = 5
 	queryparam.SortField = "barber_rating,distance"
+	queryparam.InitSearch = "is_active = true and is_barber_open = true"
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)
 	if err != nil {
 		return result, err
