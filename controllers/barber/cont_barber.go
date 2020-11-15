@@ -42,6 +42,8 @@ func NewContBarber(e *echo.Echo, a ibarbers.Usecase) {
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Success 200 {object} tool.ResponseModel
 // @Router /user/barber/{id} [get]
 func (u *ContBarber) GetDataBy(e echo.Context) error {
@@ -51,14 +53,19 @@ func (u *ContBarber) GetDataBy(e echo.Context) error {
 	}
 
 	var (
-		// logger = logging.Logger{}
-		appE = tool.Res{R: e} // wajib
-		id   = e.Param("id")  //kalo bukan int => 0
-		// valid  validation.Validation                 // wajib
+		logger    = logging.Logger{}
+		appE      = tool.Res{R: e} // wajib
+		id        = e.Param("id")  //kalo bukan int => 0
+		GeoBarber = models.GeoBarber{}
 	)
 	ID, err := strconv.Atoi(id)
 	if err != nil {
 		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+	httpCode, errMsg := app.BindAndValid(e, &GeoBarber)
+	logger.Info(util.Stringify(GeoBarber))
+	if httpCode != 200 {
+		return appE.Response(http.StatusBadRequest, errMsg, nil)
 	}
 
 	claims, err := app.GetClaims(e)
@@ -66,7 +73,7 @@ func (u *ContBarber) GetDataBy(e echo.Context) error {
 		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
 	}
 
-	data, err := u.useBarber.GetDataBy(ctx, claims, ID)
+	data, err := u.useBarber.GetDataBy(ctx, claims, ID, GeoBarber)
 	if err != nil {
 		return appE.Response(http.StatusInternalServerError, fmt.Sprintf("%v", err), nil)
 	}
@@ -97,8 +104,8 @@ func (u *ContBarber) GetList(e echo.Context) error {
 	}
 
 	var (
-		// logger = logging.Logger{}
-		appE = tool.Res{R: e} // wajib
+		logger = logging.Logger{}
+		appE   = tool.Res{R: e} // wajib
 		//valid      validation.Validation // wajib
 		paramquery   = models.ParamListGeo{} // ini untuk list
 		responseList = models.ResponseModelList{}
@@ -107,7 +114,7 @@ func (u *ContBarber) GetList(e echo.Context) error {
 	)
 
 	httpCode, errMsg := app.BindAndValid(e, &paramquery)
-	// logger.Info(util.Stringify(paramquery))
+	logger.Info(util.Stringify(paramquery))
 	if httpCode != 200 {
 		return appE.ResponseErrorList(http.StatusBadRequest, errMsg, responseList)
 	}

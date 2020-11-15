@@ -73,10 +73,12 @@ func (db *repoBarberCapster) GetList(queryparam models.ParamListGeo) (result []*
 		} else {
 			sWhere += "lower(capster_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
-		query = db.Conn.Raw(sSql).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	}
 
@@ -146,9 +148,15 @@ func (db *repoBarberCapster) DeleteByCapster(ID int) error {
 	return nil
 }
 func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, err error) {
+
+	type Results struct {
+		Cnt int `json:"cnt"`
+	}
+
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
+		op     = &Results{}
 		query  *gorm.DB
 	)
 	result = 0
@@ -158,7 +166,7 @@ func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, 
 		sWhere = queryparam.InitSearch
 	}
 	sSql := fmt.Sprintf(`
-	SELECT * FROM fbarber_capster_s(%f,%f)
+	SELECT count(*) as cnt FROM fbarber_capster_s(%f,%f)
 `, queryparam.Latitude, queryparam.Longitude)
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -166,10 +174,12 @@ func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, 
 		} else {
 			sWhere += "lower(capster_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Count(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql, queryparam.Search).First(&op)
 
 	} else {
-		query = db.Conn.Raw(sSql).Where(sWhere).Count(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql).First(&op)
 	}
 	// end where
 
@@ -179,5 +189,5 @@ func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, 
 		return 0, err
 	}
 
-	return result, nil
+	return op.Cnt, nil
 }

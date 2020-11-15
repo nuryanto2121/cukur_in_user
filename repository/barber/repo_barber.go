@@ -18,12 +18,19 @@ func NewRepoBarber(Conn *gorm.DB) ibarber.Repository {
 	return &repoBarber{Conn}
 }
 
-func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
+func (db *repoBarber) GetDataBy(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
 	var (
 		logger  = logging.Logger{}
-		mBarber = &models.Barber{}
+		mBarber = &models.BarbersList{}
 	)
-	query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
+	sSql := fmt.Sprintf(`
+		SELECT * FROM fbarber_beranda_user_s(%f,%f)
+		WHERE barber_id = ?
+	`, GeoBarber.Latitude, GeoBarber.Longitude)
+
+	// query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
+	query := db.Conn.Raw(sSql, ID).First(&mBarber)
+
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
 	err = query.Error
 	if err != nil {
@@ -111,10 +118,12 @@ func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.
 		} else {
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
-		query = db.Conn.Raw(sSql).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	}
 
@@ -170,9 +179,15 @@ func (db *repoBarber) Delete(ID int) error {
 	return nil
 }
 func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err error) {
+
+	type Results struct {
+		Cnt int `json:"cnt"`
+	}
+
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
+		op     = &Results{}
 		query  *gorm.DB
 	)
 	result = 0
@@ -182,7 +197,7 @@ func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err err
 		sWhere = queryparam.InitSearch
 	}
 	sSql := fmt.Sprintf(`
-	SELECT * FROM fbarber_beranda_user_s(%f,%f)
+	SELECT count(*) as cnt FROM fbarber_beranda_user_s(%f,%f)
 `, queryparam.Latitude, queryparam.Longitude)
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -190,10 +205,12 @@ func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err err
 		} else {
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Raw(sSql).Where(sWhere, queryparam.Search).Count(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql, queryparam.Search).First(&op)
 
 	} else {
-		query = db.Conn.Raw(sSql).Where(sWhere).Count(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql).First(&op)
 	}
 	// end where
 
@@ -203,5 +220,5 @@ func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err err
 		return 0, err
 	}
 
-	return result, nil
+	return op.Cnt, nil
 }

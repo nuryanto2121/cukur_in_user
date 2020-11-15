@@ -39,14 +39,16 @@ func NewUserMBarber(a ibarber.Repository, b ibarberpaket.Repository, c ibarberca
 		contextTimeOut:    timeout}
 }
 
-func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int) (interface{}, error) {
+func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, GeoBarber models.GeoBarber) (interface{}, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 	var (
 		queryparam models.ParamListGeo
 	)
+	queryparam.Latitude = GeoBarber.Latitude
+	queryparam.Longitude = GeoBarber.Longitude
 
-	result, err := u.repoBarber.GetDataBy(ID)
+	result, err := u.repoBarber.GetDataBy(ID, GeoBarber)
 	if err != nil {
 		return result, err
 	}
@@ -63,7 +65,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int) (
 		return result, err
 	}
 
-	queryparam.InitSearch = fmt.Sprintf("barber_capster.barber_id = %d", result.BarberID)
+	queryparam.InitSearch = fmt.Sprintf("barber_id = %d", result.BarberID)
 	dataBCapster, err := u.repoBarberCapster.GetList(queryparam)
 	if err != nil {
 		return result, err
@@ -75,6 +77,10 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int) (
 		"address":         result.Address,
 		"latitude":        result.Latitude,
 		"longitude":       result.Longitude,
+		"distance":        0,
+		"barber_rating":   0,
+		"is_favorit":      false,
+		"is_barber_open":  false,
 		"operation_start": result.OperationStart,
 		"operation_end":   result.OperationEnd,
 		"is_active":       result.IsActive,

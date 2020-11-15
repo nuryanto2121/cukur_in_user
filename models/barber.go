@@ -18,7 +18,7 @@ type Barber struct {
 }
 type BarbersList struct {
 	BarberID       int       `json:"barber_id"`
-	BarberCD       string    `json:"barber_cd"`
+	BarberCd       string    `json:"barber_cd"`
 	BarberName     string    `json:"barber_name" valid:"Required"`
 	Address        string    `json:"address" valid:"Required"`
 	OperationStart time.Time `json:"operation_start" valid:"Required"`

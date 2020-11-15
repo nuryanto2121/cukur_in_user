@@ -61,9 +61,7 @@ func (u *useBerandaUser) GetRecomentCapster(ctx context.Context, Claims util.Cla
 		and is_barber_open = true
 		and is_active = true`)
 	} else {
-		queryparam.InitSearch = fmt.Sprintf(`
-		distance <= 10
-		and is_barber_active = true
+		queryparam.InitSearch = fmt.Sprintf(`distance <= 10 and is_barber_active = true
 		and is_barber_open = true
 		and is_active = true`)
 	}

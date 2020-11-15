@@ -7,7 +7,7 @@ import (
 )
 
 type Repository interface {
-	GetDataBy(ID int) (result *models.Barber, err error)
+	GetDataBy(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
 	GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error)
 	GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error)
 	Create(data *models.Barber) (err error)
@@ -17,7 +17,7 @@ type Repository interface {
 }
 
 type Usecase interface {
-	GetDataBy(ctx context.Context, Claims util.Claims, ID int) (result interface{}, err error)
+	GetDataBy(ctx context.Context, Claims util.Claims, ID int, GeoBarber models.GeoBarber) (result interface{}, err error)
 	GetDataFirst(ctx context.Context, Claims util.Claims, ID int) (result interface{}, err error)
 	GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error)
 	Create(ctx context.Context, Claims util.Claims, data *models.BarbersPost) error

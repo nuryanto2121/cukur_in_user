@@ -105,43 +105,49 @@ func autoMigrate() {
 
 		CREATE OR replace FUNCTION public.fbarber_capster_s(p_latitude FLOAT, p_longitude FLOAT)
 		RETURNS TABLE(
-			capster_id integer, 	capster_name varchar, 	is_active bool, 
+			capster_id integer, 	capster_name varchar, 			is_active bool, 
 			file_id integer, 		file_name varchar, 		file_path varchar, 			file_type varchar,
 			barber_id integer, 		barber_name varchar, 	distance float,
 			capster_rating float,  	is_barber_open bool,	operation_start timestamp, 	operation_end timestamp,
-			is_barber_active bool
+			is_barber_active bool,	join_date timestamp,	barber_rating float
 		)
 		LANGUAGE plpgsql
-		AS $function$
+	   AS $function$
 			DECLARE v_id INTEGER; 
 			BEGIN 	
-				RETURN QUERY                
-						select
-							a.user_id as capster_id, 	a.name as capster_name, 		a.is_active,
-							d.file_id,	d.file_name,	d.file_path,	d.file_type, 
-							ab.barber_id , b.barber_name ,
-							fn_distance(p_latitude,p_longitude,b.latitude,b.longitude) as distance,
-							(
-								select (sum(fr.capster_rating)/count(fr.order_id))::float
-								from feedback_rating fr 
-								where fr.capster_id = a.user_id 
-							)::float as capster_rating,
-							(
-								case when now() between (now()::date + b.operation_start::time) and (now()::date + b.operation_end ::time) then true else false end
-							)::bool as is_barber_open,
-							b.operation_start ,b.operation_end ,b.is_active as is_barber_active
-						from ss_user a
-						inner join barber_capster ab
-								ON ab.capster_id = a.user_id	
-						inner join barber b
-								on b.barber_id = ab.barber_id 
-						left join sa_file_upload d
-								ON d.file_id = a.file_id
+				  RETURN QUERY                
+						  select
+						   a.user_id as capster_id, 	a.name as capster_name, 		a.is_active,
+						   d.file_id,	d.file_name,	d.file_path,	d.file_type, 
+						   ab.barber_id , b.barber_name ,
+						   fn_distance(p_latitude,p_longitude,b.latitude,b.longitude) as distance,
+						   (
+							   select (sum(fr.capster_rating)/count(fr.order_id))::float
+							   from feedback_rating fr 
+							   where fr.capster_id = a.user_id 
+						   )::float as capster_rating,
+						   (
+							   case when now()::timestamp without time zone between (now()::date + b.operation_start::time)::timestamp without time zone and (now()::date + b.operation_end ::time)::timestamp without time zone then true else false end
+						   )::bool as is_barber_open,
+						   b.operation_start ,b.operation_end ,b.is_active as is_barber_active,
+						   a.join_date ,
+						   (
+								   select (sum(fr.barber_rating)/count(fr.order_id))::float
+								   from feedback_rating fr 
+								   where fr.barber_id = b.barber_id 
+							   )::float as barber_rating
+					   from ss_user a
+					   inner join barber_capster ab
+							   ON ab.capster_id = a.user_id	
+					   inner join barber b
+							   on b.barber_id = ab.barber_id 
+					   left join sa_file_upload d
+							   ON d.file_id = a.file_id
 			;
-						
+					   
 			END;
 			$function$
-		;
+	   ;
 
 	`)
 	log.Println("STARTING AUTO MIGRATE ")

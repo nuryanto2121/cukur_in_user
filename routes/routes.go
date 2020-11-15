@@ -29,6 +29,10 @@ import (
 	_repoUser "nuryanto2121/cukur_in_user/repository/ss_user"
 	_useUser "nuryanto2121/cukur_in_user/usecase/ss_user"
 
+	_contCapster "nuryanto2121/cukur_in_user/controllers/capster"
+	_repoCapster "nuryanto2121/cukur_in_user/repository/capster"
+	_useCapster "nuryanto2121/cukur_in_user/usecase/capster"
+
 	_contOrder "nuryanto2121/cukur_in_user/controllers/c_order"
 	_repoOrderd "nuryanto2121/cukur_in_user/repository/c_order_d"
 	_repoOrder "nuryanto2121/cukur_in_user/repository/c_order_h"
@@ -72,6 +76,10 @@ func (e *EchoRoutes) InitialRouter() {
 
 	useBerandaUser := _useBerandaUser.NewUseBerandaUser(useBarber, repoFile, repoBarberCapster, timeoutContext)
 	_BerandaUsercont.NewContBerandaUser(e.E, useBerandaUser)
+
+	repoCapster := _repoCapster.NewRepoCapsterCollection(postgresdb.Conn)
+	useCapster := _useCapster.NewUserMCapster(repoCapster, repoUser, repoBarberCapster, repoFile, timeoutContext)
+	_contCapster.NewContCapster(e.E, useCapster)
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)

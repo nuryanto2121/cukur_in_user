@@ -46,12 +46,14 @@ type CapsterList struct {
 	CapsterID      int       `json:"capster_id" valid:"Required"`
 	CapsterName    string    `json:"capster_name,omitempty"`
 	CapsterRating  float32   `json:"capster_rating"`
-	IsActive       bool      `json:"is_active" valid:"Required"`
+	IsActive       bool      `json:"is_active" valid:"Required" gorm:"type:boolean"`
+	JoinDate       time.Time `json:"join_date"`
 	BarberID       int       `json:"barber_id"`
 	BarberName     string    `json:"barber_name"`
+	BarberRating   float32   `json:"barber_rating"`
 	Distance       float32   `json:"distance"`
-	IsBarberOpen   bool      `json:"is_barber_open"`
-	IsBarberActive bool      `json:"is_barber_active"`
+	IsBarberOpen   bool      `json:"is_barber_open" gorm:"type:boolean"`
+	IsBarberActive bool      `json:"is_barber_active" gorm:"type:boolean"`
 	OperationStart time.Time `json:"operation_start"`
 	OperationEnd   time.Time `json:"operation_end"`
 	SaFileOutput
