@@ -9,7 +9,7 @@ type BookingCapster struct {
 }
 
 type AddBookingCapster struct {
-	BarberID    int       `json:"barber_id" gorm:"type:integer"`
-	CapsterID   int       `json:"capster_id" gorm:"type:integer"`
-	BookingDate time.Time `json:"booking_date" gorm:"type:timestamp(0) without time zone"`
+	BarberID    int       `json:"barber_id" query:"barber_id" gorm:"type:integer"`
+	CapsterID   int       `json:"capster_id" query:"capster_id" gorm:"type:integer"`
+	BookingDate time.Time `json:"booking_date,omitempty" query:"booking_date" gorm:"type:timestamp(0) without time zone"`
 }

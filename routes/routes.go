@@ -22,7 +22,6 @@ import (
 	_saBarbercont "nuryanto2121/cukur_in_user/controllers/barber"
 	_repoBarber "nuryanto2121/cukur_in_user/repository/barber"
 	_repoBarberCapster "nuryanto2121/cukur_in_user/repository/barber_capster"
-	_repoBarberPaket "nuryanto2121/cukur_in_user/repository/barber_paket"
 	_useBarber "nuryanto2121/cukur_in_user/usecase/barber"
 
 	_contUser "nuryanto2121/cukur_in_user/controllers/user"
@@ -37,6 +36,14 @@ import (
 	_repoOrderd "nuryanto2121/cukur_in_user/repository/c_order_d"
 	_repoOrder "nuryanto2121/cukur_in_user/repository/c_order_h"
 	_useOrder "nuryanto2121/cukur_in_user/usecase/c_order"
+
+	_contBarberPaket "nuryanto2121/cukur_in_user/controllers/barber_paket"
+	_repoBarberPaket "nuryanto2121/cukur_in_user/repository/barber_paket"
+	_useBarberPaket "nuryanto2121/cukur_in_user/usecase/barber_paket"
+
+	_contBookingCapster "nuryanto2121/cukur_in_user/controllers/booking_capster"
+	_repoBookingCapster "nuryanto2121/cukur_in_user/repository/booking_capster"
+	_useBookingCapster "nuryanto2121/cukur_in_user/usecase/booking_capster"
 
 	"time"
 
@@ -63,7 +70,14 @@ func (e *EchoRoutes) InitialRouter() {
 	useBarberFavorit := _useBarberFavorit.NewBarberFavorit(repoBarberFavorit, timeoutContext)
 	_saBarberFavoritcont.NewContBarberFavorit(e.E, useBarberFavorit)
 
+	repoBookingCapster := _repoBookingCapster.NewRepoBookingCapster(postgresdb.Conn)
+	useBookingCapster := _useBookingCapster.NewBookingCapster(repoBookingCapster, timeoutContext)
+	_contBookingCapster.NewContBookingCapster(e.E, useBookingCapster)
+
 	repoBarberPaket := _repoBarberPaket.NewRepoBarberPaket(postgresdb.Conn)
+	useBarberPaket := _useBarberPaket.NewBarberPaket(repoBarberPaket, timeoutContext)
+	_contBarberPaket.NewContBarberPaket(e.E, useBarberPaket)
+
 	repoBarberCapster := _repoBarberCapster.NewRepoBarberCapster(postgresdb.Conn)
 	repoBarber := _repoBarber.NewRepoBarber(postgresdb.Conn)
 	useBarber := _useBarber.NewUserMBarber(repoBarber, repoBarberPaket, repoBarberCapster, repoFile, timeoutContext)

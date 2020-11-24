@@ -4,6 +4,15 @@ definitions:
       barber_id:
         type: integer
     type: object
+  models.AddBookingCapster:
+    properties:
+      barber_id:
+        type: integer
+      booking_date:
+        type: string
+      capster_id:
+        type: integer
+    type: object
   models.AddUser:
     properties:
       email:
@@ -597,7 +606,7 @@ paths:
         name: Version
         required: true
         type: string
-      - description: ID
+      - description: ID Barber
         in: path
         name: id
         required: true
@@ -649,6 +658,70 @@ paths:
       summary: Get Data Beranda
       tags:
       - User Beranda
+  /user/booking_capster:
+    get:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: Version Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - in: query
+        name: barber_id
+        type: integer
+      - in: query
+        name: booking_date
+        type: string
+      - in: query
+        name: capster_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseModelList'
+      security:
+      - ApiKeyAuth: []
+      summary: GetData Booking Capster
+      tags:
+      - BookingCapster
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddBookingCapster'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Add Booking Capster
+      tags:
+      - BookingCapster
   /user/capster:
     get:
       parameters:

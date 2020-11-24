@@ -657,7 +657,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "ID",
+                        "description": "ID Barber",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -722,6 +722,108 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseModelList"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/booking_capster": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BookingCapster"
+                ],
+                "summary": "GetData Booking Capster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "OS",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Version Device",
+                        "name": "Version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "barber_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "booking_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "capster_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseModelList"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BookingCapster"
+                ],
+                "summary": "Add Booking Capster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "OS",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "Version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AddBookingCapster"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tool.ResponseModel"
                         }
                     }
                 }
@@ -1584,6 +1686,20 @@
             "type": "object",
             "properties": {
                 "barber_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.AddBookingCapster": {
+            "type": "object",
+            "properties": {
+                "barber_id": {
+                    "type": "integer"
+                },
+                "booking_date": {
+                    "type": "string"
+                },
+                "capster_id": {
                     "type": "integer"
                 }
             }
