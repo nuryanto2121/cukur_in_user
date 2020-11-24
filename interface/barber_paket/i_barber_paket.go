@@ -1,7 +1,9 @@
 package ibarberpaket
 
 import (
+	"context"
 	"nuryanto2121/cukur_in_user/models"
+	util "nuryanto2121/cukur_in_user/pkg/utils"
 )
 
 type Repository interface {
@@ -11,4 +13,8 @@ type Repository interface {
 	Update(ID int, data interface{}) (err error)
 	Delete(ID int) (err error)
 	Count(queryparam models.ParamList) (result int, err error)
+}
+
+type Usecase interface {
+	GetDataBy(ctx context.Context, Claims util.Claims, ID int) (result interface{}, err error)
 }

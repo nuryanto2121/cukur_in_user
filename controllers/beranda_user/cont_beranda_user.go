@@ -26,6 +26,7 @@ func NewContBerandaUser(e *echo.Echo, a iberandauser.Usecase) {
 
 	r := e.Group("/user/beranda")
 	r.Use(midd.JWT)
+	r.Use(midd.Versioning)
 	// r.GET("/status_order", controller.GetStatusOrder)
 	r.GET("", controller.GetBeranda)
 }

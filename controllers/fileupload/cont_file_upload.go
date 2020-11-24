@@ -34,8 +34,8 @@ func NewContFileUpload(e *echo.Echo, useSaFileUpload ifileupload.UseCase) {
 	e.Static("/wwwroot", "wwwroot")
 	r := e.Group("/api/fileupload")
 	// Configure middleware with custom claims
-	r.Use(midd.Versioning)
 	r.Use(midd.JWT)
+	r.Use(midd.Versioning)
 	r.POST("", cont.CreateImage)
 
 }

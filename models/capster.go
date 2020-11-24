@@ -46,6 +46,7 @@ type CapsterList struct {
 	CapsterID      int       `json:"capster_id" valid:"Required"`
 	CapsterName    string    `json:"capster_name,omitempty"`
 	CapsterRating  float32   `json:"capster_rating"`
+	IsBusy         bool      `json:"is_busy"`
 	IsActive       bool      `json:"is_active" valid:"Required" gorm:"type:boolean"`
 	JoinDate       time.Time `json:"join_date"`
 	BarberID       int       `json:"barber_id"`

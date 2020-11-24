@@ -79,6 +79,23 @@ func (db *repoBarber) GetDataFirst(OwnerID int, BarberID int) (result *models.Ba
 
 	return mBarber, nil
 }
+func (db *repoBarber) GetDataBarber(BarberID int) (result *models.Barber, err error) {
+	var (
+		logger  = logging.Logger{}
+		mBarber = &models.Barber{}
+	)
+
+	query := db.Conn.Where("barber_id = ? ", BarberID).Find(mBarber)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err = query.Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, models.ErrNotFound
+		}
+		return nil, err
+	}
+	return mBarber, nil
+}
 func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error) {
 
 	var (

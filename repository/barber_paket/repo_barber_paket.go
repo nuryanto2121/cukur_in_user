@@ -74,7 +74,12 @@ func (db *repoBarberPaket) GetList(queryparam models.ParamListGeo) (result []*mo
 	// end where
 
 	// query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-	query := db.Conn.Table("barber_paket").Select("paket.paket_id,paket.owner_id,paket.paket_name,paket.descs,paket.durasi_start,paket.durasi_end,paket.price,paket.is_active,paket.is_promo,paket.promo_price,paket.promo_start,paket.promo_end").Joins("left join paket ON paket.paket_id = barber_paket.paket_id").Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+	query := db.Conn.Table("barber_paket").Select(`
+		paket.paket_id,		paket.owner_id,		paket.paket_name,
+		paket.descs,		paket.durasi_start,	paket.durasi_end,
+		paket.price,		paket.is_active,	paket.is_promo,
+		paket.promo_price,	paket.promo_start,	paket.promo_end
+	`).Joins("left join paket ON paket.paket_id = barber_paket.paket_id").Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 

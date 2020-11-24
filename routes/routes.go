@@ -59,11 +59,6 @@ func (e *EchoRoutes) InitialRouter() {
 	useUser := _useUser.NewUserSysUser(repoUser, repoFile, timeoutContext)
 	_contUser.NewContUser(e.E, useUser)
 
-	repoOrderD := _repoOrderd.NewRepoOrderD(postgresdb.Conn)
-	repoOrder := _repoOrder.NewRepoOrderH(postgresdb.Conn)
-	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, timeoutContext)
-	_contOrder.NewContOrder(e.E, useOrder)
-
 	repoBarberFavorit := _repoBarberFavorit.NewRepoBarberFavorit(postgresdb.Conn)
 	useBarberFavorit := _useBarberFavorit.NewBarberFavorit(repoBarberFavorit, timeoutContext)
 	_saBarberFavoritcont.NewContBarberFavorit(e.E, useBarberFavorit)
@@ -80,6 +75,11 @@ func (e *EchoRoutes) InitialRouter() {
 	repoCapster := _repoCapster.NewRepoCapsterCollection(postgresdb.Conn)
 	useCapster := _useCapster.NewUserMCapster(repoCapster, repoUser, repoBarberCapster, repoFile, timeoutContext)
 	_contCapster.NewContCapster(e.E, useCapster)
+
+	repoOrderD := _repoOrderd.NewRepoOrderD(postgresdb.Conn)
+	repoOrder := _repoOrder.NewRepoOrderH(postgresdb.Conn)
+	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, timeoutContext)
+	_contOrder.NewContOrder(e.E, useOrder)
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)

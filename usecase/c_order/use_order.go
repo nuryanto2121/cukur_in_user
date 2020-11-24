@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	ibarber "nuryanto2121/cukur_in_user/interface/barber"
 	iorderd "nuryanto2121/cukur_in_user/interface/c_order_d"
 	iorderh "nuryanto2121/cukur_in_user/interface/c_order_h"
 	"nuryanto2121/cukur_in_user/models"
@@ -17,13 +18,15 @@ import (
 type useOrder struct {
 	repoOrderH     iorderh.Repository
 	repoOrderD     iorderd.Repository
+	repoBarber     ibarber.Repository
 	contextTimeOut time.Duration
 }
 
-func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, timeout time.Duration) iorderh.Usecase {
+func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, timeout time.Duration) iorderh.Usecase {
 	return &useOrder{
 		repoOrderH:     a,
 		repoOrderD:     b,
+		repoBarber:     c,
 		contextTimeOut: timeout}
 }
 

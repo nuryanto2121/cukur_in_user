@@ -25,6 +25,7 @@ func NewContBarberFavorit(e *echo.Echo, a ibarberfavorit.Usecase) {
 	}
 	r := e.Group("/user/favorit")
 	r.Use(midd.JWT)
+	r.Use(midd.Versioning)
 	// r.GET("/status_order", controller.GetStatusOrder)
 	r.GET("", controller.GetList)
 	r.POST("", controller.Create)
