@@ -18,12 +18,12 @@ func NewRepoOrderD(Conn *gorm.DB) iorder_d.Repository {
 	return &repoOrderD{Conn}
 }
 
-func (db *repoOrderD) GetDataBy(ID int) (result *models.OrderD, err error) {
+func (db *repoOrderD) GetDataBy(ID int) (result []*models.OrderD, err error) {
 	var (
-		logger  = logging.Logger{}
-		mOrderD = &models.OrderD{}
+		logger = logging.Logger{}
+		// mOrderD = &models.OrderD{}
 	)
-	query := db.Conn.Where("order_id = ? ", ID).Find(mOrderD)
+	query := db.Conn.Where("order_id = ? ", ID).Find(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
 	err = query.Error
 	if err != nil {
@@ -32,7 +32,7 @@ func (db *repoOrderD) GetDataBy(ID int) (result *models.OrderD, err error) {
 		}
 		return nil, err
 	}
-	return mOrderD, nil
+	return result, nil
 }
 func (db *repoOrderD) GetList(queryparam models.ParamList) (result []*models.OrderD, err error) {
 

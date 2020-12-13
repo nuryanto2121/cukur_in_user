@@ -18,20 +18,31 @@ func NewRepoOrderH(Conn *gorm.DB) iorder_h.Repository {
 	return &repoOrderH{Conn}
 }
 
-func (db *repoOrderH) GetDataBy(ID int) (result models.OrderDGet, err error) {
+func (db *repoOrderH) GetDataBy(ID int, GeoUser models.GeoBarber) (result models.OrderDGet, err error) {
 	var (
 		logger = logging.Logger{}
 		data   models.OrderDGet
 	)
-	query := db.Conn.Raw(`select barber.barber_name ,order_h.capster_id ,ss_user."name" as capster_name,
-					sa_file_upload.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
-					order_d.paket_id ,order_d.paket_name ,order_d.price ,order_d.durasi_start,order_d.durasi_end
-				from order_h inner join order_d 
-				on order_h.order_id = order_d.order_id 
-				inner join barber on barber.barber_id =order_h.order_id 
-				inner join ss_user on ss_user.user_id = order_h.capster_id
-				left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id
-				where order_h.order_id = ? `, ID).Scan(&data) //Find(&result)
+	sSql := fmt.Sprintf(`	
+			select oh.order_id ,		oh.order_no, 
+			oh.user_id ,		oh.status ,
+			oh.order_date,	 	a.barber_id,
+			a.barber_name,		a.capster_rating,
+			a.distance,			a.barber_rating,
+			a.capster_id,		a.capster_name,
+			a.file_id,			a.file_name,
+			a.file_path,		a.file_type,
+			oh.from_apps,		(
+				select sum(od.price) from order_d od 
+				where od.order_id =oh.order_id 
+			) as total_price
+			from fbarber_capster_s(%f,%f) a
+			join order_h oh on oh.barber_id = a.barber_id
+			and oh.capster_id = a.capster_id
+			AND oh.order_id = ?
+
+	`, GeoUser.Latitude, GeoUser.Longitude)
+	query := db.Conn.Raw(sSql, ID).Scan(&data) //Find(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
 	err = query.Error
 	if err != nil {
@@ -42,7 +53,7 @@ func (db *repoOrderH) GetDataBy(ID int) (result models.OrderDGet, err error) {
 	}
 	return data, nil
 }
-func (db *repoOrderH) GetList(queryparam models.ParamList) (result []*models.OrderList, err error) {
+func (db *repoOrderH) GetList(queryparam models.ParamListGeo) (result []*models.OrderList, err error) {
 
 	var (
 		pageNum  = 0
@@ -50,6 +61,7 @@ func (db *repoOrderH) GetList(queryparam models.ParamList) (result []*models.Ord
 		sWhere   = ""
 		logger   = logging.Logger{}
 		orderBy  = queryparam.SortField
+		query    *gorm.DB
 	)
 	// pagination
 	if queryparam.Page > 0 {
@@ -71,21 +83,33 @@ func (db *repoOrderH) GetList(queryparam models.ParamList) (result []*models.Ord
 		sWhere = queryparam.InitSearch
 	}
 
+	sSql := fmt.Sprintf(`SELECT * FROM (
+		SELECT oh.order_id ,oh.order_no ,oh.order_date ,a.barber_id,a.barber_name,a.distance,a.barber_rating,
+		(select sum(order_d.price ) from order_d where order_d.order_id = oh.order_id ) as price ,
+		oh.user_id ,oh.status 
+		FROM order_h oh join fbarber_beranda_user_s(%f,%f) a 
+		on oh.barber_id = a.barber_id
+		) xx`, queryparam.Latitude, queryparam.Longitude)
+
 	if queryparam.Search != "" {
 		if sWhere != "" {
-			sWhere += " and " + queryparam.Search
+			sWhere += " and lower(barber_name) LIKE ?" //+ queryparam.Search
 		} else {
-			sWhere += queryparam.Search
+			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		fmt.Println(sSql)
+		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+	} else {
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		fmt.Println(sSql)
+		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
 	// end where
 
 	// query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-	query := db.Conn.Table("barber").Select(`barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
-			order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
-			(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price`).Joins(`inner join order_h 
-			on order_h.barber_id = barber.barber_id`).Joins(`inner join ss_user on ss_user.user_id = order_h.capster_id`).Joins(`left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id`).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 
@@ -137,10 +161,15 @@ func (db *repoOrderH) Delete(ID int) error {
 	}
 	return nil
 }
-func (db *repoOrderH) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoOrderH) Count(queryparam models.ParamListGeo) (result int, err error) {
+	type Results struct {
+		Cnt int `json:"cnt"`
+	}
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
+		op     = &Results{}
+		query  *gorm.DB
 	)
 	result = 0
 
@@ -148,24 +177,33 @@ func (db *repoOrderH) Count(queryparam models.ParamList) (result int, err error)
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
+	sSql := fmt.Sprintf(`SELECT count(*) as cnt FROM (
+		SELECT oh.order_id ,oh.order_no ,oh.order_date ,a.barber_id,a.barber_name,a.distance,a.barber_rating,
+		(select sum(order_d.price ) from order_d where order_d.order_id = oh.order_id ) as price ,
+		oh.user_id ,oh.status 
+		FROM order_h oh join fbarber_beranda_user_s(%f,%f) a 
+		on oh.barber_id = a.barber_id
+		) xx`, queryparam.Latitude, queryparam.Longitude)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
-			sWhere += " and " + queryparam.Search
+			sWhere += " and lower(barber_name) LIKE ?" //+ queryparam.Search
+		} else {
+			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql, queryparam.Search).First(&op)
+	} else {
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		query = db.Conn.Raw(sSql).First(&op)
 	}
 	// end where
 
-	// query := db.Conn.Model(&models.OrderH{}).Where(sWhere).Count(&result)
-	query := db.Conn.Table("barber").Select(`barber.barber_id ,barber.barber_name ,order_h.order_id ,order_h.status ,order_h.from_apps ,
-	order_h.capster_id ,order_h.order_date ,ss_user."name" as capster_name,ss_user.file_id ,sa_file_upload.file_name,sa_file_upload.file_path ,
-	(select sum(order_d.price ) from order_d where order_d.order_id = order_h.order_id ) as price`).Joins(`inner join order_h 
-	on order_h.barber_id = barber.barber_id`).Joins(`inner join ss_user on ss_user.user_id = order_h.capster_id`).Joins(`left join sa_file_upload on sa_file_upload.file_id = ss_user.file_id`).Where(sWhere).Count(&result)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return op.Cnt, nil
 }

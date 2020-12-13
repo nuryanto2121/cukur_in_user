@@ -7,7 +7,8 @@ import (
 )
 
 type Repository interface {
-	GetDataBy(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
+	GetDataBy(ID int) (result *models.Barber, err error)
+	GetDataByList(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
 	GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error)
 	GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error)
 	Create(data *models.Barber) (err error)

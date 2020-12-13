@@ -2,54 +2,79 @@ package useorder
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"math"
 	ibarber "nuryanto2121/cukur_in_user/interface/barber"
+	ibookingcapster "nuryanto2121/cukur_in_user/interface/booking_capster"
 	iorderd "nuryanto2121/cukur_in_user/interface/c_order_d"
 	iorderh "nuryanto2121/cukur_in_user/interface/c_order_h"
 	"nuryanto2121/cukur_in_user/models"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
-	"strconv"
+	repofunction "nuryanto2121/cukur_in_user/repository/function"
+	"strings"
 	"time"
 
 	"github.com/mitchellh/mapstructure"
 )
 
 type useOrder struct {
-	repoOrderH     iorderh.Repository
-	repoOrderD     iorderd.Repository
-	repoBarber     ibarber.Repository
-	contextTimeOut time.Duration
+	repoOrderH         iorderh.Repository
+	repoOrderD         iorderd.Repository
+	repoBarber         ibarber.Repository
+	repoBookingCapster ibookingcapster.Repository
+	contextTimeOut     time.Duration
 }
 
-func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, timeout time.Duration) iorderh.Usecase {
+func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, timeout time.Duration) iorderh.Usecase {
 	return &useOrder{
-		repoOrderH:     a,
-		repoOrderD:     b,
-		repoBarber:     c,
-		contextTimeOut: timeout}
+		repoOrderH:         a,
+		repoOrderD:         b,
+		repoBarber:         c,
+		repoBookingCapster: d,
+		contextTimeOut:     timeout}
 }
 
-func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int) (interface{}, error) {
+func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, GeoUser models.GeoBarber) (interface{}, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
-	result, err := u.repoOrderH.GetDataBy(ID)
+	dataHeader, err := u.repoOrderH.GetDataBy(ID, GeoUser)
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 
-	return result, nil
+	dataDetail, err := u.repoOrderD.GetDataBy(ID)
+	if err != nil {
+		return nil, err
+	}
+
+	dataHeader.DataDetail = dataDetail
+
+	// response := map[string]interface{}{
+	// 	"from_apps":     dataHeader.FromApps,
+	// 	"barber_name":   dataBarber.BarberName,
+	// 	"customer_name": dataHeader.CustomerName,
+	// 	"email":         dataHeader.Email,
+	// 	"telp":          dataHeader.Telp,
+	// 	"order_date":    dataHeader.OrderDate,
+	// 	"status":        dataHeader.Status,
+	// 	"order_id":      dataHeader.OrderID,
+	// 	"data_detail":   dataDetail,
+	// 	"total_price":   total_price,
+	// }
+
+	return dataHeader, nil
 }
-func (u *useOrder) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamList) (result models.ResponseModelList, err error) {
+func (u *useOrder) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
 	if queryparam.Search != "" {
-		queryparam.Search = fmt.Sprintf("lower(order_name) LIKE '%%%s%%' ", queryparam.Search)
+		queryparam.Search = strings.ToLower(fmt.Sprintf("%%%s%%", queryparam.Search))
 	}
 
-	queryparam.InitSearch = fmt.Sprintf("barber.owner_id = %s", Claims.UserID)
+	queryparam.InitSearch = fmt.Sprintf("user_id = %s", Claims.UserID)
 	result.Data, err = u.repoOrderH.GetList(queryparam)
 	if err != nil {
 		return result, err
@@ -70,21 +95,75 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 	var (
-		mOrder models.OrderH
+		mOrder              models.OrderH
+		ParamBookingCapster = &models.AddBookingCapster{}
 	)
+
 	// mapping to struct model saRole
 	err = mapstructure.Decode(data, &mOrder)
 	if err != nil {
 		return err
 	}
+	fn := &repofunction.FN{
+		Claims: Claims,
+	}
+
+	dataBarber, err := fn.GetBarberData(mOrder.BarberID)
+	if err != nil {
+		if err == models.ErrNotFound {
+			return errors.New("Barber sudah tidak bekerja sama.")
+		}
+		return err
+	}
+	if !dataBarber.IsActive {
+		return errors.New("Tidak bisa order,Barber sedang tidak aktif")
+	}
+
+	if !fn.InTimeActiveBarber(dataBarber, data.OrderDate) {
+		return errors.New("Mohon maaf , waktu di luar jam oprasional")
+	}
+
+	dataCapster, err := fn.GetCapsterData(mOrder.CapsterID)
+	if err != nil {
+		if err == models.ErrNotFound {
+			return errors.New("Data Capster tidak ditemukan, Hubungi pemilik barber")
+		}
+		return err
+	}
+
+	if !dataCapster.IsActive {
+		return errors.New("Tidak bisa order,Capster sedang tidak aktif")
+	}
+
+	dataUser, err := fn.GetUserData()
+	if err != nil {
+		return err
+	}
+	mOrder.OrderDate = data.OrderDate
 	mOrder.Status = "N"
-	mOrder.FromApps = false
-	if mOrder.CapsterID == 0 {
-		mOrder.CapsterID, _ = strconv.Atoi(Claims.UserID)
+	mOrder.FromApps = true
+	mOrder.UserID = dataUser.UserID
+	mOrder.CustomerName = dataUser.Name
+	mOrder.Telp = dataUser.Telp
+	mOrder.OrderNo, err = fn.GenTransactionNo(dataBarber.BarberCd)
+	if err != nil {
+		return err
 	}
 
 	mOrder.UserInput = Claims.UserID
 	mOrder.UserEdit = Claims.UserID
+
+	//validasi order/booking
+	ParamBookingCapster.BarberID = data.BarberID
+	ParamBookingCapster.BookingDate = data.OrderDate
+	ParamBookingCapster.CapsterID = data.CapsterID
+
+	CntJadwal, _ := u.repoBookingCapster.Count(*ParamBookingCapster, dataUser.UserID)
+	if CntJadwal > 0 {
+		return errors.New("Mohon Cancel Order/Booking sebelumnya")
+	}
+
+	// create order
 	err = u.repoOrderH.Create(&mOrder)
 	if err != nil {
 		return err
@@ -109,20 +188,15 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	return nil
 
 }
-func (u *useOrder) Update(ctx context.Context, Claims util.Claims, ID int, data models.OrderPost) (err error) {
+func (u *useOrder) Update(ctx context.Context, Claims util.Claims, ID int, data models.OrderStatus) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
-	var (
-		mOrder models.OrderH
-	)
-
-	// mapping to struct model saRole
-	err = mapstructure.Decode(data, &mOrder)
-	if err != nil {
-		return err
+	var dataUpdate = map[string]interface{}{
+		"status": data.Status,
 	}
-	err = u.repoOrderH.Update(ID, mOrder)
+
+	err = u.repoOrderH.Update(ID, dataUpdate)
 	if err != nil {
 		return err
 	}

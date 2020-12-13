@@ -797,53 +797,6 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "BookingCapster"
-                ],
-                "summary": "Add Booking Capster",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "OS",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "Version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.AddBookingCapster"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/tool.ResponseModel"
-                        }
-                    }
-                }
             }
         },
         "/user/capster": {
@@ -1148,6 +1101,20 @@ var doc = `{
                         "required": true
                     },
                     {
+                        "type": "number",
+                        "description": "Latitude",
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Longitude",
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
                         "type": "integer",
                         "description": "Page",
                         "name": "page",
@@ -1272,6 +1239,20 @@ var doc = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Latitude",
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Longitude",
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1295,7 +1276,7 @@ var doc = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Rubah Profile",
+                "summary": "Cancel Order user",
                 "parameters": [
                     {
                         "type": "string",
@@ -1324,7 +1305,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.OrderPost"
+                            "$ref": "#/definitions/models.OrderStatus"
                         }
                     }
                 ],
@@ -1707,20 +1688,6 @@ var doc = `{
                 }
             }
         },
-        "models.AddBookingCapster": {
-            "type": "object",
-            "properties": {
-                "barber_id": {
-                    "type": "integer"
-                },
-                "booking_date": {
-                    "type": "string"
-                },
-                "capster_id": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.AddUser": {
             "type": "object",
             "properties": {
@@ -1860,23 +1827,23 @@ var doc = `{
                 "capster_id": {
                     "type": "integer"
                 },
-                "customer_name": {
-                    "type": "string"
-                },
                 "order_date": {
                     "type": "string"
                 },
                 "paket_ids": {
+                    "description": "UserID       int          ` + "`" + `json:\"user_id,omitempty\"` + "`" + `\nCustomerName string       ` + "`" + `json:\"customer_name\" valid:\"Required\"` + "`" + `\nTelp         string       ` + "`" + `json:\"telp,omitempty\"` + "`" + `",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.OrderDPost"
                     }
-                },
-                "telp": {
+                }
+            }
+        },
+        "models.OrderStatus": {
+            "type": "object",
+            "properties": {
+                "status": {
                     "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -2005,7 +1972,7 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "Starter",
+	Title:       "Rest API User",
 	Description: "Backend REST API for golang nuryanto2121",
 }
 

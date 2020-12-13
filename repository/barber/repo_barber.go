@@ -18,7 +18,24 @@ func NewRepoBarber(Conn *gorm.DB) ibarber.Repository {
 	return &repoBarber{Conn}
 }
 
-func (db *repoBarber) GetDataBy(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
+func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
+	var (
+		logger  = logging.Logger{}
+		mBarber = &models.Barber{}
+	)
+	query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err = query.Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, models.ErrNotFound
+		}
+		return nil, err
+	}
+	return mBarber, nil
+}
+
+func (db *repoBarber) GetDataByList(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
 	var (
 		logger  = logging.Logger{}
 		mBarber = &models.BarbersList{}
@@ -41,6 +58,7 @@ func (db *repoBarber) GetDataBy(ID int, GeoBarber models.GeoBarber) (result *mod
 	}
 	return mBarber, nil
 }
+
 func (db *repoBarber) GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error) {
 	var (
 		logger  = logging.Logger{}
@@ -136,10 +154,12 @@ func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		fmt.Println(sSql)
 		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		fmt.Println(sSql)
 		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	}

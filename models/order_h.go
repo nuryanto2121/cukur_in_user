@@ -17,30 +17,27 @@ type OrderH struct {
 }
 
 type OrderPost struct {
-	BarberID     int          `json:"barber_id" valid:"Required"`
-	CapsterID    int          `json:"capster_id,omitempty"`
-	OrderDate    time.Time    `json:"order_date" valid:"Required"`
-	UserID       int          `json:"user_id,omitempty"`
-	CustomerName string       `json:"customer_name" valid:"Required"`
-	Telp         string       `json:"telp,omitempty"`
-	Pakets       []OrderDPost `json:"paket_ids"`
+	BarberID  int       `json:"barber_id" valid:"Required"`
+	CapsterID int       `json:"capster_id,omitempty"`
+	OrderDate time.Time `json:"order_date" valid:"Required"`
+	// UserID       int          `json:"user_id,omitempty"`
+	// CustomerName string       `json:"customer_name" valid:"Required"`
+	// Telp         string       `json:"telp,omitempty"`
+	Pakets []OrderDPost `json:"paket_ids"`
 }
 
 type OrderList struct {
-	OwnerID     int       `json:"owner_id"`
-	BarberID    int       `json:"barber_id" valid:"Required"`
-	BarberName  string    `json:"barber_name"`
-	OrderID     int       `json:"order_id"`
-	Status      string    `json:"status" `
-	FromApps    bool      `json:"from_apps"`
-	CapsterID   int       `json:"capster_id,omitempty"`
-	CapsterName string    `json:"capster_name"`
-	OrderDate   time.Time `json:"order_date" valid:"Required"`
-	FileID      int       `json:"file_id" `
-	FileName    string    `json:"file_name"`
-	FilePath    string    `json:"file_path"`
-	Price       float32   `json:"price" `
-	Weeks       int       `json:"weeks"`
-	Months      int       `json:"months"`
-	Years       int       `json:"years"`
+	BarberID     int       `json:"barber_id" valid:"Required"`
+	BarberName   string    `json:"barber_name"`
+	OrderID      int       `json:"order_id"`
+	OrderNo      string    `json:"order_no"`
+	Status       string    `json:"status" `
+	OrderDate    time.Time `json:"order_date" valid:"Required"`
+	Price        float32   `json:"price" `
+	Distance     float32   `json:"distance"`
+	BarberRating float32   `json:"barber_rating"`
+}
+
+type OrderStatus struct {
+	Status string `json:"status" `
 }

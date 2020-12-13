@@ -33,7 +33,6 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 
 	// e.POST("/user/auth/register", cont.Register)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.GET("/health_check", cont.Health)
 	r := e.Group("/user/auth")
 	r.Use(midd.Versioning)
 	r.POST("/login", cont.Login)
@@ -42,10 +41,6 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 	r.POST("/verify", cont.Verify)
 	r.POST("/register/verify", cont.RegisterVerify)
 	r.POST("/register", cont.Register)
-}
-
-func (u *ContAuth) Health(e echo.Context) error {
-	return e.JSON(http.StatusOK, "success")
 }
 
 // Login :

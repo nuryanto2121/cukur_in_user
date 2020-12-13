@@ -4,15 +4,6 @@ definitions:
       barber_id:
         type: integer
     type: object
-  models.AddBookingCapster:
-    properties:
-      barber_id:
-        type: integer
-      booking_date:
-        type: string
-      capster_id:
-        type: integer
-    type: object
   models.AddUser:
     properties:
       email:
@@ -103,18 +94,21 @@ definitions:
         type: integer
       capster_id:
         type: integer
-      customer_name:
-        type: string
       order_date:
         type: string
       paket_ids:
+        description: |-
+          UserID       int          `json:"user_id,omitempty"`
+          CustomerName string       `json:"customer_name" valid:"Required"`
+          Telp         string       `json:"telp,omitempty"`
         items:
           $ref: '#/definitions/models.OrderDPost'
         type: array
-      telp:
+    type: object
+  models.OrderStatus:
+    properties:
+      status:
         type: string
-      user_id:
-        type: integer
     type: object
   models.RegisterForm:
     properties:
@@ -187,7 +181,7 @@ info:
     name: Nuryanto
     url: https://www.linkedin.com/in/nuryanto-1b2721156/
   description: Backend REST API for golang nuryanto2121
-  title: Starter
+  title: Rest API User
   version: "1.0"
 paths:
   /api/fileupload:
@@ -692,36 +686,6 @@ paths:
       summary: GetData Booking Capster
       tags:
       - BookingCapster
-    post:
-      parameters:
-      - description: OS Device
-        in: header
-        name: OS
-        required: true
-        type: string
-      - description: OS Device
-        in: header
-        name: Version
-        required: true
-        type: string
-      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
-        in: body
-        name: req
-        required: true
-        schema:
-          $ref: '#/definitions/models.AddBookingCapster'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/tool.ResponseModel'
-      security:
-      - ApiKeyAuth: []
-      summary: Add Booking Capster
-      tags:
-      - BookingCapster
   /user/capster:
     get:
       parameters:
@@ -913,6 +877,16 @@ paths:
         name: Version
         required: true
         type: string
+      - description: Latitude
+        in: query
+        name: latitude
+        required: true
+        type: number
+      - description: Longitude
+        in: query
+        name: longitude
+        required: true
+        type: number
       - description: Page
         in: query
         name: page
@@ -1024,6 +998,16 @@ paths:
         name: id
         required: true
         type: string
+      - description: Latitude
+        in: query
+        name: latitude
+        required: true
+        type: number
+      - description: Longitude
+        in: query
+        name: longitude
+        required: true
+        type: number
       produces:
       - application/json
       responses:
@@ -1058,7 +1042,7 @@ paths:
         name: req
         required: true
         schema:
-          $ref: '#/definitions/models.OrderPost'
+          $ref: '#/definitions/models.OrderStatus'
       produces:
       - application/json
       responses:
@@ -1068,7 +1052,7 @@ paths:
             $ref: '#/definitions/tool.ResponseModel'
       security:
       - ApiKeyAuth: []
-      summary: Rubah Profile
+      summary: Cancel Order user
       tags:
       - Order
   /user/user:

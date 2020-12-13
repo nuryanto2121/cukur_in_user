@@ -37,15 +37,19 @@ type OrderHGet struct {
 }
 
 type OrderDGet struct {
-	BarberName  string  `json:"barber_name"`
-	CapsterID   int     `json:"capster_id"`
-	CapsterName string  `json:"capster_name"`
-	FileID      int     `json:"file_id" `
-	FileName    string  `json:"file_name"`
-	FilePath    string  `json:"file_path"`
-	PaketID     int     `json:"paket_id"`
-	PaketName   string  `json:"paket_name"`
-	Price       float32 `json:"price"`
-	DurasiStart int     `json:"durasi_start"`
-	DurasiEnd   int     `json:"durasi_end"`
+	OrderID       int       `json:"order_id"`
+	OrderNo       string    `json:"order_no"`
+	Status        string    `json:"status"`
+	OrderDate     time.Time `json:"order_date"`
+	BarberID      int       `json:"barber_id"`
+	BarberName    string    `json:"barber_name"`
+	Distance      float32   `json:"distance"`
+	BarberRating  float32   `json:"barber_rating"`
+	CapsterID     int       `json:"capster_id"`
+	CapsterName   string    `json:"capster_name"`
+	CapsterRating float32   `json:"capster_rating"`
+	SaFileOutput
+	PaketID    int       `json:"paket_id"`
+	TotalPrice float32   `json:"total_price"`
+	DataDetail []*OrderD `json:"data_detail"`
 }

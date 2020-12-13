@@ -2,6 +2,7 @@ package usebookingcapster
 
 import (
 	"context"
+	"errors"
 	ibookingcapster "nuryanto2121/cukur_in_user/interface/booking_capster"
 	"nuryanto2121/cukur_in_user/models"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
@@ -28,12 +29,12 @@ func (u *useBookingCapster) GetDataBy(ctx context.Context, Claims util.Claims, q
 		return result, err
 	}
 
-	response := map[string]interface{}{
-		"list_booking_capster":  JadwalCapster,
-		"list_hour_operational": "",
-	}
+	// response := map[string]interface{}{
+	// 	"list_booking_capster":  JadwalCapster,
+	// 	"list_hour_operational": "",
+	// }
 
-	return response, nil
+	return JadwalCapster, nil
 }
 func (u *useBookingCapster) Create(ctx context.Context, Claims util.Claims, data *models.AddBookingCapster) error {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
@@ -43,12 +44,20 @@ func (u *useBookingCapster) Create(ctx context.Context, Claims util.Claims, data
 	)
 
 	// mapping to struct model saRole
-	err := mapstructure.Decode(data, &mBookingCapster)
+	err := mapstructure.Decode(data, &mBookingCapster.AddBookingCapster)
 	if err != nil {
 		return err
 	}
 	mBookingCapster.UserEdit = Claims.UserID
 	mBookingCapster.UserInput = Claims.UserID
+
+	Cnt, err := u.repoBookingCapster.Count(mBookingCapster.AddBookingCapster, 0)
+	if Cnt > 0 {
+		return errors.New("Waktu sudah ada yang booking.")
+	}
+	// if err != nil {
+	// 	return  err
+	// }
 
 	err = u.repoBookingCapster.Create(&mBookingCapster)
 	if err != nil {

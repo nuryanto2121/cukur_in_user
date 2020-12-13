@@ -43,6 +43,8 @@ func NewContOrder(e *echo.Echo, a icorder.Usecase) {
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Success 200 {object} tool.ResponseModel
 // @Router /user/order/{id} [get]
 func (u *ContOrder) GetDataBy(e echo.Context) error {
@@ -52,14 +54,19 @@ func (u *ContOrder) GetDataBy(e echo.Context) error {
 	}
 
 	var (
-		// logger = logging.Logger{}
-		appE = tool.Res{R: e} // wajib
-		id   = e.Param("id")  //kalo bukan int => 0
-		// valid  validation.Validation                 // wajib
+		logger  = logging.Logger{}
+		appE    = tool.Res{R: e} // wajib
+		id      = e.Param("id")  //kalo bukan int => 0
+		GeoUser = models.GeoBarber{}
 	)
 	ID, err := strconv.Atoi(id)
 	if err != nil {
 		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+	httpCode, errMsg := app.BindAndValid(e, &GeoUser)
+	logger.Info(util.Stringify(GeoUser))
+	if httpCode != 200 {
+		return appE.Response(http.StatusBadRequest, errMsg, nil)
 	}
 
 	claims, err := app.GetClaims(e)
@@ -67,7 +74,7 @@ func (u *ContOrder) GetDataBy(e echo.Context) error {
 		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
 	}
 
-	data, err := u.useOrder.GetDataBy(ctx, claims, ID)
+	data, err := u.useOrder.GetDataBy(ctx, claims, ID, GeoUser)
 	if err != nil {
 		return appE.Response(http.StatusInternalServerError, fmt.Sprintf("%v", err), nil)
 	}
@@ -82,6 +89,8 @@ func (u *ContOrder) GetDataBy(e echo.Context) error {
 // @Produce  json
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
@@ -99,7 +108,7 @@ func (u *ContOrder) GetList(e echo.Context) error {
 		// logger = logging.Logger{}
 		appE = tool.Res{R: e} // wajib
 		//valid      validation.Validation // wajib
-		paramquery   = models.ParamList{} // ini untuk list
+		paramquery   = models.ParamListGeo{} // ini untuk list
 		responseList = models.ResponseModelList{}
 		err          error
 	)
@@ -170,14 +179,14 @@ func (u *ContOrder) Create(e echo.Context) error {
 }
 
 // UpdateSaOrder :
-// @Summary Rubah Profile
+// @Summary Cancel Order user
 // @Security ApiKeyAuth
 // @Tags Order
 // @Produce json
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
-// @Param req body models.OrderPost true "req param #changes are possible to adjust the form of the registration form from frontend"
+// @Param req body models.OrderStatus true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
 // @Router /user/order/{id} [put]
 func (u *ContOrder) Update(e echo.Context) error {
@@ -192,8 +201,7 @@ func (u *ContOrder) Update(e echo.Context) error {
 		err    error
 		// valid  validation.Validation                 // wajib
 		id   = e.Param("id") //kalo bukan int => 0
-		form = models.OrderPost{}
-		// form    models.OrderPost
+		form = models.OrderStatus{}
 	)
 
 	OrderID, _ := strconv.Atoi(id)

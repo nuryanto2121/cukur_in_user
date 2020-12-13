@@ -8,12 +8,79 @@ import (
 	util "nuryanto2121/cukur_in_user/pkg/utils"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
 
 type FN struct {
 	Claims util.Claims
+}
+
+func (fn *FN) GenTransactionNo(BarberCd string) (string, error) {
+	var (
+		result string
+		conn   *gorm.DB
+		logger = logging.Logger{}
+		mSeqNo = &models.SsSequenceNo{}
+		t      = time.Now()
+		year   = t.Year()
+		month  = int(t.Month())
+		sYear  = strconv.Itoa(year)
+		sMonth = strconv.Itoa(month)
+
+		// abjad  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	)
+	if len(sMonth) == 1 {
+		sMonth = fmt.Sprintf("0%s", sMonth)
+	}
+	if len(sYear) == 4 {
+		sYear = sYear[len(sYear)-2:]
+	}
+	pref := fmt.Sprintf("%s%s", sMonth, sYear)
+	conn = postgresdb.Conn
+
+	query := conn.Where("sequence_cd = ?", BarberCd).Find(mSeqNo)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err := query.Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			mSeqNo.Prefix = fmt.Sprintf("%s", pref)
+			mSeqNo.SeqNo = 1
+			mSeqNo.SequenceCd = BarberCd
+			mSeqNo.UserInput = fn.Claims.UserID
+			mSeqNo.UserEdit = fn.Claims.UserID
+			queryC := conn.Create(mSeqNo)
+			logger.Query(fmt.Sprintf("%v", queryC.QueryExpr()))
+			err = queryC.Error
+			if err != nil {
+				return "", err
+			}
+			result = fmt.Sprintf("%s/%s/0001", BarberCd, pref)
+			return result, nil
+		}
+		return "", err
+	}
+	seq_no := ""
+
+	if mSeqNo.Prefix == pref {
+		mSeqNo.SeqNo += 1
+		seq_no = strconv.Itoa(10000 + mSeqNo.SeqNo)
+		seq_no = seq_no[len(seq_no)-4:]
+	} else {
+		mSeqNo.Prefix = fmt.Sprintf("%s", pref)
+		mSeqNo.SeqNo = 1
+		seq_no = "0001"
+	}
+	query = conn.Model(models.SsSequenceNo{}).Where("sequence_id = ?", mSeqNo.SequenceID).Updates(mSeqNo)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err = query.Error
+	if err != nil {
+		return "", err
+	}
+	result = fmt.Sprintf("%s/%s/%s", BarberCd, pref, seq_no)
+
+	return result, nil
 }
 
 func (fn *FN) GenBarberCode() (string, error) {
@@ -142,7 +209,7 @@ func (fn *FN) GetCountTrxBarber(ID int) int {
 	return result
 }
 
-func (fn *FN) GetOwnerData() (result *models.SsUser, err error) {
+func (fn *FN) GetUserData() (result *models.SsUser, err error) {
 	var (
 		logger   = logging.Logger{}
 		mCapster = &models.SsUser{}
@@ -159,4 +226,66 @@ func (fn *FN) GetOwnerData() (result *models.SsUser, err error) {
 		return nil, err
 	}
 	return mCapster, nil
+}
+
+func (fn *FN) GetBarberData(BarberID int) (result *models.Barber, err error) {
+	var (
+		logger  = logging.Logger{}
+		mBarber = &models.Barber{}
+		conn    *gorm.DB
+	)
+	conn = postgresdb.Conn
+	query := conn.Where("barber_id = ? ", BarberID).Find(mBarber)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err = query.Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, models.ErrNotFound
+		}
+		return nil, err
+	}
+	return mBarber, nil
+}
+func (fn *FN) GetCapsterData(CapsterID int) (result *models.SsUser, err error) {
+	var (
+		logger   = logging.Logger{}
+		mCapster = &models.SsUser{}
+		conn     *gorm.DB
+	)
+	conn = postgresdb.Conn
+	query := conn.Where("user_id = ? ", CapsterID).Find(mCapster)
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	err = query.Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, models.ErrNotFound
+		}
+		return nil, err
+	}
+	return mCapster, nil
+}
+func (fn *FN) InTimeActiveBarber(data *models.Barber, orderDate time.Time) bool {
+	var (
+		P = fmt.Println
+	)
+	// timeStart := data.OperationStart.Date(timeOrder.Year(), timeOrder.Month(), timeOrder.Day())
+	timeStart := time.Date(orderDate.Year(), orderDate.Month(), orderDate.Day(), data.OperationStart.Hour(),
+		data.OperationStart.Minute(), data.OperationStart.Second(), data.OperationStart.Nanosecond(), data.OperationStart.Local().Location())
+
+	timeEnd := time.Date(orderDate.Year(), orderDate.Month(), orderDate.Day(), data.OperationEnd.Hour(),
+		data.OperationEnd.Minute(), data.OperationEnd.Second(), data.OperationEnd.Nanosecond(), data.OperationEnd.Local().Location())
+
+	timeOrder := time.Date(orderDate.Year(), orderDate.Month(), orderDate.Day(), orderDate.Hour(),
+		orderDate.Minute(), orderDate.Second(), orderDate.Nanosecond(), orderDate.Local().Location())
+
+	P(timeStart)
+	P(timeEnd)
+	P(timeOrder)
+
+	if timeOrder.Before(timeEnd) && timeOrder.After(timeStart) {
+		return true
+	} else {
+		return false
+	}
+
 }

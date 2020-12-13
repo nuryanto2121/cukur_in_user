@@ -38,6 +38,10 @@ func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (outpu
 		return nil, errors.New("Email anda belum terdaftar.")
 	}
 
+	if !DataUser.IsActive {
+		return nil, errors.New("Account anda belum aktif.")
+	}
+
 	if !util.ComparePassword(DataUser.Password, util.GetPassword(dataLogin.Password)) {
 		return nil, errors.New("Password yang anda masukkan salah. Silahkan coba lagi..")
 	}

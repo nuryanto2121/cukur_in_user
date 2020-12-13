@@ -48,7 +48,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 	queryparam.Latitude = GeoBarber.Latitude
 	queryparam.Longitude = GeoBarber.Longitude
 
-	result, err := u.repoBarber.GetDataBy(ID, GeoBarber)
+	result, err := u.repoBarber.GetDataByList(ID, GeoBarber)
 	if err != nil {
 		return result, err
 	}
