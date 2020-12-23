@@ -3,6 +3,8 @@ module nuryanto2121/cukur_in_user
 go 1.15
 
 require (
+	cloud.google.com/go/firestore v1.1.1 // indirect
+	firebase.google.com/go v3.13.0+incompatible
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -21,6 +23,9 @@ require (
 	github.com/swaggo/swag v1.6.7
 	go.mongodb.org/mongo-driver v1.4.0
 	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
+	google.golang.org/api v0.17.0
+	google.golang.org/grpc v1.29.1 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df // indirect
 )

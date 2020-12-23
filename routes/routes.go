@@ -45,6 +45,10 @@ import (
 	_repoBookingCapster "nuryanto2121/cukur_in_user/repository/booking_capster"
 	_useBookingCapster "nuryanto2121/cukur_in_user/usecase/booking_capster"
 
+	_contNotification "nuryanto2121/cukur_in_user/controllers/notification"
+	_repoNotification "nuryanto2121/cukur_in_user/repository/notification"
+	_useNotification "nuryanto2121/cukur_in_user/usecase/notification"
+
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -90,10 +94,15 @@ func (e *EchoRoutes) InitialRouter() {
 	useCapster := _useCapster.NewUserMCapster(repoCapster, repoUser, repoBarberCapster, repoFile, timeoutContext)
 	_contCapster.NewContCapster(e.E, useCapster)
 
+	repoNotif := _repoNotification.NewRepoNotification(postgresdb.Conn)
+	useNotif := _useNotification.NewUseNotification(repoNotif, timeoutContext)
+	_contNotification.NewContNotification(e.E, useNotif)
+
 	repoOrderD := _repoOrderd.NewRepoOrderD(postgresdb.Conn)
 	repoOrder := _repoOrder.NewRepoOrderH(postgresdb.Conn)
-	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, timeoutContext)
+	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, useNotif, timeoutContext)
 	_contOrder.NewContOrder(e.E, useOrder)
+
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)

@@ -9,9 +9,13 @@ import (
 	ibookingcapster "nuryanto2121/cukur_in_user/interface/booking_capster"
 	iorderd "nuryanto2121/cukur_in_user/interface/c_order_d"
 	iorderh "nuryanto2121/cukur_in_user/interface/c_order_h"
+	inotification "nuryanto2121/cukur_in_user/interface/notification"
 	"nuryanto2121/cukur_in_user/models"
+	"nuryanto2121/cukur_in_user/pkg/setting"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
+	"nuryanto2121/cukur_in_user/redisdb"
 	repofunction "nuryanto2121/cukur_in_user/repository/function"
+	"strconv"
 	"strings"
 	"time"
 
@@ -23,15 +27,17 @@ type useOrder struct {
 	repoOrderD         iorderd.Repository
 	repoBarber         ibarber.Repository
 	repoBookingCapster ibookingcapster.Repository
+	usenotification    inotification.Usecase
 	contextTimeOut     time.Duration
 }
 
-func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, timeout time.Duration) iorderh.Usecase {
+func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, e inotification.Usecase, timeout time.Duration) iorderh.Usecase {
 	return &useOrder{
 		repoOrderH:         a,
 		repoOrderD:         b,
 		repoBarber:         c,
 		repoBookingCapster: d,
+		usenotification:    e,
 		contextTimeOut:     timeout}
 }
 
@@ -97,6 +103,7 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	var (
 		mOrder              models.OrderH
 		ParamBookingCapster = &models.AddBookingCapster{}
+		AddNotif            = &models.AddNotification{}
 	)
 
 	// mapping to struct model saRole
@@ -184,6 +191,31 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 			return err
 		}
 	}
+
+	//send notif to capster
+	//token capster
+	capsterFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.CapsterID)+"_fcm"))
+	barberFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.BarberID)+"_fcm"))
+
+	AddNotif.Title = "Ada Orderan"
+	AddNotif.Descs = dataUser.Name + " akan cukur pada :" + mOrder.OrderDate.Format(setting.FileConfigSetting.App.TimeFormat)
+	AddNotif.NotificationStatus = "N"
+	AddNotif.NotificationType = "O" // I = Info ; O = Order
+	AddNotif.LinkId = mOrder.OrderID
+	AddNotif.UserId = mOrder.CapsterID
+
+	if capsterFCM != "" {
+		go u.usenotification.Create(ctx, Claims, capsterFCM, AddNotif)
+	}
+
+	if barberFCM != "" {
+		AddNotif.UserId = mOrder.BarberID
+		go u.usenotification.Create(ctx, Claims, barberFCM, AddNotif)
+	}
+
+	// if err != nil {
+	// 	return err
+	// }
 
 	return nil
 

@@ -54,6 +54,9 @@ func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (outpu
 
 	redisdb.AddSession(token, DataUser.UserID, time.Duration(expireToken)*time.Hour)
 
+	// expired FCM
+	redisdb.AddSession(strconv.Itoa(DataUser.UserID)+"_fcm", dataLogin.FcmToken, time.Duration(expireToken)*time.Hour)
+
 	restUser := map[string]interface{}{
 		"user_id":   DataUser.UserID,
 		"email":     DataUser.Email,

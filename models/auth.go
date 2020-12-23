@@ -9,6 +9,7 @@ import (
 type LoginForm struct {
 	Account  string `json:"account" valid:"Required"`
 	Password string `json:"pwd" valid:"Required"`
+	FcmToken string `json:"fcm_token" valid:"Required"`
 }
 
 // RegisterForm :

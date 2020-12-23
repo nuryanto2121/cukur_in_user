@@ -72,6 +72,8 @@ definitions:
     properties:
       account:
         type: string
+      fcm_token:
+        type: string
       pwd:
         type: string
     type: object
@@ -148,6 +150,11 @@ definitions:
         type: integer
       total:
         type: integer
+    type: object
+  models.StatusNotification:
+    properties:
+      notification_status:
+        type: string
     type: object
   models.UpdateUser:
     properties:
@@ -864,6 +871,163 @@ paths:
       summary: Add Or Delete Barber Favorit
       tags:
       - Barber Favorit
+  /user/notification:
+    get:
+      parameters:
+      - description: AppID Device
+        in: header
+        name: app_id
+        required: true
+        type: string
+      - description: Version Device
+        in: header
+        name: version
+        required: true
+        type: string
+      - description: Language
+        in: header
+        name: language
+        required: true
+        type: string
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: PerPage
+        in: query
+        name: perpage
+        required: true
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: InitSearch
+        in: query
+        name: initsearch
+        type: string
+      - description: SortField
+        in: query
+        name: sortfield
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseModelList'
+      security:
+      - ApiKeyAuth: []
+      summary: GetList Notification
+      tags:
+      - Notification
+  /user/notification/{id}:
+    get:
+      parameters:
+      - description: AppID Device
+        in: header
+        name: app_id
+        required: true
+        type: string
+      - description: Version Device
+        in: header
+        name: version
+        required: true
+        type: string
+      - description: Language
+        in: header
+        name: language
+        required: true
+        type: string
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: GetById
+      tags:
+      - Notification
+    put:
+      parameters:
+      - description: AppID Device
+        in: header
+        name: app_id
+        required: true
+        type: string
+      - description: Version Device
+        in: header
+        name: version
+        required: true
+        type: string
+      - description: Language
+        in: header
+        name: language
+        required: true
+        type: string
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.StatusNotification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Rubah Status Notification
+      tags:
+      - Notification
+  /user/notification/beranda:
+    get:
+      parameters:
+      - description: AppID Device
+        in: header
+        name: app_id
+        required: true
+        type: string
+      - description: Version Device
+        in: header
+        name: version
+        required: true
+        type: string
+      - description: Language
+        in: header
+        name: language
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Jumlah Notif yg belum dibuka
+      tags:
+      - Notification
   /user/order:
     get:
       parameters:

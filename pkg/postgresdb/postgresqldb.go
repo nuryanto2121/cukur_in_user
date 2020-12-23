@@ -171,6 +171,7 @@ func autoMigrate() {
 		models.BarberFavorit{},
 		models.FeedbackRating{},
 		models.BookingCapster{},
+		models.Notification{},
 	)
 
 	log.Println("FINISHING AUTO MIGRATE ")
