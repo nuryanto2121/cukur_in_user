@@ -121,7 +121,7 @@ func (u *useAuht) ResetPassword(ctx context.Context, dataReset *models.ResetPass
 	defer cancel()
 
 	if dataReset.Passwd != dataReset.ConfirmPasswd {
-		return errors.New("Password dan Confirm Password tidak boleh sama.")
+		return errors.New("Password dan Confirm Password harus sama.")
 	}
 
 	DataUser, err := u.repoAuth.GetByAccount(dataReset.Account)
@@ -155,7 +155,7 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	}
 
 	if dataRegister.Passwd != dataRegister.ConfirmPasswd {
-		return output, errors.New("Password dan confirm password tidak boleh sama.")
+		return output, errors.New("Password dan confirm password harus sama.")
 	}
 	User.Name = dataRegister.Name
 	User.Password, _ = util.Hash(dataRegister.Passwd)
