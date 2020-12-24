@@ -188,7 +188,7 @@ info:
     name: Nuryanto
     url: https://www.linkedin.com/in/nuryanto-1b2721156/
   description: REST API for USER Cukur-in
-  title: Rest API User
+  title: User Cukur-in
   version: "1.0"
 paths:
   /api/fileupload:

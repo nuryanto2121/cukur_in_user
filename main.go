@@ -25,7 +25,7 @@ func init() {
 
 }
 
-// @title Rest API User
+// @title User Cukur-in
 // @version 1.0
 // @description REST API for USER Cukur-in
 

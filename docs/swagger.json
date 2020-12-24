@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "REST API for USER Cukur-in",
-        "title": "Rest API User",
+        "title": "User Cukur-in",
         "contact": {
             "name": "Nuryanto",
             "url": "https://www.linkedin.com/in/nuryanto-1b2721156/",

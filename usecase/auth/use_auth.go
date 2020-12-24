@@ -24,6 +24,7 @@ type useAuht struct {
 func NewUserAuth(a iusers.Repository, b ifileupload.Repository, timeout time.Duration) iauth.Usecase {
 	return &useAuht{repoAuth: a, repoFile: b, contextTimeOut: timeout}
 }
+
 func (u *useAuht) Logout(ctx context.Context, Claims util.Claims, Token string) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
@@ -33,6 +34,7 @@ func (u *useAuht) Logout(ctx context.Context, Claims util.Claims, Token string) 
 
 	return nil
 }
+
 func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (output interface{}, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()

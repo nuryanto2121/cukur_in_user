@@ -2264,7 +2264,7 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "Rest API User",
+	Title:       "User Cukur-in",
 	Description: "REST API for USER Cukur-in",
 }
 
