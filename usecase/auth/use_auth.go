@@ -24,6 +24,15 @@ type useAuht struct {
 func NewUserAuth(a iusers.Repository, b ifileupload.Repository, timeout time.Duration) iauth.Usecase {
 	return &useAuht{repoAuth: a, repoFile: b, contextTimeOut: timeout}
 }
+func (u *useAuht) Logout(ctx context.Context, Claims util.Claims, Token string) (err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+
+	redisdb.TurncateList(Token)
+	redisdb.TurncateList(Claims.UserID + "_fcm")
+
+	return nil
+}
 func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (output interface{}, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
@@ -163,6 +172,7 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	User.UserInput = dataRegister.Name
 	User.JoinDate = time.Now()
 	User.UserType = "user"
+	User.IsActive = true
 	//check email or telp
 	// if util.CheckEmail(dataRegister.Account) {
 	User.Email = dataRegister.Account

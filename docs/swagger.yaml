@@ -187,7 +187,7 @@ info:
     email: nuryantofattih@gmail.com
     name: Nuryanto
     url: https://www.linkedin.com/in/nuryanto-1b2721156/
-  description: Backend REST API for golang nuryanto2121
+  description: REST API for USER Cukur-in
   title: Rest API User
   version: "1.0"
 paths:
@@ -314,6 +314,31 @@ paths:
           schema:
             $ref: '#/definitions/tool.ResponseModel'
       summary: Login
+      tags:
+      - Auth
+  /user/auth/logout:
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: logout
       tags:
       - Auth
   /user/auth/register:

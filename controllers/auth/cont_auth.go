@@ -41,6 +41,43 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 	r.POST("/verify", cont.Verify)
 	r.POST("/register/verify", cont.RegisterVerify)
 	r.POST("/register", cont.Register)
+
+	L := e.Group("/user/auth/logout")
+	L.Use(midd.JWT)
+	L.Use(midd.Versioning)
+	L.POST("", cont.Logout)
+}
+
+// Logout :
+// @Summary logout
+// @Security ApiKeyAuth
+// @Tags Auth
+// @Produce json
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
+// @Success 200 {object} tool.ResponseModel
+// @Router /user/auth/logout [post]
+func (u *ContAuth) Logout(e echo.Context) error {
+	ctx := e.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	var (
+		appE = tool.Res{R: e} // wajib
+	)
+
+	claims, err := app.GetClaims(e)
+	if err != nil {
+		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+	Token := e.Request().Header.Get("Authorization")
+	err = u.useAuth.Logout(ctx, claims, Token)
+	if err != nil {
+		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
+	}
+
+	return appE.Response(http.StatusOK, "Ok", nil)
 }
 
 // Login :
@@ -61,10 +98,7 @@ func (u *ContAuth) Login(e echo.Context) error {
 	var (
 		logger = logging.Logger{} // wajib
 		appE   = tool.Res{R: e}   // wajib
-		// client sa_models.SaClient
-
-		form = models.LoginForm{}
-		// dataFiles = sa_models.SaFileOutput{}
+		form   = models.LoginForm{}
 	)
 
 	// validasi and bind to struct
@@ -76,8 +110,7 @@ func (u *ContAuth) Login(e echo.Context) error {
 
 	out, err := u.useAuth.Login(ctx, &form)
 	if err != nil {
-		// return appE.Response(out)
-		// return appE.ResponseError(util.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
+
 		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
 	}
 

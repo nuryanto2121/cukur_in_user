@@ -27,7 +27,7 @@ func init() {
 
 // @title Rest API User
 // @version 1.0
-// @description Backend REST API for golang nuryanto2121
+// @description REST API for USER Cukur-in
 
 // @contact.name Nuryanto
 // @contact.url https://www.linkedin.com/in/nuryanto-1b2721156/
