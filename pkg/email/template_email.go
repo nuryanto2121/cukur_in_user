@@ -40,7 +40,7 @@ const (
 	<body>
 
 	<p>Hi {Name},</p>
-	<p>Selamat, saat ini akun kamu telah aktif.</p>
+	<p>Untuk mengaktifkan akun kamu, Masukan OTP untuk Verify.</p>
 	<p><strong>INFORMASI LOGIN</strong></p>
 	<p>Username : {Email} <br/> 
 	OTP : {OTP}</p>

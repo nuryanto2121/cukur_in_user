@@ -50,7 +50,7 @@ func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (outpu
 	}
 
 	if !DataUser.IsActive {
-		return nil, errors.New("Account anda belum aktif.")
+		return nil, errors.New("Account anda belum aktif. Silahkan Register ulang dengan email yang sama.")
 	}
 
 	if !util.ComparePassword(DataUser.Password, util.GetPassword(dataLogin.Password)) {
@@ -127,6 +127,48 @@ func (u *useAuht) ForgotPassword(ctx context.Context, dataForgot *models.ForgotF
 	return GenOTP, nil
 }
 
+func (u *useAuht) GenOTP(ctx context.Context, dataForgot *models.ForgotForm) (result interface{}, err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+
+	DataUser, err := u.repoAuth.GetByAccount(dataForgot.Account) //u.repoUser.GetByEmailSaUser(dataLogin.UserName)
+	if err != nil {
+		// return util.GoutputErrCode(http.StatusUnauthorized, "Your User/Email not valid.") //appE.ResponseError(util.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
+		return "", errors.New("Your Account not valid.")
+	}
+	if DataUser.Name == "" {
+		return "", errors.New("Your Account not valid.")
+	}
+	GenCode := util.GenerateNumber(4)
+
+	// send generate code
+	mailService := &useemailauth.Register{
+		Email:      DataUser.Email,
+		Name:       DataUser.Name,
+		PasswordCd: GenCode,
+	}
+
+	go mailService.SendRegister()
+	// err = mailService.SendRegister()
+	// if err != nil {
+	// 	return output, err
+	// }
+	if DataUser.UserID > 0 {
+		redisdb.TurncateList(dataForgot.Account + "_Register")
+	}
+	//store to redis
+	err = redisdb.AddSession(dataForgot.Account+"_Register", GenCode, 24*time.Hour)
+	if err != nil {
+		return "", err
+	}
+	out := map[string]interface{}{
+		"otp":     GenCode,
+		"account": dataForgot.Account,
+	}
+
+	return out, nil
+}
+
 func (u *useAuht) ResetPassword(ctx context.Context, dataReset *models.ResetPasswd) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
@@ -158,11 +200,16 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
-	var User models.SsUser
+	var (
+		User models.SsUser
+	)
 
 	CekData, err := u.repoAuth.GetByAccount(dataRegister.Account) //repoAuth.GetByAccount(dataRegister.EmailAddr, true)
+
 	if CekData.Email == dataRegister.Account {
-		return output, errors.New("email sudah terdaftar.")
+		if CekData.IsActive {
+			return output, errors.New("email sudah terdaftar.")
+		}
 	}
 
 	if dataRegister.Passwd != dataRegister.ConfirmPasswd {
@@ -170,29 +217,39 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	}
 	User.Name = dataRegister.Name
 	User.Password, _ = util.Hash(dataRegister.Passwd)
-	User.UserEdit = dataRegister.Name
-	User.UserInput = dataRegister.Name
 	User.JoinDate = time.Now()
 	User.UserType = "user"
-	User.IsActive = true
-	//check email or telp
-	// if util.CheckEmail(dataRegister.Account) {
+	User.IsActive = false
 	User.Email = dataRegister.Account
-	// } else {
-	// User.Telp = dataRegister.Account
-	// }
-	err = u.repoAuth.Create(&User)
-	if err != nil {
-		return output, err
-	}
 
-	mUser := map[string]interface{}{
-		"user_input": strconv.Itoa(User.UserID),
-		"user_edit":  strconv.Itoa(User.UserID),
-	}
-	err = u.repoAuth.Update(User.UserID, mUser)
-	if err != nil {
-		return output, err
+	if CekData.UserID > 0 {
+		CekData.Name = User.Name
+		CekData.Password = User.Password
+		CekData.JoinDate = User.JoinDate
+		CekData.UserType = User.UserType
+		CekData.IsActive = User.IsActive
+		CekData.Email = User.Email
+		err = u.repoAuth.Update(CekData.UserID, CekData)
+		if err != nil {
+			return output, err
+		}
+
+	} else {
+		User.UserEdit = dataRegister.Name
+		User.UserInput = dataRegister.Name
+		err = u.repoAuth.Create(&User)
+		if err != nil {
+			return output, err
+		}
+
+		mUser := map[string]interface{}{
+			"user_input": strconv.Itoa(User.UserID),
+			"user_edit":  strconv.Itoa(User.UserID),
+		}
+		err = u.repoAuth.Update(User.UserID, mUser)
+		if err != nil {
+			return output, err
+		}
 	}
 
 	GenCode := util.GenerateNumber(4)
@@ -209,7 +266,9 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	// if err != nil {
 	// 	return output, err
 	// }
-
+	if CekData.UserID > 0 {
+		redisdb.TurncateList(dataRegister.Account + "_Register")
+	}
 	//store to redis
 	err = redisdb.AddSession(dataRegister.Account+"_Register", GenCode, 24*time.Hour)
 	if err != nil {
@@ -237,6 +296,7 @@ func (u *useAuht) VerifyRegister(ctx context.Context, dataVerify models.VerifyFo
 	if data != dataVerify.VerifyCode {
 		return output, errors.New("OTP yang anda masukan salah.")
 	}
+
 	redisdb.TurncateList(dataVerify.Account + "_Register")
 
 	DataUser, err := u.repoAuth.GetByAccount(dataVerify.Account)
@@ -251,7 +311,19 @@ func (u *useAuht) VerifyRegister(ctx context.Context, dataVerify models.VerifyFo
 		return nil, err
 	}
 
+	mUser := map[string]interface{}{
+		"is_active": true,
+	}
+	err = u.repoAuth.Update(DataUser.UserID, mUser)
+	if err != nil {
+		return output, err
+	}
+
 	redisdb.AddSession(token, DataUser.UserID, time.Duration(expireToken)*time.Hour)
+	// expired FCM
+	if dataVerify.FcmToken != "" {
+		redisdb.AddSession(strconv.Itoa(DataUser.UserID)+"_fcm", dataVerify.FcmToken, time.Duration(expireToken)*time.Hour)
+	}
 
 	restUser := map[string]interface{}{
 		"user_id":   DataUser.UserID,

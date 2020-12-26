@@ -302,6 +302,50 @@ var doc = `{
                 }
             }
         },
+        "/user/auth/register/gen_otp": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Gen OTP Register",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "OS",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OS Device",
+                        "name": "Version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ForgotForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tool.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/user/auth/register/verify": {
             "post": {
                 "produces": [
@@ -2220,6 +2264,9 @@ var doc = `{
             "type": "object",
             "properties": {
                 "account": {
+                    "type": "string"
+                },
+                "fcm_token": {
                     "type": "string"
                 },
                 "verify_code": {

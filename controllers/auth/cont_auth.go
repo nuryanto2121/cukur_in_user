@@ -40,6 +40,7 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 	r.POST("/change_password", cont.ChangePassword)
 	r.POST("/verify", cont.Verify)
 	r.POST("/register/verify", cont.RegisterVerify)
+	r.POST("/register/gen_otp", cont.GenOTP)
 	r.POST("/register", cont.Register)
 
 	L := e.Group("/user/auth/logout")
@@ -292,6 +293,46 @@ func (u *ContAuth) ForgotPassword(e echo.Context) error {
 	}
 
 	OTP, err := u.useAuth.ForgotPassword(ctx, &form)
+	if err != nil {
+		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
+	}
+	result := map[string]interface{}{
+		"otp": OTP,
+	}
+
+	return appE.Response(http.StatusOK, "Check Your Email", result)
+
+}
+
+// GenOTP :
+// @Summary Gen OTP Register
+// @Tags Auth
+// @Produce json
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
+// @Param req body models.ForgotForm true "req param #changes are possible to adjust the form of the registration form from frontend"
+// @Success 200 {object} tool.ResponseModel
+// @Router /user/auth/register/gen_otp [post]
+func (u *ContAuth) GenOTP(e echo.Context) error {
+	ctx := e.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	var (
+		logger = logging.Logger{} // wajib
+		appE   = tool.Res{R: e}   // wajib
+		// client sa_models.SaClient
+
+		form = models.ForgotForm{}
+	)
+	// validasi and bind to struct
+	httpCode, errMsg := app.BindAndValid(e, &form)
+	logger.Info(util.Stringify(form))
+	if httpCode != 200 {
+		return appE.ResponseError(http.StatusBadRequest, errMsg, nil)
+	}
+
+	OTP, err := u.useAuth.GenOTP(ctx, &form)
 	if err != nil {
 		return appE.ResponseError(http.StatusUnauthorized, fmt.Sprintf("%v", err), nil)
 	}

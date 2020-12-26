@@ -171,6 +171,8 @@ definitions:
     properties:
       account:
         type: string
+      fcm_token:
+        type: string
       verify_code:
         type: string
     type: object
@@ -368,6 +370,35 @@ paths:
           schema:
             $ref: '#/definitions/tool.ResponseModel'
       summary: Register
+      tags:
+      - Auth
+  /user/auth/register/gen_otp:
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.ForgotForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      summary: Gen OTP Register
       tags:
       - Auth
   /user/auth/register/verify:

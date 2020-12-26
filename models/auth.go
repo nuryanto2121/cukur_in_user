@@ -34,6 +34,7 @@ type ResetPasswd struct {
 type VerifyForm struct {
 	Account    string `json:"account" valid:"Required"`
 	VerifyCode string `json:"verify_code" valid:"Required"`
+	FcmToken   string `json:"fcm_token,omitempty"`
 }
 
 type DataLogin struct {
