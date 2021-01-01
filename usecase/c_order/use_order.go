@@ -11,7 +11,6 @@ import (
 	iorderh "nuryanto2121/cukur_in_user/interface/c_order_h"
 	inotification "nuryanto2121/cukur_in_user/interface/notification"
 	"nuryanto2121/cukur_in_user/models"
-	"nuryanto2121/cukur_in_user/pkg/setting"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
 	"nuryanto2121/cukur_in_user/redisdb"
 	repofunction "nuryanto2121/cukur_in_user/repository/function"
@@ -198,13 +197,14 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	barberFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.BarberID)+"_fcm"))
 
 	AddNotif.Title = "Ada Orderan"
-	AddNotif.Descs = dataUser.Name + " akan cukur pada :" + mOrder.OrderDate.Format(setting.FileConfigSetting.App.TimeFormat)
+	// AddNotif.Descs = dataUser.Name + " akan cukur pada :" + mOrder.OrderDate.Format("02/01/2006 15:04")
+	AddNotif.Descs = "Ada jadwal cukur pada :" + mOrder.OrderDate.Format("02/01/2006 15:04")
 	AddNotif.NotificationStatus = "N"
 	AddNotif.NotificationType = "O" // I = Info ; O = Order
 	AddNotif.LinkId = mOrder.OrderID
-	AddNotif.UserId = mOrder.CapsterID
 
 	if capsterFCM != "" {
+		AddNotif.UserId = mOrder.CapsterID
 		go u.usenotification.Create(ctx, Claims, capsterFCM, AddNotif)
 	}
 
