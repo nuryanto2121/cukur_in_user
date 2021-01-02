@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	inotification "nuryanto2121/cukur_in_user/interface/notification"
+	midd "nuryanto2121/cukur_in_user/middleware"
 	"nuryanto2121/cukur_in_user/models"
 	app "nuryanto2121/cukur_in_user/pkg"
 	"nuryanto2121/cukur_in_user/pkg/logging"
@@ -25,7 +26,7 @@ func NewContNotification(e *echo.Echo, a inotification.Usecase) {
 	}
 
 	r := e.Group("/user/notification")
-	// r.Use(midd.JWT)
+	r.Use(midd.JWT)
 	r.GET("/:id", controller.GetDataBy)
 	r.GET("", controller.GetList)
 	r.GET("/beranda", controller.Beranda)
@@ -39,9 +40,8 @@ func NewContNotification(e *echo.Echo, a inotification.Usecase) {
 // @Security ApiKeyAuth
 // @Tags Notification
 // @Produce  json
-// @Param app_id header string true "AppID Device"
-// @Param version header string true "Version Device"
-// @Param language header string true "Language"
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Success 200 {object} tool.ResponseModel
 // @Router /user/notification/{id} [get]
@@ -78,9 +78,8 @@ func (u *contNotification) GetDataBy(e echo.Context) error {
 // @Security ApiKeyAuth
 // @Tags Notification
 // @Produce  json
-// @Param app_id header string true "AppID Device"
-// @Param version header string true "Version Device"
-// @Param language header string true "Language"
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
 // @Success 200 {object} tool.ResponseModel
 // @Router /user/notification/beranda [get]
 func (u *contNotification) Beranda(e echo.Context) error {
@@ -111,9 +110,8 @@ func (u *contNotification) Beranda(e echo.Context) error {
 // @Security ApiKeyAuth
 // @Tags Notification
 // @Produce  json
-// @Param app_id header string true "AppID Device"
-// @Param version header string true "Version Device"
-// @Param language header string true "Language"
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
@@ -158,9 +156,8 @@ func (u *contNotification) GetList(e echo.Context) error {
 // @Security ApiKeyAuth
 // @Tags Notification
 // @Produce json
-// @Param app_id header string true "AppID Device"
-// @Param version header string true "Version Device"
-// @Param language header string true "Language"
+// @Param OS header string true "OS Device"
+// @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Param req body models.StatusNotification true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel

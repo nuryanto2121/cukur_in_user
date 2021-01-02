@@ -1172,22 +1172,15 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AppID Device",
-                        "name": "app_id",
+                        "description": "OS Device",
+                        "name": "OS",
                         "in": "header",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Version Device",
-                        "name": "version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Language",
-                        "name": "language",
+                        "description": "OS Device",
+                        "name": "Version",
                         "in": "header",
                         "required": true
                     },
@@ -1251,22 +1244,15 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AppID Device",
-                        "name": "app_id",
+                        "description": "OS Device",
+                        "name": "OS",
                         "in": "header",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Version Device",
-                        "name": "version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Language",
-                        "name": "language",
+                        "description": "OS Device",
+                        "name": "Version",
                         "in": "header",
                         "required": true
                     }
@@ -1298,22 +1284,15 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AppID Device",
-                        "name": "app_id",
+                        "description": "OS Device",
+                        "name": "OS",
                         "in": "header",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Version Device",
-                        "name": "version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Language",
-                        "name": "language",
+                        "description": "OS Device",
+                        "name": "Version",
                         "in": "header",
                         "required": true
                     },
@@ -1350,22 +1329,15 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AppID Device",
-                        "name": "app_id",
+                        "description": "OS Device",
+                        "name": "OS",
                         "in": "header",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Version Device",
-                        "name": "version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Language",
-                        "name": "language",
+                        "description": "OS Device",
+                        "name": "Version",
                         "in": "header",
                         "required": true
                     },
