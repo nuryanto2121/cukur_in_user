@@ -27,6 +27,7 @@ func NewContNotification(e *echo.Echo, a inotification.Usecase) {
 
 	r := e.Group("/user/notification")
 	r.Use(midd.JWT)
+	r.Use(midd.Versioning)
 	r.GET("/:id", controller.GetDataBy)
 	r.GET("", controller.GetList)
 	r.GET("/beranda", controller.Beranda)
