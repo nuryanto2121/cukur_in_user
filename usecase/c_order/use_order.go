@@ -193,7 +193,7 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 
 	//send notif to capster
 	//token capster
-	capsterFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.CapsterID)+"_fcm"))
+	capsterFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.UserID)+"_fcm"))
 	barberFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.BarberID)+"_fcm"))
 
 	AddNotif.Title = "Ada Orderan"
