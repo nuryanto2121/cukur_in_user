@@ -193,7 +193,7 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 
 	//send notif to capster
 	//token capster
-	capsterFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.UserID)+"_fcm"))
+	capsterFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.CapsterID)+"_fcm"))
 	barberFCM := fmt.Sprintf("%v", redisdb.GetSession(strconv.Itoa(mOrder.BarberID)+"_fcm"))
 
 	AddNotif.Title = "Ada Orderan"
@@ -202,6 +202,7 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	AddNotif.NotificationStatus = "N"
 	AddNotif.NotificationType = "O" // I = Info ; O = Order
 	AddNotif.LinkId = mOrder.OrderID
+	AddNotif.NotificationDate = util.GetTimeNow()
 
 	if capsterFCM != "" {
 		AddNotif.UserId = mOrder.CapsterID
