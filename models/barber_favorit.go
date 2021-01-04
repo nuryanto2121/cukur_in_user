@@ -8,8 +8,8 @@ type BarberFavorit struct {
 
 type BarberFavoritList struct {
 	BarbersList
-	BarberRating float32 `json:"barber_rating"`
-	IsFavorit    bool    `json:"is_favorit"`
+	// BarberRating float32 `json:"barber_rating"`
+	// IsFavorit    bool    `json:"is_favorit"`
 }
 
 type AddBarberFavorit struct {

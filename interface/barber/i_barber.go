@@ -8,13 +8,13 @@ import (
 
 type Repository interface {
 	GetDataBy(ID int) (result *models.Barber, err error)
-	GetDataByList(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
+	GetDataByList(ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
 	GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error)
-	GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error)
+	GetList(UserID int, queryparam models.ParamListGeo) (result []*models.BarbersList, err error)
 	Create(data *models.Barber) (err error)
 	Update(ID int, data interface{}) (err error)
 	Delete(ID int) (err error)
-	Count(queryparam models.ParamListGeo) (result int, err error)
+	Count(UserID int, queryparam models.ParamListGeo) (result int, err error)
 }
 
 type Usecase interface {

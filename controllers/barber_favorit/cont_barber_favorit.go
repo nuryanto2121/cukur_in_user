@@ -78,13 +78,14 @@ func (u *contBarberFavorit) Create(e echo.Context) error {
 // @Tags Barber Favorit
 // @Produce  json
 // @Param OS header string true "OS Device"
-// @Param Version header string true "OS Device"
+// @Param Version header string true "Version Device"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
-// @Param paramview query string false "ParamView"
 // @Success 200 {object} models.ResponseModelList
 // @Router /user/favorit [get]
 func (u *contBarberFavorit) GetList(e echo.Context) error {
@@ -97,7 +98,8 @@ func (u *contBarberFavorit) GetList(e echo.Context) error {
 		// logger = logging.Logger{}
 		appE = tool.Res{R: e} // wajib
 		//valid      validation.Validation // wajib
-		paramquery   = models.ParamList{} // ini untuk list
+		// paramquery   = models.ParamList{} // ini untuk list
+		paramquery   = models.ParamListGeo{} // ini untuk list
 		responseList = models.ResponseModelList{}
 		err          error
 	)

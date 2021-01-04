@@ -53,7 +53,7 @@ func (db *repoOrderH) GetDataBy(ID int, GeoUser models.GeoBarber) (result models
 	}
 	return data, nil
 }
-func (db *repoOrderH) GetList(queryparam models.ParamListGeo) (result []*models.OrderList, err error) {
+func (db *repoOrderH) GetList(UserID int, queryparam models.ParamListGeo) (result []*models.OrderList, err error) {
 
 	var (
 		pageNum  = 0
@@ -87,9 +87,9 @@ func (db *repoOrderH) GetList(queryparam models.ParamListGeo) (result []*models.
 		SELECT oh.order_id ,oh.order_no ,oh.order_date ,a.barber_id,a.barber_name,a.distance,a.barber_rating,
 		(select sum(order_d.price ) from order_d where order_d.order_id = oh.order_id ) as price ,
 		oh.user_id ,oh.status 
-		FROM order_h oh join fbarber_beranda_user_s(%f,%f) a 
+		FROM order_h oh join fbarber_beranda_user_s(%f,%f,%d) a 
 		on oh.barber_id = a.barber_id
-		) xx`, queryparam.Latitude, queryparam.Longitude)
+		) xx`, queryparam.Latitude, queryparam.Longitude, UserID)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -161,7 +161,7 @@ func (db *repoOrderH) Delete(ID int) error {
 	}
 	return nil
 }
-func (db *repoOrderH) Count(queryparam models.ParamListGeo) (result int, err error) {
+func (db *repoOrderH) Count(UserID int, queryparam models.ParamListGeo) (result int, err error) {
 	type Results struct {
 		Cnt int `json:"cnt"`
 	}
@@ -181,9 +181,9 @@ func (db *repoOrderH) Count(queryparam models.ParamListGeo) (result int, err err
 		SELECT oh.order_id ,oh.order_no ,oh.order_date ,a.barber_id,a.barber_name,a.distance,a.barber_rating,
 		(select sum(order_d.price ) from order_d where order_d.order_id = oh.order_id ) as price ,
 		oh.user_id ,oh.status 
-		FROM order_h oh join fbarber_beranda_user_s(%f,%f) a 
+		FROM order_h oh join fbarber_beranda_user_s(%f,%f,%d) a 
 		on oh.barber_id = a.barber_id
-		) xx`, queryparam.Latitude, queryparam.Longitude)
+		) xx`, queryparam.Latitude, queryparam.Longitude, UserID)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {

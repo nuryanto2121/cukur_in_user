@@ -64,7 +64,7 @@ func autoMigrate() {
 		END  
 		$$ LANGUAGE plpgsql;
 
-		CREATE OR replace FUNCTION public.fbarber_beranda_user_s(p_latitude FLOAT, p_longitude FLOAT)
+		CREATE OR replace FUNCTION public.fbarber_beranda_user_s(p_latitude FLOAT, p_longitude FLOAT,p_user_id integer)
 		RETURNS TABLE(
 			barber_id integer, 			barber_cd varchar, 				barber_name varchar, 
 			address varchar, 			latitude float, 				longitude float,
@@ -101,6 +101,7 @@ func autoMigrate() {
 						from barber b 
 						left join barber_favorit a
 							on a.barber_id = b.barber_id 
+							and a.user_id = p_user_id
 						left join sa_file_upload c
 								on b.file_id = c.file_id 
 			;

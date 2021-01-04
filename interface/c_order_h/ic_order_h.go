@@ -8,11 +8,11 @@ import (
 
 type Repository interface {
 	GetDataBy(ID int, GeoUser models.GeoBarber) (result models.OrderDGet, err error)
-	GetList(queryparam models.ParamListGeo) (result []*models.OrderList, err error)
+	GetList(UserID int, queryparam models.ParamListGeo) (result []*models.OrderList, err error)
 	Create(data *models.OrderH) (err error)
 	Update(ID int, data interface{}) (err error)
 	Delete(ID int) (err error)
-	Count(queryparam models.ParamListGeo) (result int, err error)
+	Count(UserID int, queryparam models.ParamListGeo) (result int, err error)
 }
 
 type Usecase interface {

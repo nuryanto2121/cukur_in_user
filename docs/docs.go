@@ -1054,9 +1054,23 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "OS Device",
+                        "description": "Version Device",
                         "name": "Version",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Latitude",
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Longitude",
+                        "name": "longitude",
+                        "in": "query",
                         "required": true
                     },
                     {
@@ -1089,12 +1103,6 @@ var doc = `{
                         "type": "string",
                         "description": "SortField",
                         "name": "sortfield",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "ParamView",
-                        "name": "paramview",
                         "in": "query"
                     }
                 ],

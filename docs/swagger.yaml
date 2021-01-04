@@ -854,11 +854,21 @@ paths:
         name: OS
         required: true
         type: string
-      - description: OS Device
+      - description: Version Device
         in: header
         name: Version
         required: true
         type: string
+      - description: Latitude
+        in: query
+        name: latitude
+        required: true
+        type: number
+      - description: Longitude
+        in: query
+        name: longitude
+        required: true
+        type: number
       - description: Page
         in: query
         name: page
@@ -880,10 +890,6 @@ paths:
       - description: SortField
         in: query
         name: sortfield
-        type: string
-      - description: ParamView
-        in: query
-        name: paramview
         type: string
       produces:
       - application/json

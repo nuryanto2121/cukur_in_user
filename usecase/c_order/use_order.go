@@ -80,12 +80,13 @@ func (u *useOrder) GetList(ctx context.Context, Claims util.Claims, queryparam m
 	}
 
 	queryparam.InitSearch = fmt.Sprintf("user_id = %s", Claims.UserID)
-	result.Data, err = u.repoOrderH.GetList(queryparam)
+	UserID, _ := strconv.Atoi(Claims.UserID)
+	result.Data, err = u.repoOrderH.GetList(UserID, queryparam)
 	if err != nil {
 		return result, err
 	}
 
-	result.Total, err = u.repoOrderH.Count(queryparam)
+	result.Total, err = u.repoOrderH.Count(UserID, queryparam)
 	if err != nil {
 		return result, err
 	}

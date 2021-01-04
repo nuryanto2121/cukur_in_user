@@ -19,11 +19,11 @@ type Barber struct {
 type BarbersList struct {
 	BarberID       int       `json:"barber_id"`
 	BarberCd       string    `json:"barber_cd"`
-	BarberName     string    `json:"barber_name" valid:"Required"`
-	Address        string    `json:"address" valid:"Required"`
-	OperationStart time.Time `json:"operation_start" valid:"Required"`
-	OperationEnd   time.Time `json:"operation_end" valid:"Required"`
-	IsActive       bool      `json:"is_active" valid:"Required"`
+	BarberName     string    `json:"barber_name"`
+	Address        string    `json:"address"`
+	OperationStart time.Time `json:"operation_start"`
+	OperationEnd   time.Time `json:"operation_end"`
+	IsActive       bool      `json:"is_active"`
 	IsFavorit      bool      `json:"is_favorit"`
 	Distance       float32   `json:"distance"`
 	BarberRating   float32   `json:"barber_rating"`

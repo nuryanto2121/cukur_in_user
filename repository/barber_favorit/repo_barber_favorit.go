@@ -35,7 +35,7 @@ func (db *repoBarberFavorit) GetDataBy(BarberId int, UserID int) (result *models
 	}
 	return data, nil
 }
-func (db *repoBarberFavorit) GetList(queryparam models.ParamList) (result []*models.BarberFavoritList, err error) {
+func (db *repoBarberFavorit) GetList(queryparam models.ParamListGeo) (result []*models.BarberFavoritList, err error) {
 	var (
 		pageNum  = 0
 		pageSize = setting.FileConfigSetting.App.PageSize
@@ -63,6 +63,18 @@ func (db *repoBarberFavorit) GetList(queryparam models.ParamList) (result []*mod
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
+	sField := fmt.Sprintf(`
+		b.barber_id,b.barber_cd,b.barber_name,
+		b.address,b.latitude,b.longitude,
+		b.operation_start,b.operation_end,
+		b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,true as is_favorit,
+		fn_distance(%f,%f,b.latitude,b.longitude) as distance,
+		(
+			select (sum(fr.barber_rating)/count(fr.order_id))::float
+			from feedback_rating fr 
+			where fr.barber_id = b.barber_id 
+		)::float as barber_rating
+	`, queryparam.Latitude, queryparam.Longitude)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -70,12 +82,7 @@ func (db *repoBarberFavorit) GetList(queryparam models.ParamList) (result []*mod
 		} else {
 			sWhere += "lower(b.barber_name) LIKE ?" //queryparam.Search
 		}
-		query = db.Conn.Table("barber b ").Select(`
-		b.barber_id,b.barber_cd,b.barber_name,
-		b.address,b.latitude,b.longitude,
-		b.operation_start,b.operation_end,
-		b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,true as is_favorit
-		`).Joins(`
+		query = db.Conn.Table("barber b ").Select(sField).Joins(`
 		join barber_favorit a
 			on a.barber_id = b.barber_id 
 		`).Joins(`
@@ -83,12 +90,7 @@ func (db *repoBarberFavorit) GetList(queryparam models.ParamList) (result []*mod
 			on b.file_id = c.file_id 
 	`).Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	} else {
-		query = db.Conn.Table("barber b ").Select(`
-		b.barber_id,b.barber_cd,b.barber_name,
-		b.address,b.latitude,b.longitude,
-		b.operation_start,b.operation_end,
-		b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,true as is_favorit
-		`).Joins(`
+		query = db.Conn.Table("barber b ").Select(sField).Joins(`
 		join barber_favorit a
 			on a.barber_id = b.barber_id 
 		`).Joins(`
@@ -148,7 +150,7 @@ func (db *repoBarberFavorit) Delete(BarberId int, UserID int) error {
 	}
 	return nil
 }
-func (db *repoBarberFavorit) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoBarberFavorit) Count(queryparam models.ParamListGeo) (result int, err error) {
 	var (
 		sWhere = ""
 		logger = logging.Logger{}

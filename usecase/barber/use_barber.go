@@ -48,7 +48,8 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 	queryparam.Latitude = GeoBarber.Latitude
 	queryparam.Longitude = GeoBarber.Longitude
 
-	result, err := u.repoBarber.GetDataByList(ID, GeoBarber)
+	UserID, _ := strconv.Atoi(Claims.UserID)
+	result, err := u.repoBarber.GetDataByList(ID, UserID, GeoBarber)
 	if err != nil {
 		return result, err
 	}
@@ -142,12 +143,13 @@ func (u *useBarber) GetList(ctx context.Context, Claims util.Claims, queryparam 
 	} else {
 		queryparam.InitSearch = fmt.Sprintf("distance <= 10")
 	}
-	result.Data, err = u.repoBarber.GetList(queryparam)
+	ID, _ := strconv.Atoi(Claims.UserID)
+	result.Data, err = u.repoBarber.GetList(ID, queryparam)
 	if err != nil {
 		return result, err
 	}
 
-	result.Total, err = u.repoBarber.Count(queryparam)
+	result.Total, err = u.repoBarber.Count(ID, queryparam)
 	if err != nil {
 		return result, err
 	}

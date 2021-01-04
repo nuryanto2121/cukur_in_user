@@ -87,7 +87,7 @@ func (e *EchoRoutes) InitialRouter() {
 	useBarber := _useBarber.NewUserMBarber(repoBarber, repoBarberPaket, repoBarberCapster, repoFile, timeoutContext)
 	_saBarbercont.NewContBarber(e.E, useBarber)
 
-	useBerandaUser := _useBerandaUser.NewUseBerandaUser(useBarber, repoFile, repoBarberCapster, timeoutContext)
+	useBerandaUser := _useBerandaUser.NewUseBerandaUser(useBarber, repoFile, repoBarberCapster, repoBarber, timeoutContext)
 	_BerandaUsercont.NewContBerandaUser(e.E, useBerandaUser)
 
 	repoCapster := _repoCapster.NewRepoCapsterCollection(postgresdb.Conn)

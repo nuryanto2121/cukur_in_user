@@ -35,15 +35,15 @@ func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
 	return mBarber, nil
 }
 
-func (db *repoBarber) GetDataByList(ID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
+func (db *repoBarber) GetDataByList(ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
 	var (
 		logger  = logging.Logger{}
 		mBarber = &models.BarbersList{}
 	)
 	sSql := fmt.Sprintf(`
-		SELECT * FROM fbarber_beranda_user_s(%f,%f)
+		SELECT * FROM fbarber_beranda_user_s(%f,%f,%d)
 		WHERE barber_id = ?
-	`, GeoBarber.Latitude, GeoBarber.Longitude)
+	`, GeoBarber.Latitude, GeoBarber.Longitude, UserID)
 
 	// query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
 	query := db.Conn.Raw(sSql, ID).First(&mBarber)
@@ -114,7 +114,7 @@ func (db *repoBarber) GetDataBarber(BarberID int) (result *models.Barber, err er
 	}
 	return mBarber, nil
 }
-func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.BarbersList, err error) {
+func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (result []*models.BarbersList, err error) {
 
 	var (
 		pageNum  = 0
@@ -143,9 +143,46 @@ func (db *repoBarber) GetList(queryparam models.ParamListGeo) (result []*models.
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
-	sSql := fmt.Sprintf(`
-		SELECT * FROM fbarber_beranda_user_s(%f,%f)
-	`, queryparam.Latitude, queryparam.Longitude)
+	/*sSql := fmt.Sprintf(`
+		SELECT
+			barber_id,	barber_cd,			barber_name,
+			address,	operation_start,	operation_end,
+			is_active,	is_favorit,			distance,
+			barber_rating,	is_barber_open,	total_user_order,
+			file_id,	file_name,	file_path,	file_type,
+			latitude,	longitude
+		FROM fbarber_beranda_user_s(%f,%f)
+	`, queryparam.Latitude, queryparam.Longitude)*/
+
+	sSql := fmt.Sprintf(` select * from (
+		select
+								b.barber_id,b.barber_cd,b.barber_name,
+								b.address,b.latitude,b.longitude,
+								(now()::date + b.operation_start::time) as operation_start, (now()::date + b.operation_end ::time) as operation_end,
+								b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,
+								case when a.barber_id  is not null then true else false end as is_favorit,
+								fn_distance(%f,%f,b.latitude,b.longitude) as distance,
+								coalesce ((
+									select (sum(fr.barber_rating)/count(fr.order_id))::float
+									from feedback_rating fr 
+									where fr.barber_id = b.barber_id 
+								),0)::float as barber_rating,
+								(
+									case when now() between (now()::date + b.operation_start::time) and (now()::date + b.operation_end ::time) then 1 else 0 end
+								)::boolean as is_barber_open,								
+								(
+									select count(fr.user_id)
+									from feedback_rating fr 
+									where fr.barber_id = b.barber_id 
+								)::integer as total_user_order
+						from barber b 
+						left join barber_favorit a
+							on a.barber_id = b.barber_id 
+							and a.user_id = %d
+						left join sa_file_upload c
+								on b.file_id = c.file_id 
+						) a
+	`, queryparam.Latitude, queryparam.Longitude, UserID)
 
 	if queryparam.Search != "" {
 		if sWhere != "" {
@@ -215,7 +252,7 @@ func (db *repoBarber) Delete(ID int) error {
 	}
 	return nil
 }
-func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err error) {
+func (db *repoBarber) Count(UserID int, queryparam models.ParamListGeo) (result int, err error) {
 
 	type Results struct {
 		Cnt int `json:"cnt"`
@@ -233,9 +270,36 @@ func (db *repoBarber) Count(queryparam models.ParamListGeo) (result int, err err
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
-	sSql := fmt.Sprintf(`
-	SELECT count(*) as cnt FROM fbarber_beranda_user_s(%f,%f)
-`, queryparam.Latitude, queryparam.Longitude)
+	sSql := fmt.Sprintf(` select count(*) as cnt from (
+		select
+								b.barber_id,b.barber_cd,b.barber_name,
+								b.address,b.latitude,b.longitude,
+								(now()::date + b.operation_start::time) as operation_start, (now()::date + b.operation_end ::time) as operation_end,
+								b.is_active,c.file_id ,c.file_name ,c.file_path ,c.file_type,
+								case when a.barber_id  is not null then true else false end as is_favorit,
+								fn_distance(%f,%f,b.latitude,b.longitude) as distance,
+								(
+									select (sum(fr.barber_rating)/count(fr.order_id))::float
+									from feedback_rating fr 
+									where fr.barber_id = b.barber_id 
+								)::float as barber_rating,
+								(
+									case when now() between (now()::date + b.operation_start::time) and (now()::date + b.operation_end ::time) then 1 else 0 end
+								)::boolean as is_barber_open,								
+								(
+									select count(fr.user_id)
+									from feedback_rating fr 
+									where fr.barber_id = b.barber_id 
+								)::integer as total_user_order
+						from barber b 
+						left join barber_favorit a
+							on a.barber_id = b.barber_id 
+							and a.user_id = %d
+						left join sa_file_upload c
+								on b.file_id = c.file_id 
+						) a
+	`, queryparam.Latitude, queryparam.Longitude, UserID)
+
 	if queryparam.Search != "" {
 		if sWhere != "" {
 			sWhere += " and lower(barber_name) LIKE ?" //+ queryparam.Search

@@ -55,7 +55,7 @@ func (u *useBarberFavorit) Create(ctx context.Context, Claims util.Claims, data 
 
 	return nil
 }
-func (u *useBarberFavorit) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamList) (result models.ResponseModelList, err error) {
+func (u *useBarberFavorit) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
@@ -66,9 +66,9 @@ func (u *useBarberFavorit) GetList(ctx context.Context, Claims util.Claims, quer
 	}
 
 	if queryparam.InitSearch != "" {
-		queryparam.InitSearch += " AND a.user_id = " + Claims.UserID
+		queryparam.InitSearch += fmt.Sprintf(" AND a.user_id = %s", Claims.UserID)
 	} else {
-		queryparam.InitSearch = " a.user_id = " + Claims.UserID
+		queryparam.InitSearch = fmt.Sprintf(" a.user_id = %s ", Claims.UserID)
 	}
 	result.Data, err = u.repoBarberFavorit.GetList(queryparam)
 	if err != nil {
