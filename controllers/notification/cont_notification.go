@@ -113,6 +113,8 @@ func (u *contNotification) Beranda(e echo.Context) error {
 // @Produce  json
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
+// @Param latitude query number true "Latitude"
+// @Param longitude query number true "Longitude"
 // @Param page query int true "Page"
 // @Param perpage query int true "PerPage"
 // @Param search query string false "Search"
@@ -128,8 +130,8 @@ func (u *contNotification) GetList(e echo.Context) error {
 
 	var (
 		// logger = logging.Logger{}
-		appE         = tool.Res{R: e}     // wajib
-		paramquery   = models.ParamList{} // ini untuk list
+		appE         = tool.Res{R: e}        // wajib
+		paramquery   = models.ParamListGeo{} // ini untuk list
 		responseList = models.ResponseModelList{}
 		err          error
 	)

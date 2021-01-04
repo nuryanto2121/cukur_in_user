@@ -35,7 +35,7 @@ func (db *repoNotification) GetDataBy(ID int) (result *models.Notification, err 
 	return mNotification, nil
 }
 
-func (db *repoNotification) GetList(queryparam models.ParamList) (result []*models.Notification, err error) {
+func (db *repoNotification) GetList(UserID int, queryparam models.ParamListGeo) (result []*models.NotificationList, err error) {
 
 	var (
 		pageNum  = 0
@@ -65,15 +65,41 @@ func (db *repoNotification) GetList(queryparam models.ParamList) (result []*mode
 		sWhere = queryparam.InitSearch
 	}
 
+	sSql := fmt.Sprintf(`
+	select * from (
+		select 	
+			n.notification_id ,		n.notification_date ,
+			n.notification_status, 	n.notification_type ,
+			n.user_id, 				n.title ,
+			n.descs , 				n.link_id,
+			x.barber_id,			x.barber_name,
+			x.order_id,				x.order_no,
+			x.status,				x.order_date,
+			x.price,				x.distance,
+			x.barber_rating
+		from notification n left join
+		(SELECT oh.order_id ,oh.order_no ,oh.order_date ,a.barber_id,a.barber_name,a.distance,a.barber_rating,
+		   (select sum(order_d.price ) from order_d where order_d.order_id = oh.order_id ) as price ,
+		   oh.user_id ,oh.status 
+		   FROM order_h oh join fbarber_beranda_user_s(%f,%f,%d) a 
+		   on oh.barber_id = a.barber_id) x
+	   on n.link_id = x.order_id) z
+	
+	`, queryparam.Latitude, queryparam.Longitude, UserID)
+
 	if queryparam.Search != "" {
 		if sWhere != "" {
 			sWhere += " and (lower(notification_status) LIKE ?)"
 		} else {
 			sWhere += "(lower(notification_status) LIKE ?)"
 		}
-		query = db.Conn.Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// query = db.Conn.Where(sWhere, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	} else {
-		query = db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// query = db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
@@ -129,7 +155,7 @@ func (db *repoNotification) Delete(ID int) error {
 	return nil
 }
 
-func (db *repoNotification) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoNotification) Count(UserID int, queryparam models.ParamListGeo) (result int, err error) {
 	var (
 		sWhere = ""
 		logger = logging.Logger{}

@@ -946,6 +946,16 @@ paths:
         name: Version
         required: true
         type: string
+      - description: Latitude
+        in: query
+        name: latitude
+        required: true
+        type: number
+      - description: Longitude
+        in: query
+        name: longitude
+        required: true
+        type: number
       - description: Page
         in: query
         name: page

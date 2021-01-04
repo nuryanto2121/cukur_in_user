@@ -39,12 +39,12 @@ func (u *useNotification) GetCountNotif(ctx context.Context, Claims util.Claims)
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 	var (
-		queryparam models.ParamList
+		queryparam models.ParamListGeo
 	)
 
 	queryparam.InitSearch = fmt.Sprintf(`notification_status = 'N' AND user_id = %s`, Claims.UserID)
-
-	Total, err := u.repoNotification.Count(queryparam)
+	UserID, _ := strconv.Atoi(Claims.UserID)
+	Total, err := u.repoNotification.Count(UserID, queryparam)
 	if err != nil {
 		return result, err
 	}
@@ -54,7 +54,7 @@ func (u *useNotification) GetCountNotif(ctx context.Context, Claims util.Claims)
 	}
 	return response, nil
 }
-func (u *useNotification) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamList) (result models.ResponseModelList, err error) {
+func (u *useNotification) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
@@ -62,13 +62,19 @@ func (u *useNotification) GetList(ctx context.Context, Claims util.Claims, query
 		queryparam.Search = strings.ToLower(fmt.Sprintf("%%%s%%", queryparam.Search))
 	}
 
-	queryparam.InitSearch = fmt.Sprintf(`user_id = %s`, Claims.UserID)
-	result.Data, err = u.repoNotification.GetList(queryparam)
+	if queryparam.InitSearch != "" {
+		queryparam.InitSearch += fmt.Sprintf(` AND user_id = %s`, Claims.UserID)
+	} else {
+		queryparam.InitSearch = fmt.Sprintf(`user_id = %s`, Claims.UserID)
+	}
+
+	UserID, _ := strconv.Atoi(Claims.UserID)
+	result.Data, err = u.repoNotification.GetList(UserID, queryparam)
 	if err != nil {
 		return result, err
 	}
 
-	result.Total, err = u.repoNotification.Count(queryparam)
+	result.Total, err = u.repoNotification.Count(UserID, queryparam)
 	if err != nil {
 		return result, err
 	}
@@ -84,7 +90,7 @@ func (u *useNotification) Create(ctx context.Context, Claims util.Claims, Token 
 	defer cancel()
 	var (
 		mNotification = models.Notification{}
-		queryParam    = models.ParamList{}
+		queryParam    = models.ParamListGeo{}
 		TokenFCM      []string
 	)
 
@@ -102,9 +108,11 @@ func (u *useNotification) Create(ctx context.Context, Claims util.Claims, Token 
 		return err
 	}
 	// send notif to user
+
+	UserID, _ := strconv.Atoi(Claims.UserID)
 	TokenFCM = []string{Token}
 	queryParam.InitSearch = fmt.Sprintf("user_id = %s and notification_status = 'N' ", strconv.Itoa(data.UserId))
-	cntNotif, err := u.repoNotification.Count(queryParam)
+	cntNotif, err := u.repoNotification.Count(UserID, queryParam)
 	if err != nil {
 		return err
 	}

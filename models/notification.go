@@ -21,6 +21,12 @@ type AddNotification struct {
 	LinkId             int       `json:"link_id" gorm:"type:integer"`
 }
 
+type NotificationList struct {
+	NotificationId int `json:"notification_id"`
+	AddNotification
+	OrderList
+}
+
 type StatusNotification struct {
 	NotificationStatus string `json:"notification_status" gorm:"type:varchar(1);not null"`
 }

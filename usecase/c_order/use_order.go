@@ -79,7 +79,12 @@ func (u *useOrder) GetList(ctx context.Context, Claims util.Claims, queryparam m
 		queryparam.Search = strings.ToLower(fmt.Sprintf("%%%s%%", queryparam.Search))
 	}
 
-	queryparam.InitSearch = fmt.Sprintf("user_id = %s", Claims.UserID)
+	if queryparam.InitSearch != "" {
+		queryparam.InitSearch += fmt.Sprintf(" AND user_id = %s", Claims.UserID)
+	} else {
+		queryparam.InitSearch = fmt.Sprintf("user_id = %s", Claims.UserID)
+	}
+
 	UserID, _ := strconv.Atoi(Claims.UserID)
 	result.Data, err = u.repoOrderH.GetList(UserID, queryparam)
 	if err != nil {
@@ -201,7 +206,7 @@ func (u *useOrder) Create(ctx context.Context, Claims util.Claims, data *models.
 	// AddNotif.Descs = dataUser.Name + " akan cukur pada :" + mOrder.OrderDate.Format("02/01/2006 15:04")
 	AddNotif.Descs = "Ada jadwal cukur pada :" + mOrder.OrderDate.Format("02/01/2006 15:04")
 	AddNotif.NotificationStatus = "N"
-	AddNotif.NotificationType = "O" // I = Info ; O = Order
+	AddNotif.NotificationType = "I" // I = Info ; O = Order
 	AddNotif.LinkId = mOrder.OrderID
 	AddNotif.NotificationDate = util.GetTimeNow()
 

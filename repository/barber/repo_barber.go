@@ -143,16 +143,6 @@ func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (resul
 	if queryparam.InitSearch != "" {
 		sWhere = queryparam.InitSearch
 	}
-	/*sSql := fmt.Sprintf(`
-		SELECT
-			barber_id,	barber_cd,			barber_name,
-			address,	operation_start,	operation_end,
-			is_active,	is_favorit,			distance,
-			barber_rating,	is_barber_open,	total_user_order,
-			file_id,	file_name,	file_path,	file_type,
-			latitude,	longitude
-		FROM fbarber_beranda_user_s(%f,%f)
-	`, queryparam.Latitude, queryparam.Longitude)*/
 
 	sSql := fmt.Sprintf(` select * from (
 		select
