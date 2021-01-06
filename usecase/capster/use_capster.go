@@ -70,6 +70,7 @@ func (u *useCapster) GetDataBy(ctx context.Context, Claims util.Claims, ID int, 
 		"barber_name":    dataCapster.BarberName,
 		"barber_rating":  dataCapster.BarberRating,
 		"distance":       dataCapster.Distance,
+		"length_of_work": dataCapster.LengthOfWork,
 	}
 
 	return response, nil

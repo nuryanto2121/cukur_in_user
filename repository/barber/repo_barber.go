@@ -6,6 +6,7 @@ import (
 	"nuryanto2121/cukur_in_user/models"
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -201,6 +202,46 @@ func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (resul
 		return nil, err
 	}
 	return result, nil
+}
+func (db *repoBarber) GetScheduleTime(BarberID int) (result interface{}, err error) {
+	type Results struct {
+		ScheduleTime time.Time `json:"schedule_time"`
+	}
+
+	var (
+		logger = logging.Logger{}
+		op     = []*Results{}
+		query  *gorm.DB
+	)
+	result = 0
+
+	sSql := fmt.Sprintf(` SELECT h.schedule_time
+	FROM   (select
+				generate_series (b2.operation_start::timestamp 
+						  , b2.operation_end::timestamp 
+						  , interval '30m') as schedule_time,
+				   b2.operation_start ,
+				   b2.operation_end 
+			 from barber b2 
+			 where b2.barber_id = %d
+			)h
+	WHERE  EXTRACT(ISODOW FROM h.schedule_time) < 6
+	AND   now()::time >= h.operation_start::time 
+	AND   now()::time <= h.operation_end::time ;
+	`, BarberID)
+
+	// sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+	query = db.Conn.Raw(sSql).Find(&op)
+
+	// end where
+
+	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	err = query.Error
+	if err != nil {
+		return 0, err
+	}
+
+	return op, nil
 }
 func (db *repoBarber) Create(data *models.Barber) error {
 	var (

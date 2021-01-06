@@ -116,7 +116,8 @@ func autoMigrate() {
 			file_id integer, 		file_name varchar, 		file_path varchar, 			file_type varchar,
 			barber_id integer, 		barber_name varchar, 	distance float,
 			capster_rating float,  	is_barber_open bool,	operation_start timestamp, 	operation_end timestamp,
-			is_barber_active bool,	join_date timestamp,	barber_rating float, 		is_busy bool
+			is_barber_active bool,	join_date timestamp,	barber_rating float, 		is_busy bool,
+			length_of_work varchar
 		)
 		LANGUAGE plpgsql
 		AS $function$
@@ -150,7 +151,16 @@ func autoMigrate() {
 								where oh.capster_id = a.user_id 
 								and oh.order_date::date = now()::date
 								and oh.status = 'P') = 0 then false else true end
-							) as is_busy
+							) as is_busy,
+							( 	
+								case when extract(year from age(now(),a.join_date)) > 0 
+									then TO_CHAR(age(current_date, a.join_date), 'YY "Tahun""')::varchar
+								when extract(month from age(now(),a.join_date)) > 0
+									then TO_CHAR(age(current_date, a.join_date), 'mm "Bulan"')::varchar
+								else 
+									TO_CHAR(age(current_date, a.join_date), 'DD "Hari"')::varchar
+								end 
+							)::varchar as length_of_work
 						from ss_user a
 						inner join barber_capster ab
 								ON ab.capster_id = a.user_id	
@@ -162,6 +172,7 @@ func autoMigrate() {
 						
 			END;
 			$function$
+			
 		;
 
 

@@ -57,5 +57,6 @@ type CapsterList struct {
 	IsBarberActive bool      `json:"is_barber_active" gorm:"type:boolean"`
 	OperationStart time.Time `json:"operation_start"`
 	OperationEnd   time.Time `json:"operation_end"`
+	LengthOfWork   string    `json:"length_of_work"`
 	SaFileOutput
 }

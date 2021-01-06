@@ -49,6 +49,10 @@ func (u *useAuht) Login(ctx context.Context, dataLogin *models.LoginForm) (outpu
 		return nil, errors.New("Email anda belum terdaftar.")
 	}
 
+	if DataUser.UserType != "user" {
+		return nil, errors.New("Email anda belum terdaftar.")
+	}
+
 	if !DataUser.IsActive {
 		return nil, errors.New("Account anda belum aktif. Silahkan Register ulang dengan email yang sama.")
 	}

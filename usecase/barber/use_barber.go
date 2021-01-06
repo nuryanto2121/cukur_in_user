@@ -71,6 +71,12 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 	if err != nil {
 		return result, err
 	}
+
+	dataSchedule, err := u.repoBarber.GetScheduleTime(result.BarberID)
+	if err != nil {
+		return result, err
+	}
+
 	response := map[string]interface{}{
 		"barber_id":        result.BarberID,
 		"barber_cd":        result.BarberCd,
@@ -91,6 +97,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 		"file_path":        dataFile.FilePath,
 		"barber_paket":     dataBPaket,
 		"barber_capster":   dataBCapster,
+		"schedule_time":    dataSchedule,
 	}
 
 	return response, nil
