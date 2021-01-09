@@ -2175,6 +2175,9 @@ var doc = `{
                 "account": {
                     "type": "string"
                 },
+                "birth_of_date": {
+                    "type": "string"
+                },
                 "confirm_pwd": {
                     "type": "string"
                 },

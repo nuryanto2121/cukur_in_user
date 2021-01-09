@@ -10,13 +10,13 @@
         "_comment": "debug or release"
     },
     "smtp":{
-        "server":"smtp.gmail.com",
+        "server":"cukur-in.com",
         "port":587,
-        "user":"adm.accleog@gmail.com",
-        "passwd":"!@#$%12345",
-        "Identity":"Cukur_In",
-        "sender":"nuryanto@gmail.com"
-    },
+        "user":"noreply@cukur-in.com",
+        "passwd":"noreply123!@",
+        "Identity":"cukur-in",
+        "sender":"cukur-in@cukur-in.com"
+    },    
     "app": {
         "jwt_secret": "don'tPanic",
         "page_size": 10,

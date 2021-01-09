@@ -222,6 +222,7 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 	User.Name = dataRegister.Name
 	User.Password, _ = util.Hash(dataRegister.Passwd)
 	User.JoinDate = time.Now()
+	User.BirthOfDate = dataRegister.BirthOfDate
 	User.UserType = "user"
 	User.IsActive = false
 	User.Email = dataRegister.Account
@@ -265,11 +266,11 @@ func (u *useAuht) Register(ctx context.Context, dataRegister models.RegisterForm
 		PasswordCd: GenCode,
 	}
 
-	go mailService.SendRegister()
-	// err = mailService.SendRegister()
-	// if err != nil {
-	// 	return output, err
-	// }
+	//	go mailService.SendRegister()
+	err = mailService.SendRegister()
+	if err != nil {
+		return output, err
+	}
 	if CekData.UserID > 0 {
 		redisdb.TurncateList(dataRegister.Account + "_Register")
 	}

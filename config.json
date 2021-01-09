@@ -10,11 +10,19 @@
         "_comment": "debug or release"
     },
     "smtp":{
+        "server":"cukur-in.com",
+        "port":587,
+        "user":"noreply@cukur-in.com",
+        "passwd":"noreply123!@",
+        "Identity":"cukur-In",
+        "sender":"cukur-in@cukur-in.com"
+    },
+    "smtpOld":{
         "server":"smtp.gmail.com",
         "port":587,
         "user":"adm.accleog@gmail.com",
         "passwd":"!@#$%12345",
-        "Identity":"cukur-In",
+        "Identity":"Cukur_In",
         "sender":"nuryanto@gmail.com"
     },
     "app": {

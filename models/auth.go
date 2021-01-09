@@ -14,8 +14,8 @@ type LoginForm struct {
 
 // RegisterForm :
 type RegisterForm struct {
-	Name string `json:"name" valid:"Required"`
-	// UserType string `json:"user_type" valid:"Required"`
+	Name        string    `json:"name" valid:"Required"`
+	BirthOfDate time.Time `json:"birth_of_date"`
 	ResetPasswd
 }
 

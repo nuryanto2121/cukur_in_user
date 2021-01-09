@@ -153,13 +153,12 @@ func autoMigrate() {
 								and oh.status = 'P') = 0 then false else true end
 							) as is_busy,
 							( 	
-								case when extract(year from age(now(),a.join_date)) > 0 
-									then TO_CHAR(age(current_date, a.join_date), 'YY "Tahun""')::varchar
-								when extract(month from age(now(),a.join_date)) > 0
-									then TO_CHAR(age(current_date, a.join_date), 'mm "Bulan"')::varchar
-								else 
-									TO_CHAR(age(current_date, a.join_date), 'DD "Hari"')::varchar
-								end 
+								case when extract(year from age(current_date,a.join_date)) > 0 
+							 		then (TO_CHAR(age(current_date, a.join_date), 'YY')::integer)::varchar ||' Tahun'
+							 	when extract(month from age(current_date,a.join_date)) > 0
+							 		then (TO_CHAR(age(current_date, a.join_date), 'mm')::integer)::varchar ||' Bulan'
+							 	else (TO_CHAR(age(current_date, a.join_date), 'DD')::integer)::varchar ||' Hari'
+							  	end 
 							)::varchar as length_of_work
 						from ss_user a
 						inner join barber_capster ab
@@ -179,11 +178,13 @@ func autoMigrate() {
 	`)
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
+		models.SsUser{},
 		version.SsVersion{},
 		models.BarberFavorit{},
 		models.FeedbackRating{},
 		models.BookingCapster{},
 		models.Notification{},
+		models.Advertis{},
 	)
 
 	log.Println("FINISHING AUTO MIGRATE ")
