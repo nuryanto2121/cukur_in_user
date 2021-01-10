@@ -49,6 +49,10 @@ import (
 	_repoNotification "nuryanto2121/cukur_in_user/repository/notification"
 	_useNotification "nuryanto2121/cukur_in_user/usecase/notification"
 
+	_contAdvertis "nuryanto2121/cukur_in_user/controllers/advertis"
+	_repoAdvertis "nuryanto2121/cukur_in_user/repository/advertis"
+	_useAdvertis "nuryanto2121/cukur_in_user/usecase/advertis"
+
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -65,6 +69,10 @@ func (e *EchoRoutes) InitialRouter() {
 	repoFile := _repoFile.NewRepoFileUpload(postgresdb.Conn)
 	useFile := _useFile.NewSaFileUpload(repoFile, timeoutContext)
 	_saFilecont.NewContFileUpload(e.E, useFile)
+
+	repoAdvertis := _repoAdvertis.NewRepoAdvertis(postgresdb.Conn)
+	useAdvertis := _useAdvertis.NewUseAdvertis(repoAdvertis, repoFile, timeoutContext)
+	_contAdvertis.NewContAdvertis(e.E, useAdvertis)
 
 	repoUser := _repoUser.NewRepoSysUser(postgresdb.Conn)
 	useUser := _useUser.NewUserSysUser(repoUser, repoFile, timeoutContext)

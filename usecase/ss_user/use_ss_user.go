@@ -12,6 +12,8 @@ import (
 	"reflect"
 	"strconv"
 	"time"
+
+	"github.com/fatih/structs"
 )
 
 type useSysUser struct {
@@ -74,24 +76,25 @@ func (u *useSysUser) GetDataBy(ctx context.Context, Claims util.Claims, ID int) 
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
-	DataOwner, err := u.repoUser.GetDataBy(ID)
+	DataUser, err := u.repoUser.GetDataBy(ID)
 	if err != nil {
 		return result, err
 	}
-	DataFile, err := u.repoFile.GetBySaFileUpload(ctx, DataOwner.FileID)
+	DataFile, err := u.repoFile.GetBySaFileUpload(ctx, DataUser.FileID)
 	if err != nil {
 		if err != models.ErrNotFound {
 			return result, err
 		}
 	}
 	response := map[string]interface{}{
-		"owner_id":   DataOwner.UserID,
-		"owner_name": DataOwner.Name,
-		"email":      DataOwner.Email,
-		"telp":       DataOwner.Telp,
-		"file_id":    DataOwner.FileID,
-		"file_name":  DataFile.FileName,
-		"file_path":  DataFile.FilePath,
+		"user_id":       DataUser.UserID,
+		"user_name":     DataUser.Name,
+		"birth_of_date": DataUser.BirthOfDate,
+		"email":         DataUser.Email,
+		"telp":          DataUser.Telp,
+		"file_id":       DataUser.FileID,
+		"file_name":     DataFile.FileName,
+		"file_path":     DataFile.FilePath,
 	}
 	return response, nil
 }
@@ -137,25 +140,13 @@ func (u *useSysUser) Update(ctx context.Context, Claims util.Claims, ID int, dat
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
 
-	// DataOwner, err := u.repoUser.GetDataBy(ID)
-	// if err != nil {
-	// 	return err
-	// }
-	// DataOwner.FileID = data.FileID
-	// DataOwner.Name = data.Name
-	// DataOwner.Telp = data.Telp
-	// DataOwner.Email = data.Email
-	// DataOwner.UserEdit = Claims.UserID
 	dataUser, err := u.repoUser.GetByAccount(data.Email)
 	if dataUser.UserID != ID {
 		return errors.New("Email sudah terdaftar.")
 	}
-	var datas = map[string]interface{}{
-		"name":    data.Name,
-		"telp":    data.Telp,
-		"email":   data.Email,
-		"file_id": data.FileID,
-	}
+
+	datas := structs.Map(data)
+	datas["user_edit"] = Claims.UserID
 	err = u.repoUser.Update(ID, datas)
 	if err != nil {
 		return err

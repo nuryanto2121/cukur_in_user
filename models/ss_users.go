@@ -28,10 +28,11 @@ type AddUser struct {
 }
 
 type UpdateUser struct {
-	Email  string `json:"email" valid:"Required"`
-	Telp   string `json:"telp"`
-	Name   string `json:"owner_name" valid:"Required"`
-	FileID int    `json:"file_id,omitempty"`
+	Email       string    `json:"email" valid:"Required"`
+	Telp        string    `json:"telp"`
+	Name        string    `json:"owner_name" valid:"Required"`
+	BirthOfDate time.Time `json:"birth_of_date"`
+	FileID      int       `json:"file_id,omitempty"`
 }
 
 type LoginCapster struct {
