@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	iadvertis "nuryanto2121/cukur_in_user/interface/advertis"
 	ibarber "nuryanto2121/cukur_in_user/interface/barber"
 	ibarbercapster "nuryanto2121/cukur_in_user/interface/barber_capster"
 	iberandauser "nuryanto2121/cukur_in_user/interface/beranda_user"
@@ -20,15 +21,17 @@ type useBerandaUser struct {
 	repoFile          ifileupload.Repository
 	repoBarberCapster ibarbercapster.Repository
 	repoBarber        ibarber.Repository
+	useAdvertis       iadvertis.Usecase
 	contextTimeOut    time.Duration
 }
 
-func NewUseBerandaUser(a ibarber.Usecase, b ifileupload.Repository, c ibarbercapster.Repository, d ibarber.Repository, timeout time.Duration) iberandauser.Usecase {
+func NewUseBerandaUser(a ibarber.Usecase, b ifileupload.Repository, c ibarbercapster.Repository, d ibarber.Repository, e iadvertis.Usecase, timeout time.Duration) iberandauser.Usecase {
 	return &useBerandaUser{
 		useBarber:         a,
 		repoFile:          b,
 		repoBarberCapster: c,
 		repoBarber:        d,
+		useAdvertis:       e,
 		contextTimeOut:    timeout,
 	}
 }
@@ -110,6 +113,22 @@ func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Clai
 	queryparam.SortField = "barber_rating,distance"
 	queryparam.InitSearch = "is_active = true and is_barber_open = true"
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
+}
+
+func (u *useBerandaUser) GetAdvertisBarber(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+	var (
+		queryparamx models.ParamList
+	)
+	queryparamx.PerPage = 5
+	queryparamx.SortField = "advertis_id"
+	result, err = u.useAdvertis.GetList(ctx, Claims, queryparamx)
 	if err != nil {
 		return result, err
 	}
