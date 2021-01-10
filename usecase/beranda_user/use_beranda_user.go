@@ -111,8 +111,8 @@ func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Clai
 
 	queryparam.PerPage = 5
 	queryparam.SortField = "barber_rating,distance"
-	queryparam.InitSearch = "is_active = true and now()::time >= b.operation_start::time  and now()::time <= b.operation_end::time" // (now()::time between b.operation_start::time and b.operation_end::time )"
-	// queryparam.InitSearch = "is_active = true and is_barber_open = true"
+	// queryparam.InitSearch = "is_active = true and now()::time >= b.operation_start::time  and now()::time <= b.operation_end::time" // (now()::time between b.operation_start::time and b.operation_end::time )"
+	queryparam.InitSearch = "is_active = true and is_barber_open = true"
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)
 	if err != nil {
 		return result, err
