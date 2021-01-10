@@ -147,8 +147,10 @@ func (u *useBarber) GetList(ctx context.Context, Claims util.Claims, queryparam 
 
 	if queryparam.InitSearch != "" {
 		queryparam.InitSearch += fmt.Sprintf(" AND distance <= 10")
+		// queryparam.InitSearch += fmt.Sprintf(" AND fn_distance(%f,%f,b.latitude,b.longitude) <= 10", queryparam.Latitude, queryparam.Longitude)
 	} else {
 		queryparam.InitSearch = fmt.Sprintf("distance <= 10")
+		// queryparam.InitSearch = fmt.Sprintf("fn_distance(%f,%f,b.latitude,b.longitude) <= 10", queryparam.Latitude, queryparam.Longitude)
 	}
 	ID, _ := strconv.Atoi(Claims.UserID)
 	result.Data, err = u.repoBarber.GetList(ID, queryparam)

@@ -110,14 +110,14 @@ func autoMigrate() {
 			$function$
 		;
 
-		CREATE OR replace FUNCTION public.fbarber_capster_s(p_latitude FLOAT, p_longitude FLOAT)
+		CREATE OR replace  FUNCTION public.fbarber_capster_s(p_latitude FLOAT, p_longitude FLOAT)
 		RETURNS TABLE(
 			capster_id integer, 	capster_name varchar, 			is_active bool, 
 			file_id integer, 		file_name varchar, 		file_path varchar, 			file_type varchar,
 			barber_id integer, 		barber_name varchar, 	distance float,
 			capster_rating float,  	is_barber_open bool,	operation_start timestamp, 	operation_end timestamp,
 			is_barber_active bool,	join_date timestamp,	barber_rating float, 		is_busy bool,
-			length_of_work varchar
+			length_of_work varchar,	latitude float8,		longitude float8
 		)
 		LANGUAGE plpgsql
 		AS $function$
@@ -159,7 +159,8 @@ func autoMigrate() {
 							 		then (TO_CHAR(age(current_date, a.join_date), 'mm')::integer)::varchar ||' Bulan'
 							 	else (TO_CHAR(age(current_date, a.join_date), 'DD')::integer)::varchar ||' Hari'
 							  	end 
-							)::varchar as length_of_work
+							)::varchar as length_of_work,
+							b.latitude ,b.longitude 
 						from ss_user a
 						inner join barber_capster ab
 								ON ab.capster_id = a.user_id	

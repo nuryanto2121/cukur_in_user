@@ -43,6 +43,8 @@ type OrderDGet struct {
 	OrderDate     time.Time `json:"order_date"`
 	BarberID      int       `json:"barber_id"`
 	BarberName    string    `json:"barber_name"`
+	Latitude      float64   `json:"latitude"`
+	Longitude     float64   `json:"longitude"`
 	Distance      float32   `json:"distance"`
 	BarberRating  float32   `json:"barber_rating"`
 	CapsterID     int       `json:"capster_id"`

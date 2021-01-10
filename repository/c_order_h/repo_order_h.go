@@ -35,7 +35,8 @@ func (db *repoOrderH) GetDataBy(ID int, GeoUser models.GeoBarber) (result models
 			oh.from_apps,		(
 				select sum(od.price) from order_d od 
 				where od.order_id =oh.order_id 
-			) as total_price
+			) as total_price,
+			a.latitude,			a.longitude
 			from fbarber_capster_s(%f,%f) a
 			join order_h oh on oh.barber_id = a.barber_id
 			and oh.capster_id = a.capster_id
