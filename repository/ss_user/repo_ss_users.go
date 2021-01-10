@@ -20,7 +20,7 @@ func NewRepoSysUser(Conn *gorm.DB) iusers.Repository {
 }
 
 func (db *repoSysUser) GetByAccount(Account string) (result models.SsUser, err error) {
-	query := db.Conn.Where("(email = ? OR telp = ?) and user_type = 'user' ", Account, Account).First(&result)
+	query := db.Conn.Where("(email ilike ? OR telp = ?) and user_type = 'user' ", Account, Account).First(&result)
 	log.Info(fmt.Sprintf("%v", query.QueryExpr()))
 	// logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
 	err = query.Error
