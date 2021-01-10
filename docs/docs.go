@@ -86,7 +86,7 @@ var doc = `{
                 }
             }
         },
-        "/user/advertis": {
+        "/user/advertise": {
             "get": {
                 "security": [
                     {
@@ -97,9 +97,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Advertis"
+                    "Advertise"
                 ],
-                "summary": "GetList Advertis",
+                "summary": "GetList Advertise",
                 "parameters": [
                     {
                         "type": "string",
@@ -156,56 +156,9 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Advertis"
-                ],
-                "summary": "Add Advertis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "OS",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "Version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.AddAdvertis"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/tool.ResponseModel"
-                        }
-                    }
-                }
             }
         },
-        "/user/advertis/{id}": {
+        "/user/advertise/{id}": {
             "get": {
                 "security": [
                     {
@@ -216,9 +169,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Advertis"
+                    "Advertise"
                 ],
-                "summary": "GetById",
+                "summary": "GetById Advertise",
                 "parameters": [
                     {
                         "type": "string",
@@ -246,106 +199,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/tool.ResponseModel"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Advertis"
-                ],
-                "summary": "Rubah Advertis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "OS",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "Version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "req param #changes are possible to adjust the form of the registration form from frontend",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.AddAdvertis"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/tool.ResponseModel"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Advertis"
-                ],
-                "summary": "Delete Advertis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "OS",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "OS Device",
-                        "name": "Version",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/tool.ResponseModel"
+                            "$ref": "#/definitions/models.ResponseModelList"
                         }
                     }
                 }
@@ -2264,32 +2118,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "models.AddAdvertis": {
-            "type": "object",
-            "properties": {
-                "advertis_status": {
-                    "type": "string"
-                },
-                "descs": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "file_id": {
-                    "type": "integer"
-                },
-                "slide_duration": {
-                    "type": "integer"
-                },
-                "start_date": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
         "models.AddBarberFavorit": {
             "type": "object",
             "properties": {

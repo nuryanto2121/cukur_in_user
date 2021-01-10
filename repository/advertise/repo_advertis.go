@@ -2,7 +2,7 @@ package repoadvertis
 
 import (
 	"fmt"
-	iadvertis "nuryanto2121/cukur_in_user/interface/advertis"
+	iadvertis "nuryanto2121/cukur_in_user/interface/advertise"
 	"nuryanto2121/cukur_in_user/models"
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
@@ -10,20 +10,20 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type repoAdvertis struct {
+type repoAdvertise struct {
 	Conn *gorm.DB
 }
 
-func NewRepoAdvertis(Conn *gorm.DB) iadvertis.Repository {
-	return &repoAdvertis{Conn}
+func NewRepoAdvertise(Conn *gorm.DB) iadvertis.Repository {
+	return &repoAdvertise{Conn}
 }
 
-func (db *repoAdvertis) GetDataBy(ID int) (result *models.Advertis, err error) {
+func (db *repoAdvertise) GetDataBy(ID int) (result *models.Advertise, err error) {
 	var (
-		logger    = logging.Logger{}
-		mAdvertis = &models.Advertis{}
+		logger     = logging.Logger{}
+		mAdvertise = &models.Advertise{}
 	)
-	query := db.Conn.Where("advertis_id = ? ", ID).Find(mAdvertis)
+	query := db.Conn.Where("advertise_id = ? ", ID).Find(mAdvertise)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
 	err = query.Error
 	if err != nil {
@@ -32,10 +32,10 @@ func (db *repoAdvertis) GetDataBy(ID int) (result *models.Advertis, err error) {
 		}
 		return nil, err
 	}
-	return mAdvertis, nil
+	return mAdvertise, nil
 }
 
-func (db *repoAdvertis) GetList(queryparam models.ParamList) (result []*models.ListAdvertis, err error) {
+func (db *repoAdvertise) GetList(queryparam models.ParamList) (result []*models.ListAdvertise, err error) {
 
 	var (
 		pageNum  = 0
@@ -67,13 +67,13 @@ func (db *repoAdvertis) GetList(queryparam models.ParamList) (result []*models.L
 
 	sSql := `
 		SELECT * FROM (
-			select 	a.advertis_id ,		a.title ,
-			a.descs ,			a.advertis_status ,
+			select 	a.advertise_id ,		a.title ,
+			a.descs ,			a.advertise_status ,
 			a.slide_duration ,	a.start_date ,
 			a.end_date ,		a.file_id ,
 			fu.file_name ,		fu.file_path ,
 			fu.file_type 
-		from advertis a 
+		from advertise a 
 		join sa_file_upload fu 
 			on a.file_id = fu.file_id 
 		) a
@@ -104,7 +104,7 @@ func (db *repoAdvertis) GetList(queryparam models.ParamList) (result []*models.L
 	return result, nil
 }
 
-func (db *repoAdvertis) Create(data *models.Advertis) error {
+func (db *repoAdvertise) Create(data *models.Advertise) error {
 	var (
 		logger = logging.Logger{}
 		err    error
@@ -117,12 +117,12 @@ func (db *repoAdvertis) Create(data *models.Advertis) error {
 	}
 	return nil
 }
-func (db *repoAdvertis) Update(ID int, data map[string]interface{}) error {
+func (db *repoAdvertise) Update(ID int, data map[string]interface{}) error {
 	var (
 		logger = logging.Logger{}
 		err    error
 	)
-	query := db.Conn.Model(models.Advertis{}).Where("advertis_id = ?", ID).Updates(data)
+	query := db.Conn.Model(models.Advertise{}).Where("advertise_id = ?", ID).Updates(data)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 	if err != nil {
@@ -131,12 +131,12 @@ func (db *repoAdvertis) Update(ID int, data map[string]interface{}) error {
 	return nil
 }
 
-func (db *repoAdvertis) Delete(ID int) error {
+func (db *repoAdvertise) Delete(ID int) error {
 	var (
 		logger = logging.Logger{}
 		err    error
 	)
-	query := db.Conn.Where("advertis_id = ?", ID).Delete(&models.Advertis{})
+	query := db.Conn.Where("advertise_id = ?", ID).Delete(&models.Advertise{})
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 	if err != nil {
@@ -145,7 +145,7 @@ func (db *repoAdvertis) Delete(ID int) error {
 	return nil
 }
 
-func (db *repoAdvertis) Count(queryparam models.ParamList) (result int, err error) {
+func (db *repoAdvertise) Count(queryparam models.ParamList) (result int, err error) {
 	var (
 		sWhere = ""
 		logger = logging.Logger{}
@@ -164,9 +164,9 @@ func (db *repoAdvertis) Count(queryparam models.ParamList) (result int, err erro
 		} else {
 			sWhere += "(lower(title) LIKE ? )" //queryparam.Search
 		}
-		query = db.Conn.Model(&models.Advertis{}).Where(sWhere, queryparam.Search).Count(&result)
+		query = db.Conn.Model(&models.Advertise{}).Where(sWhere, queryparam.Search).Count(&result)
 	} else {
-		query = db.Conn.Model(&models.Advertis{}).Where(sWhere).Count(&result)
+		query = db.Conn.Model(&models.Advertise{}).Where(sWhere).Count(&result)
 	}
 	// end where
 

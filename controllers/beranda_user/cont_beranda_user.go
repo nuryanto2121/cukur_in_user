@@ -79,15 +79,15 @@ func (c *contBerandaUser) GetBeranda(e echo.Context) error {
 	if err != nil {
 		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), BarberRecommend)
 	}
-	Advertis, err := c.useBerandaUser.GetAdvertisBarber(ctx, claims, paramList)
+	Advertise, err := c.useBerandaUser.GetAdvertiseBarber(ctx, claims, paramList)
 	if err != nil {
-		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), Advertis)
+		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), Advertise)
 	}
 	result := map[string]interface{}{
 		"closest_barber":         ClosestBarber,
 		"capster_recommendation": CapsterRecommend,
 		"barber_recommendation":  BarberRecommend,
-		"advertis":               Advertis,
+		"advertise":              Advertise,
 	}
 
 	// return e.JSON(http.StatusOK, ListBarbersPost)

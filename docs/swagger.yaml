@@ -1,21 +1,4 @@
 definitions:
-  models.AddAdvertis:
-    properties:
-      advertis_status:
-        type: string
-      descs:
-        type: string
-      end_date:
-        type: string
-      file_id:
-        type: integer
-      slide_duration:
-        type: integer
-      start_date:
-        type: string
-      title:
-        type: string
-    type: object
   models.AddBarberFavorit:
     properties:
       barber_id:
@@ -252,7 +235,7 @@ paths:
       summary: File Upload
       tags:
       - FileUpload
-  /user/advertis:
+  /user/advertise:
     get:
       parameters:
       - description: OS Device
@@ -296,69 +279,10 @@ paths:
             $ref: '#/definitions/models.ResponseModelList'
       security:
       - ApiKeyAuth: []
-      summary: GetList Advertis
+      summary: GetList Advertise
       tags:
-      - Advertis
-    post:
-      parameters:
-      - description: OS Device
-        in: header
-        name: OS
-        required: true
-        type: string
-      - description: OS Device
-        in: header
-        name: Version
-        required: true
-        type: string
-      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
-        in: body
-        name: req
-        required: true
-        schema:
-          $ref: '#/definitions/models.AddAdvertis'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/tool.ResponseModel'
-      security:
-      - ApiKeyAuth: []
-      summary: Add Advertis
-      tags:
-      - Advertis
-  /user/advertis/{id}:
-    delete:
-      parameters:
-      - description: OS Device
-        in: header
-        name: OS
-        required: true
-        type: string
-      - description: OS Device
-        in: header
-        name: Version
-        required: true
-        type: string
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/tool.ResponseModel'
-      security:
-      - ApiKeyAuth: []
-      summary: Delete Advertis
-      tags:
-      - Advertis
+      - Advertise
+  /user/advertise/{id}:
     get:
       parameters:
       - description: OS Device
@@ -382,47 +306,12 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/tool.ResponseModel'
+            $ref: '#/definitions/models.ResponseModelList'
       security:
       - ApiKeyAuth: []
-      summary: GetById
+      summary: GetById Advertise
       tags:
-      - Advertis
-    put:
-      parameters:
-      - description: OS Device
-        in: header
-        name: OS
-        required: true
-        type: string
-      - description: OS Device
-        in: header
-        name: Version
-        required: true
-        type: string
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
-        in: body
-        name: req
-        required: true
-        schema:
-          $ref: '#/definitions/models.AddAdvertis'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/tool.ResponseModel'
-      security:
-      - ApiKeyAuth: []
-      summary: Rubah Advertis
-      tags:
-      - Advertis
+      - Advertise
   /user/auth/change_password:
     post:
       parameters:

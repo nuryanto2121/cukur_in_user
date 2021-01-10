@@ -1,4 +1,4 @@
-package iadvertis
+package iadvertise
 
 import (
 	"context"
@@ -7,9 +7,9 @@ import (
 )
 
 type Repository interface {
-	GetDataBy(ID int) (result *models.Advertis, err error)
-	GetList(queryparam models.ParamList) (result []*models.ListAdvertis, err error)
-	Create(data *models.Advertis) (err error)
+	GetDataBy(ID int) (result *models.Advertise, err error)
+	GetList(queryparam models.ParamList) (result []*models.ListAdvertise, err error)
+	Create(data *models.Advertise) (err error)
 	Update(ID int, data map[string]interface{}) (err error)
 	Delete(ID int) (err error)
 	Count(queryparam models.ParamList) (result int, err error)
@@ -18,7 +18,7 @@ type Repository interface {
 type Usecase interface {
 	GetDataBy(ctx context.Context, Claims util.Claims, ID int) (result interface{}, err error)
 	GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamList) (result models.ResponseModelList, err error)
-	Create(ctx context.Context, Claims util.Claims, data *models.AddAdvertis) (err error)
-	Update(ctx context.Context, Claims util.Claims, ID int, data *models.AddAdvertis) (err error)
+	Create(ctx context.Context, Claims util.Claims, data *models.AddAdvertise) (err error)
+	Update(ctx context.Context, Claims util.Claims, ID int, data *models.AddAdvertise) (err error)
 	Delete(ctx context.Context, Claims util.Claims, ID int) (err error)
 }
