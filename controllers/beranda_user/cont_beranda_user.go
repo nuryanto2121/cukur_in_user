@@ -71,23 +71,23 @@ func (c *contBerandaUser) GetBeranda(e echo.Context) error {
 	if err != nil {
 		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), ClosestBarber)
 	}
-	CapsterRecommend, err := c.useBerandaUser.GetRecomentCapster(ctx, claims, paramList)
-	if err != nil {
-		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), CapsterRecommend)
-	}
-	BarberRecommend, err := c.useBerandaUser.GetRecomentBarber(ctx, claims, paramList)
-	if err != nil {
-		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), BarberRecommend)
-	}
-	Advertise, err := c.useBerandaUser.GetAdvertiseBarber(ctx, claims, paramList)
-	if err != nil {
-		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), Advertise)
-	}
+	// CapsterRecommend, err := c.useBerandaUser.GetRecomentCapster(ctx, claims, paramList)
+	// if err != nil {
+	// 	return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), CapsterRecommend)
+	// }
+	// BarberRecommend, err := c.useBerandaUser.GetRecomentBarber(ctx, claims, paramList)
+	// if err != nil {
+	// 	return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), BarberRecommend)
+	// }
+	// Advertise, err := c.useBerandaUser.GetAdvertiseBarber(ctx, claims, paramList)
+	// if err != nil {
+	// 	return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), Advertise)
+	// }
 	result := map[string]interface{}{
-		"closest_barber":         ClosestBarber,
-		"capster_recommendation": CapsterRecommend,
-		"barber_recommendation":  BarberRecommend,
-		"advertise":              Advertise,
+		"closest_barber": ClosestBarber,
+		// "capster_recommendation": CapsterRecommend,
+		// "barber_recommendation":  BarberRecommend,
+		// "advertise":              Advertise,
 	}
 
 	// return e.JSON(http.StatusOK, ListBarbersPost)

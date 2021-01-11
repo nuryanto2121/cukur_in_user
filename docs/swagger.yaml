@@ -4,6 +4,21 @@ definitions:
       barber_id:
         type: integer
     type: object
+  models.AddFeedbackRating:
+    properties:
+      barber_id:
+        type: integer
+      barber_rating:
+        type: number
+      capster_id:
+        type: integer
+      capster_rating:
+        type: number
+      comment:
+        type: string
+      order_id:
+        type: integer
+    type: object
   models.AddUser:
     properties:
       email:
@@ -1014,6 +1029,73 @@ paths:
       summary: Add Or Delete Barber Favorit
       tags:
       - Barber Favorit
+  /user/feedback_rating:
+    post:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddFeedbackRating'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Add FeedbackRating
+      tags:
+      - FeedbackRating
+  /user/feedback_rating/{id}:
+    put:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'req param #changes are possible to adjust the form of the registration form from frontend'
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddFeedbackRating'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Rubah FeedbackRating
+      tags:
+      - FeedbackRating
   /user/notification:
     get:
       parameters:
@@ -1554,6 +1636,36 @@ paths:
       summary: Rubah Password
       tags:
       - User
+  /user/validasi/{id}:
+    get:
+      parameters:
+      - description: OS Device
+        in: header
+        name: OS
+        required: true
+        type: string
+      - description: OS Device
+        in: header
+        name: Version
+        required: true
+        type: string
+      - description: ID Barber
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tool.ResponseModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Validasi utk jam oprasional sudah lewat atau belum buka, Param
+      tags:
+      - Validasi
 securityDefinitions:
   ApiKeyAuth:
     in: header

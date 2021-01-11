@@ -15,3 +15,9 @@ type AddFeedbackRating struct {
 	CapsterRating float32 `json:"capster_rating" gorm:"type:numeric(5,2);default:5"`
 	Comment       string  `json:"comment" gorm:"type:varchar(1000)"`
 }
+
+type OutFeedbackRating struct {
+	BarberRating  float32 `json:"barber_rating" gorm:"type:numeric(5,2);default:5"`
+	CapsterRating float32 `json:"capster_rating" gorm:"type:numeric(5,2);default:5"`
+	Comment       string  `json:"comment" gorm:"type:varchar(1000)"`
+}

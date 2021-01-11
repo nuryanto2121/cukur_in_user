@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fatih/structs"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -32,6 +33,18 @@ func (u *useFeedbackRating) GetDataBy(ctx context.Context, Claims util.Claims, I
 	}
 	return result, nil
 }
+func (u *useFeedbackRating) Update(ctx context.Context, Claims util.Claims, ID int, data models.AddFeedbackRating) (err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
+	defer cancel()
+
+	datas := structs.Map(data)
+	datas["user_edit"] = Claims.UserID
+	err = u.repoFeedbackRating.Update(ID, datas)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func (u *useFeedbackRating) Create(ctx context.Context, Claims util.Claims, data *models.AddFeedbackRating) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
@@ -40,7 +53,7 @@ func (u *useFeedbackRating) Create(ctx context.Context, Claims util.Claims, data
 	)
 
 	// mapping to struct model saRole
-	err = mapstructure.Decode(data, &mPaket)
+	err = mapstructure.Decode(data, &mPaket.AddFeedbackRating)
 	if err != nil {
 		return err
 	}

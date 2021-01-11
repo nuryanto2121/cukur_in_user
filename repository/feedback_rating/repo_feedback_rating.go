@@ -15,7 +15,7 @@ type repoFeedbackRating struct {
 	Conn *gorm.DB
 }
 
-func NewRepoBarberFavorit(Conn *gorm.DB) ifeedbackrating.Repository {
+func NewRepoFeedbackRating(Conn *gorm.DB) ifeedbackrating.Repository {
 	return &repoFeedbackRating{Conn}
 }
 
@@ -106,7 +106,7 @@ func (db *repoFeedbackRating) Update(ID int, data interface{}) error {
 		logger = logging.Logger{}
 		err    error
 	)
-	query := db.Conn.Model(models.OrderH{}).Where("order_id = ?", ID).Updates(data)
+	query := db.Conn.Model(models.FeedbackRating{}).Where("id = ?", ID).Updates(data)
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
 	if err != nil {

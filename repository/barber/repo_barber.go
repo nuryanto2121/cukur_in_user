@@ -247,7 +247,7 @@ func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (resul
 									where fr.barber_id = b.barber_id 
 								),0)::float as barber_rating,
 								(
-									case when now() between (now()::date + b.operation_start::time) and (now()::date + b.operation_end ::time) then 1 else 0 end
+									case when now() between (now()::date + b.operation_start::time) and (now()::date + b.operation_end ::time) then true else false end
 								)::boolean as is_barber_open,								
 								(
 									select count(fr.user_id)
@@ -282,7 +282,7 @@ func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (resul
 
 	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
 	err = query.Error
-
+	fmt.Printf("%v", len(result))
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, err
@@ -314,6 +314,7 @@ func (db *repoBarber) GetScheduleTime(BarberID int) (result interface{}, err err
 			 where b2.barber_id = %d
 			)h
 	WHERE  EXTRACT(ISODOW FROM h.schedule_time) < 6
+	and h.schedule_time::time >= now()::time
 	AND   now()::time >= h.operation_start::time 
 	AND   now()::time <= h.operation_end::time ;
 	`, BarberID)

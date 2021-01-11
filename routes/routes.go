@@ -53,6 +53,12 @@ import (
 	_repoAdvertise "nuryanto2121/cukur_in_user/repository/advertise"
 	_useAdvertise "nuryanto2121/cukur_in_user/usecase/advertise"
 
+	_contFeedbackRating "nuryanto2121/cukur_in_user/controllers/feedback_rating"
+	_repoFeedbackRating "nuryanto2121/cukur_in_user/repository/feedback_rating"
+	_useFeedbackRating "nuryanto2121/cukur_in_user/usecase/feedback_rating"
+
+	_contValidasi "nuryanto2121/cukur_in_user/controllers/validasi"
+
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -69,6 +75,10 @@ func (e *EchoRoutes) InitialRouter() {
 	repoFile := _repoFile.NewRepoFileUpload(postgresdb.Conn)
 	useFile := _useFile.NewSaFileUpload(repoFile, timeoutContext)
 	_saFilecont.NewContFileUpload(e.E, useFile)
+
+	repoFeedbackRating := _repoFeedbackRating.NewRepoFeedbackRating(postgresdb.Conn)
+	useFeedbackRating := _useFeedbackRating.NewFeedbackRating(repoFeedbackRating, timeoutContext)
+	_contFeedbackRating.NewContFeedbackRating(e.E, useFeedbackRating)
 
 	repoAdvertise := _repoAdvertise.NewRepoAdvertise(postgresdb.Conn)
 	useAdvertise := _useAdvertise.NewUseAdvertise(repoAdvertise, repoFile, timeoutContext)
@@ -108,9 +118,10 @@ func (e *EchoRoutes) InitialRouter() {
 
 	repoOrderD := _repoOrderd.NewRepoOrderD(postgresdb.Conn)
 	repoOrder := _repoOrder.NewRepoOrderH(postgresdb.Conn)
-	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, useNotif, timeoutContext)
+	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, useNotif, repoFeedbackRating, timeoutContext)
 	_contOrder.NewContOrder(e.E, useOrder)
 
+	_contValidasi.NewContValidasi(e.E)
 	//_saauthcont
 	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)

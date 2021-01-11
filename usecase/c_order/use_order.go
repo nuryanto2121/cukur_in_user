@@ -9,6 +9,7 @@ import (
 	ibookingcapster "nuryanto2121/cukur_in_user/interface/booking_capster"
 	iorderd "nuryanto2121/cukur_in_user/interface/c_order_d"
 	iorderh "nuryanto2121/cukur_in_user/interface/c_order_h"
+	ifeedbackrating "nuryanto2121/cukur_in_user/interface/feedback_rating"
 	inotification "nuryanto2121/cukur_in_user/interface/notification"
 	"nuryanto2121/cukur_in_user/models"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
@@ -27,16 +28,18 @@ type useOrder struct {
 	repoBarber         ibarber.Repository
 	repoBookingCapster ibookingcapster.Repository
 	usenotification    inotification.Usecase
+	repoFeedbackRating ifeedbackrating.Repository
 	contextTimeOut     time.Duration
 }
 
-func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, e inotification.Usecase, timeout time.Duration) iorderh.Usecase {
+func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, e inotification.Usecase, f ifeedbackrating.Repository, timeout time.Duration) iorderh.Usecase {
 	return &useOrder{
 		repoOrderH:         a,
 		repoOrderD:         b,
 		repoBarber:         c,
 		repoBookingCapster: d,
 		usenotification:    e,
+		repoFeedbackRating: f,
 		contextTimeOut:     timeout}
 }
 
@@ -54,20 +57,12 @@ func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, Ge
 		return nil, err
 	}
 
+	dataFeedback, err := u.repoFeedbackRating.GetDataBy(ID)
+	if err != nil {
+		return nil, err
+	}
 	dataHeader.DataDetail = dataDetail
-
-	// response := map[string]interface{}{
-	// 	"from_apps":     dataHeader.FromApps,
-	// 	"barber_name":   dataBarber.BarberName,
-	// 	"customer_name": dataHeader.CustomerName,
-	// 	"email":         dataHeader.Email,
-	// 	"telp":          dataHeader.Telp,
-	// 	"order_date":    dataHeader.OrderDate,
-	// 	"status":        dataHeader.Status,
-	// 	"order_id":      dataHeader.OrderID,
-	// 	"data_detail":   dataDetail,
-	// 	"total_price":   total_price,
-	// }
+	dataHeader.DataFeedbackRating = dataFeedback
 
 	return dataHeader, nil
 }
