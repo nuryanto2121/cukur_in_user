@@ -58,7 +58,7 @@ func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, Ge
 	}
 
 	dataFeedback, err := u.repoFeedbackRating.GetDataBy(ID)
-	if err != nil {
+	if err != nil && err != models.ErrNotFound {
 		return nil, err
 	}
 	dataHeader.DataDetail = dataDetail
