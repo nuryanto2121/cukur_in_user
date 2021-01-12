@@ -14,9 +14,17 @@
         "port":587,
         "user":"noreply@cukur-in.com",
         "passwd":"noreply123!@",
-        "Identity":"cukur-in",
+        "Identity":"cukur-In",
         "sender":"cukur-in@cukur-in.com"
-    },    
+    },
+    "smtpOld":{
+        "server":"smtp.gmail.com",
+        "port":587,
+        "user":"adm.accleog@gmail.com",
+        "passwd":"!@#$%12345",
+        "Identity":"Cukur_In",
+        "sender":"nuryanto@gmail.com"
+    },
     "app": {
         "jwt_secret": "don'tPanic",
         "page_size": 10,
@@ -51,7 +59,7 @@
         "password":"redis_dev"
     },
     "mongodb":{
-        "host": "34.101.133.247",
+    "host": "34.101.133.247",
         "port": "1300",
         "user": "mongoadmin_dev",
         "password": "mongo_dev",

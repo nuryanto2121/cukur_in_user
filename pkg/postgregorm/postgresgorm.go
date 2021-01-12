@@ -193,7 +193,7 @@ func autoMigrate() {
 	`)
 	log.Println("STARTING AUTO MIGRATE ")
 	Conn.AutoMigrate(
-		// models.SsUser{},
+		models.SsUser{},
 		version.SsVersion{},
 		models.BarberFavorit{},
 		models.FeedbackRating{},
