@@ -72,7 +72,7 @@ func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, Ge
 	// dataHeader.DataDetail = dataDetail
 	// dataHeader.DataFeedbackRating = dataFeedback
 
-	return dataHeader, nil
+	return result, nil
 }
 func (u *useOrder) GetList(ctx context.Context, Claims util.Claims, queryparam models.ParamListGeo) (result models.ResponseModelList, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)

@@ -52,7 +52,7 @@ func (db *repoBookingCapster) GetDataBy(param models.AddBookingCapster) (result 
 		and 	h.schedule_time::time >= now()::time
 		AND   now()::time >= h.operation_start::time 
 		AND   now()::time <= h.operation_end::time ;
-	`, param.BarberID, param.BarberID, param.CapsterID, param.BookingDate.Format("2006-02-01"))
+	`, param.BarberID, param.BarberID, param.CapsterID, param.BookingDate.Format("2006-01-02"))
 	fmt.Println(sSql)
 	// sWhere = fmt.Sprintf(`barber_id = ? and capster_id = ? AND order_date::date = '%v'::date AND status = 'N'`, param.BookingDate.Format("2006-01-02"))
 	// query = db.Conn.Where(sWhere, param.BarberID, param.CapsterID).Order(`order_date`).Find(&Rest)
