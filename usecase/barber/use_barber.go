@@ -61,21 +61,23 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 		return result, err
 	}
 
+	queryparam.SortField = "paket_name"
 	dataBPaket, err := u.repoBarberPaket.GetList(queryparam)
 	if err != nil {
 		return result, err
 	}
 
 	queryparam.InitSearch = fmt.Sprintf("barber_id = %d", result.BarberID)
+	queryparam.SortField = "barber_id"
 	dataBCapster, err := u.repoBarberCapster.GetList(queryparam)
 	if err != nil {
 		return result, err
 	}
 
-	dataSchedule, err := u.repoBarber.GetScheduleTime(result.BarberID)
-	if err != nil {
-		return result, err
-	}
+	// dataSchedule, err := u.repoBarber.GetScheduleTime(result.BarberID)
+	// if err != nil {
+	// 	return result, err
+	// }
 
 	response := map[string]interface{}{
 		"barber_id":        result.BarberID,
@@ -97,7 +99,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 		"file_path":        dataFile.FilePath,
 		"barber_paket":     dataBPaket,
 		"barber_capster":   dataBCapster,
-		"schedule_time":    dataSchedule,
+		// "schedule_time":    dataSchedule,
 	}
 
 	return response, nil
