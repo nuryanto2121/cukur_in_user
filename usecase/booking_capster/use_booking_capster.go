@@ -29,11 +29,6 @@ func (u *useBookingCapster) GetDataBy(ctx context.Context, Claims util.Claims, q
 		return result, err
 	}
 
-	// response := map[string]interface{}{
-	// 	"list_booking_capster":  JadwalCapster,
-	// 	"list_hour_operational": "",
-	// }
-
 	return JadwalCapster, nil
 }
 func (u *useBookingCapster) Create(ctx context.Context, Claims util.Claims, data *models.AddBookingCapster) error {

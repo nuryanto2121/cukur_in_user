@@ -7,7 +7,7 @@ import (
 )
 
 type Repository interface {
-	GetDataBy(queryparam models.AddBookingCapster) (result *[]models.OrderH, err error)
+	GetDataBy(queryparam models.AddBookingCapster) (result interface{}, err error)
 	Count(param models.AddBookingCapster, UserID int) (result int, err error)
 	Create(data *models.BookingCapster) (err error)
 }
