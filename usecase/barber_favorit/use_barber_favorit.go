@@ -38,8 +38,11 @@ func (u *useBarberFavorit) Create(ctx context.Context, Claims util.Claims, data 
 	mBarberFavorit.UserEdit = Claims.UserID
 	mBarberFavorit.UserInput = Claims.UserID
 
-	_, err = u.repoBarberFavorit.GetDataBy(data.BarberID, mBarberFavorit.UserID)
-	if err != nil && err == models.ErrNotFound {
+	datadd, err := u.repoBarberFavorit.GetDataBy(data.BarberID, mBarberFavorit.UserID)
+	fmt.Printf("%v", datadd)
+
+	// if err != nil && err == models.ErrNotFound {
+	if datadd.BarberID == 0 {
 		err = u.repoBarberFavorit.Create(&mBarberFavorit)
 		if err != nil {
 			return err
