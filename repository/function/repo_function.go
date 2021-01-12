@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"nuryanto2121/cukur_in_user/models"
 	"nuryanto2121/cukur_in_user/pkg/logging"
-	"nuryanto2121/cukur_in_user/pkg/postgresdb"
+	postgresgorm "nuryanto2121/cukur_in_user/pkg/postgregorm"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type FN struct {
@@ -38,7 +38,7 @@ func (fn *FN) GenTransactionNo(BarberCd string) (string, error) {
 		sYear = sYear[len(sYear)-2:]
 	}
 	pref := fmt.Sprintf("%s%s", sMonth, sYear)
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 
 	query := conn.Where("sequence_cd = ?", BarberCd).Find(mSeqNo)
 	logger.Query(fmt.Sprintf("%v", query))
@@ -51,7 +51,7 @@ func (fn *FN) GenTransactionNo(BarberCd string) (string, error) {
 			mSeqNo.UserInput = fn.Claims.UserID
 			mSeqNo.UserEdit = fn.Claims.UserID
 			queryC := conn.Create(mSeqNo)
-			logger.Query(fmt.Sprintf("%v", queryC.QueryExpr()))
+			logger.Query(fmt.Sprintf("%v", queryC))
 			err = queryC.Error
 			if err != nil {
 				return "", err
@@ -91,7 +91,7 @@ func (fn *FN) GenBarberCode() (string, error) {
 		mSeqNo = &models.SsSequenceNo{}
 		abjad  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	)
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 
 	prefixArr := strings.Split(abjad, "")
 	fmt.Printf("%v", prefixArr)
@@ -108,7 +108,7 @@ func (fn *FN) GenBarberCode() (string, error) {
 			mSeqNo.UserInput = fn.Claims.UserID
 			mSeqNo.UserEdit = fn.Claims.UserID
 			queryC := conn.Create(mSeqNo)
-			logger.Query(fmt.Sprintf("%v", queryC.QueryExpr()))
+			logger.Query(fmt.Sprintf("%v", queryC))
 			err = queryC.Error
 			if err != nil {
 				return "", err
@@ -157,19 +157,20 @@ func (fn *FN) GenBarberCode() (string, error) {
 func (fn *FN) GetCountTrxCapster(ID int) int {
 	var (
 		logger = logging.Logger{}
-		result = 0
-		conn   *gorm.DB
+
+		conn    *gorm.DB
+		_result int64 = 0
 	)
 	OwnerID, _ := strconv.Atoi(fn.Claims.UserID)
 
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 	query := conn.Table("order_h oh").Select(`
 		oh.order_id ,oh.order_no ,oh.barber_id ,b.barber_name ,b.owner_id ,oh.order_date ,oh.status ,oh.capster_id
 	`).Joins(`
 		join barber b on b.barber_id = oh.barber_id 
 	`).Where(`
 	oh.status in('P','N') AND b.owner_id = ? AND oh.capster_id = ?
-		`, OwnerID, ID).Count(&result)
+		`, OwnerID, ID).Count(&_result)
 	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err := query.Error
 	if err != nil {
@@ -178,26 +179,26 @@ func (fn *FN) GetCountTrxCapster(ID int) int {
 		}
 		logger.Error(err)
 	}
-	return result
+	return int(_result)
 }
 
 func (fn *FN) GetCountTrxBarber(ID int) int {
 
 	var (
-		logger = logging.Logger{}
-		result = 0
-		conn   *gorm.DB
+		logger  = logging.Logger{}
+		conn    *gorm.DB
+		_result int64 = 0
 	)
 	OwnerID, _ := strconv.Atoi(fn.Claims.UserID)
 
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 	query := conn.Table("order_h oh").Select(`
 		oh.order_id ,oh.order_no ,oh.barber_id ,b.barber_name ,b.owner_id ,oh.order_date ,oh.status ,oh.capster_id
 	`).Joins(`
 		join barber b on b.barber_id = oh.barber_id 
 	`).Where(`
 	oh.status in('P','N') AND b.owner_id = ? AND oh.barber_id = ?
-		`, OwnerID, ID).Count(&result)
+		`, OwnerID, ID).Count(&_result)
 	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err := query.Error
 	if err != nil {
@@ -206,7 +207,7 @@ func (fn *FN) GetCountTrxBarber(ID int) int {
 		}
 		logger.Error(err)
 	}
-	return result
+	return int(_result)
 }
 
 func (fn *FN) GetUserData() (result *models.SsUser, err error) {
@@ -215,7 +216,7 @@ func (fn *FN) GetUserData() (result *models.SsUser, err error) {
 		mCapster = &models.SsUser{}
 		conn     *gorm.DB
 	)
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 	query := conn.Where("user_id = ? ", fn.Claims.UserID).Find(mCapster)
 	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
@@ -234,7 +235,7 @@ func (fn *FN) GetBarberData(BarberID int) (result *models.Barber, err error) {
 		mBarber = &models.Barber{}
 		conn    *gorm.DB
 	)
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 	query := conn.Where("barber_id = ? ", BarberID).Find(mBarber)
 	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
@@ -252,7 +253,7 @@ func (fn *FN) GetCapsterData(CapsterID int) (result *models.SsUser, err error) {
 		mCapster = &models.SsUser{}
 		conn     *gorm.DB
 	)
-	conn = postgresdb.Conn
+	conn = postgresgorm.Conn
 	query := conn.Where("user_id = ? ", CapsterID).Find(mCapster)
 	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error

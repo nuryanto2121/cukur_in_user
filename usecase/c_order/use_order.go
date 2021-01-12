@@ -46,6 +46,9 @@ func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Reposit
 func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, GeoUser models.GeoBarber) (interface{}, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.contextTimeOut)
 	defer cancel()
+	var (
+		result = models.OrderDataBy{}
+	)
 
 	dataHeader, err := u.repoOrderH.GetDataBy(ID, GeoUser)
 	if err != nil {
@@ -61,8 +64,13 @@ func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, Ge
 	if err != nil && err != models.ErrNotFound {
 		return nil, err
 	}
-	dataHeader.DataDetail = dataDetail
-	dataHeader.DataFeedbackRating = dataFeedback
+
+	result.OrderDGet = dataHeader
+	result.DataDetail = dataDetail
+	result.DataFeedbackRating = dataFeedback
+
+	// dataHeader.DataDetail = dataDetail
+	// dataHeader.DataFeedbackRating = dataFeedback
 
 	return dataHeader, nil
 }

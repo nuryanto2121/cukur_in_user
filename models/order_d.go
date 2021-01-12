@@ -51,8 +51,15 @@ type OrderDGet struct {
 	CapsterName   string    `json:"capster_name"`
 	CapsterRating float32   `json:"capster_rating"`
 	SaFileOutput
-	PaketID            int             `json:"paket_id"`
-	TotalPrice         float32         `json:"total_price"`
+	PaketID    int     `json:"paket_id"`
+	TotalPrice float32 `json:"total_price"`
+}
+
+type OrderDataBy struct {
+	OrderDGet
 	DataDetail         []*OrderD       `json:"data_detail"`
 	DataFeedbackRating *FeedbackRating `json:"data_feedback_rating"`
 }
+
+// DataDetail         []*OrderD       `json:"data_detail"`
+// 	DataFeedbackRating *FeedbackRating `json:"data_feedback_rating"`
