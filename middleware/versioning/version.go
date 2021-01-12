@@ -1,6 +1,6 @@
 package version
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 type SsVersion struct {
 	VersionID int    `json:"version_id" gorm:"PRIMARY_KEY"`

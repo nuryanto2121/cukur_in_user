@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoOrderD struct {
@@ -24,7 +24,7 @@ func (db *repoOrderD) GetDataBy(ID int) (result []*models.OrderD, err error) {
 		// mOrderD = &models.OrderD{}
 	)
 	query := db.Conn.Where("order_id = ? ", ID).Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -75,7 +75,7 @@ func (db *repoOrderD) GetList(queryparam models.ParamList) (result []*models.Ord
 
 	query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	// query := db.Conn.Table("ss_user").Select("ss_user.user_id as order_id,ss_user.name,ss_user.is_active,sa_file_upload.file_id,sa_file_upload.file_name,sa_file_upload.file_path,sa_file_upload.file_type, '0' as rating").Joins("left join sa_file_upload ON sa_file_upload.file_id = ss_user.file_id").Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -92,7 +92,7 @@ func (db *repoOrderD) Create(data *models.OrderD) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (db *repoOrderD) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.OrderD{}).Where("order_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -119,7 +119,7 @@ func (db *repoOrderD) Delete(ID int) error {
 	)
 	// query := db.Conn.Where("order_id = ?", ID).Delete(&models.OrderD{})
 	query := db.Conn.Exec("Delete From order_d WHERE order_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -128,8 +128,9 @@ func (db *repoOrderD) Delete(ID int) error {
 }
 func (db *repoOrderD) Count(queryparam models.ParamList) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
+		sWhere        = ""
+		logger        = logging.Logger{}
+		_result int64 = 0
 	)
 	result = 0
 
@@ -145,12 +146,12 @@ func (db *repoOrderD) Count(queryparam models.ParamList) (result int, err error)
 	}
 	// end where
 
-	query := db.Conn.Model(&models.OrderD{}).Where(sWhere).Count(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	query := db.Conn.Model(&models.OrderD{}).Where(sWhere).Count(&_result)
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

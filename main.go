@@ -5,7 +5,7 @@ import (
 	"log"
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/monggodb"
-	"nuryanto2121/cukur_in_user/pkg/postgresdb"
+	postgresgorm "nuryanto2121/cukur_in_user/pkg/postgregorm"
 
 	// sqlxposgresdb "nuryanto2121/cukur_in_user/pkg/postgresqlxdb"
 	"nuryanto2121/cukur_in_user/pkg/setting"
@@ -18,7 +18,8 @@ import (
 
 func init() {
 	setting.Setup()
-	postgresdb.Setup()
+	// postgresdb.Setup()
+	postgresgorm.Setup()
 	redisdb.Setup()
 	monggodb.Setup()
 	logging.Setup()

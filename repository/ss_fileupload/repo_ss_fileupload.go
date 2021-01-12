@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/models"
 	"nuryanto2121/cukur_in_user/pkg/logging"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoAuth struct {
@@ -21,7 +21,7 @@ func NewRepoFileUpload(Conn *gorm.DB) ifileupload.Repository {
 func (m *repoAuth) CreateFileUpload(ctx context.Context, data *models.SaFileUpload) (err error) {
 	var logger = logging.Logger{}
 	query := m.Conn.Create(&data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	// err = db.Conn.Create(userData).Error
 	if err != nil {
@@ -37,7 +37,7 @@ func (m *repoAuth) GetBySaFileUpload(ctx context.Context, fileID int) (models.Sa
 		err            error
 	)
 	query := m.Conn.Where("file_id = ?", fileID).First(&dataFileUpload)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 
 	if err != nil {
@@ -59,7 +59,7 @@ func (m *repoAuth) DeleteSaFileUpload(ctx context.Context, fileID int) error {
 	userData.FileID = fileID
 
 	query := m.Conn.Delete(&userData)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {

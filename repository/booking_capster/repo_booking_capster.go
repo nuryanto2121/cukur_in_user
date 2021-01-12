@@ -7,7 +7,7 @@ import (
 
 	ibookingcapster "nuryanto2121/cukur_in_user/interface/booking_capster"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoBookingCapster struct {
@@ -34,7 +34,7 @@ func (db *repoBookingCapster) GetDataBy(param models.AddBookingCapster) (result 
 
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -48,27 +48,28 @@ func (db *repoBookingCapster) GetDataBy(param models.AddBookingCapster) (result 
 
 func (db *repoBookingCapster) Count(param models.AddBookingCapster, UserID int) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
 	// sWhere = fmt.Sprintf(`barber_id = ? and capster_id = ? AND order_date = ? AND user_id = ? and status = 'N'`)
 	sWhere = fmt.Sprintf(`barber_id = ? and capster_id = ? AND user_id = ? AND order_date::date = '%v'::date AND status = 'N'`, param.BookingDate.Format("2006-01-02"))
-	query = db.Conn.Table(`order_h`).Where(sWhere, param.BarberID, param.CapsterID, UserID).Count(&result)
+	query = db.Conn.Table(`order_h`).Where(sWhere, param.BarberID, param.CapsterID, UserID).Count(&_result)
 
 	// query = db.Conn.Where(sWhere).Order(`booking_date`).Find(&result)
 
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
 		return 0, err
 	}
-	return result, nil
+	return int(_result), nil
 }
 
 func (db *repoBookingCapster) Create(data *models.BookingCapster) error {
@@ -77,7 +78,7 @@ func (db *repoBookingCapster) Create(data *models.BookingCapster) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err

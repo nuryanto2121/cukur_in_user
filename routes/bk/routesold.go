@@ -1,7 +1,8 @@
-package routes
+package bkroutes
 
+/*
 import (
-	postgresgorm "nuryanto2121/cukur_in_user/pkg/postgregorm"
+	"nuryanto2121/cukur_in_user/pkg/postgresdb"
 	// sqlxposgresdb "nuryanto2121/cukur_in_user/pkg/postgresqlxdb"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
@@ -72,59 +73,60 @@ type EchoRoutes struct {
 func (e *EchoRoutes) InitialRouter() {
 	timeoutContext := time.Duration(setting.FileConfigSetting.Server.ReadTimeout) * time.Second
 
-	repoFile := _repoFile.NewRepoFileUpload(postgresgorm.Conn)
+	repoFile := _repoFile.NewRepoFileUpload(postgresdb.Conn)
 	useFile := _useFile.NewSaFileUpload(repoFile, timeoutContext)
 	_saFilecont.NewContFileUpload(e.E, useFile)
 
-	repoFeedbackRating := _repoFeedbackRating.NewRepoFeedbackRating(postgresgorm.Conn)
+	repoFeedbackRating := _repoFeedbackRating.NewRepoFeedbackRating(postgresdb.Conn)
 	useFeedbackRating := _useFeedbackRating.NewFeedbackRating(repoFeedbackRating, timeoutContext)
 	_contFeedbackRating.NewContFeedbackRating(e.E, useFeedbackRating)
 
-	repoAdvertise := _repoAdvertise.NewRepoAdvertise(postgresgorm.Conn)
+	repoAdvertise := _repoAdvertise.NewRepoAdvertise(postgresdb.Conn)
 	useAdvertise := _useAdvertise.NewUseAdvertise(repoAdvertise, repoFile, timeoutContext)
 	_contAdvertise.NewContAdvertise(e.E, useAdvertise)
 
-	repoUser := _repoUser.NewRepoSysUser(postgresgorm.Conn)
+	repoUser := _repoUser.NewRepoSysUser(postgresdb.Conn)
 	useUser := _useUser.NewUserSysUser(repoUser, repoFile, timeoutContext)
 	_contUser.NewContUser(e.E, useUser)
 
-	repoBarberFavorit := _repoBarberFavorit.NewRepoBarberFavorit(postgresgorm.Conn)
+	repoBarberFavorit := _repoBarberFavorit.NewRepoBarberFavorit(postgresdb.Conn)
 	useBarberFavorit := _useBarberFavorit.NewBarberFavorit(repoBarberFavorit, timeoutContext)
 	_saBarberFavoritcont.NewContBarberFavorit(e.E, useBarberFavorit)
 
-	repoBookingCapster := _repoBookingCapster.NewRepoBookingCapster(postgresgorm.Conn)
+	repoBookingCapster := _repoBookingCapster.NewRepoBookingCapster(postgresdb.Conn)
 	useBookingCapster := _useBookingCapster.NewBookingCapster(repoBookingCapster, timeoutContext)
 	_contBookingCapster.NewContBookingCapster(e.E, useBookingCapster)
 
-	repoBarberPaket := _repoBarberPaket.NewRepoBarberPaket(postgresgorm.Conn)
+	repoBarberPaket := _repoBarberPaket.NewRepoBarberPaket(postgresdb.Conn)
 	useBarberPaket := _useBarberPaket.NewBarberPaket(repoBarberPaket, timeoutContext)
 	_contBarberPaket.NewContBarberPaket(e.E, useBarberPaket)
 
-	repoBarberCapster := _repoBarberCapster.NewRepoBarberCapster(postgresgorm.Conn)
-	repoBarber := _repoBarber.NewRepoBarber(postgresgorm.Conn)
+	repoBarberCapster := _repoBarberCapster.NewRepoBarberCapster(postgresdb.Conn)
+	repoBarber := _repoBarber.NewRepoBarber(postgresdb.Conn)
 	useBarber := _useBarber.NewUserMBarber(repoBarber, repoBarberPaket, repoBarberCapster, repoFile, timeoutContext)
 	_saBarbercont.NewContBarber(e.E, useBarber)
 
 	useBerandaUser := _useBerandaUser.NewUseBerandaUser(useBarber, repoFile, repoBarberCapster, repoBarber, useAdvertise, timeoutContext)
 	_BerandaUsercont.NewContBerandaUser(e.E, useBerandaUser)
 
-	repoCapster := _repoCapster.NewRepoCapsterCollection(postgresgorm.Conn)
+	repoCapster := _repoCapster.NewRepoCapsterCollection(postgresdb.Conn)
 	useCapster := _useCapster.NewUserMCapster(repoCapster, repoUser, repoBarberCapster, repoFile, timeoutContext)
 	_contCapster.NewContCapster(e.E, useCapster)
 
-	repoNotif := _repoNotification.NewRepoNotification(postgresgorm.Conn)
+	repoNotif := _repoNotification.NewRepoNotification(postgresdb.Conn)
 	useNotif := _useNotification.NewUseNotification(repoNotif, timeoutContext)
 	_contNotification.NewContNotification(e.E, useNotif)
 
-	repoOrderD := _repoOrderd.NewRepoOrderD(postgresgorm.Conn)
-	repoOrder := _repoOrder.NewRepoOrderH(postgresgorm.Conn)
+	repoOrderD := _repoOrderd.NewRepoOrderD(postgresdb.Conn)
+	repoOrder := _repoOrder.NewRepoOrderH(postgresdb.Conn)
 	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, useNotif, repoFeedbackRating, timeoutContext)
 	_contOrder.NewContOrder(e.E, useOrder)
 
 	_contValidasi.NewContValidasi(e.E)
 	//_saauthcont
-	// repoAuth := _repoAuth.NewRepoOptionDB(postgresgorm.Conn)
+	// repoAuth := _repoAuth.NewRepoOptionDB(postgresdb.Conn)
 	useAuth := _authuse.NewUserAuth(repoUser, repoFile, timeoutContext)
 	_saauthcont.NewContAuth(e.E, useAuth)
 
 }
+*/

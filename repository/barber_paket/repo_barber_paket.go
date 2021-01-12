@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoBarberPaket struct {
@@ -24,7 +24,7 @@ func (db *repoBarberPaket) GetDataBy(ID int) (result *models.BarberPaket, err er
 		mBarberPaket = &models.BarberPaket{}
 	)
 	query := db.Conn.Where("barber_id = ? ", ID).Find(mBarberPaket)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -80,7 +80,7 @@ func (db *repoBarberPaket) GetList(queryparam models.ParamListGeo) (result []*mo
 		paket.price,		paket.is_active,	paket.is_promo,
 		paket.promo_price,	paket.promo_start,	paket.promo_end
 	`).Joins("left join paket ON paket.paket_id = barber_paket.paket_id").Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -97,7 +97,7 @@ func (db *repoBarberPaket) Create(data *models.BarberPaket) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func (db *repoBarberPaket) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.BarberPaket{}).Where("barber_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -124,7 +124,7 @@ func (db *repoBarberPaket) Delete(ID int) error {
 	)
 	// query := db.Conn.Where("barber_id = ?", ID).Delete(&models.BarberPaket{})
 	query := db.Conn.Exec("Delete From barber_paket WHERE barber_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -133,8 +133,9 @@ func (db *repoBarberPaket) Delete(ID int) error {
 }
 func (db *repoBarberPaket) Count(queryparam models.ParamList) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
+		sWhere        = ""
+		logger        = logging.Logger{}
+		_result int64 = 0
 	)
 	result = 0
 
@@ -151,12 +152,12 @@ func (db *repoBarberPaket) Count(queryparam models.ParamList) (result int, err e
 	// end where
 
 	// query := db.Conn.Model(&models.BarberPaket{}).Where(sWhere).Count(&result)
-	query := db.Conn.Table("ss_user").Select("ss_user.user_id as barber_id,ss_user.name,ss_user.is_active, 0 as rating").Where(sWhere).Count(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	query := db.Conn.Table("ss_user").Select("ss_user.user_id as barber_id,ss_user.name,ss_user.is_active, 0 as rating").Where(sWhere).Count(&_result)
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

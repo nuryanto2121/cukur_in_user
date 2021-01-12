@@ -8,7 +8,7 @@ import (
 
 	ifeedbackrating "nuryanto2121/cukur_in_user/interface/feedback_rating"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoFeedbackRating struct {
@@ -25,7 +25,7 @@ func (db *repoFeedbackRating) GetDataBy(OrderID int) (result *models.FeedbackRat
 		data   = &models.FeedbackRating{}
 	)
 	query := db.Conn.Raw(`select * from feedback_rating where order_id = ? `, OrderID).Scan(&data) //Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -77,7 +77,7 @@ func (db *repoFeedbackRating) GetList(queryparam models.ParamList) (result []*mo
 
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -94,7 +94,7 @@ func (db *repoFeedbackRating) Create(data *models.FeedbackRating) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (db *repoFeedbackRating) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.FeedbackRating{}).Where("id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -121,7 +121,7 @@ func (db *repoFeedbackRating) Delete(BarberId int, UserID int) error {
 	)
 	// query := db.Conn.Where("order_id = ?", ID).Delete(&models.OrderH{})
 	query := db.Conn.Exec("Delete From barber_favorit WHERE barber_id = ? and user_id = ?", BarberId, UserID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -130,9 +130,10 @@ func (db *repoFeedbackRating) Delete(BarberId int, UserID int) error {
 }
 func (db *repoFeedbackRating) Count(queryparam models.ParamList) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
@@ -158,7 +159,7 @@ func (db *repoFeedbackRating) Count(queryparam models.ParamList) (result int, er
 		`).Joins(`
 		left join sa_file_upload c
 			on b.file_id = c.file_id 
-	`).Where(sWhere, queryparam.Search).Count(&result)
+	`).Where(sWhere, queryparam.Search).Count(&_result)
 	} else {
 		query = db.Conn.Table("barber b ").Select(`
 		b.barber_id,b.barber_cd,b.barber_name,
@@ -171,13 +172,14 @@ func (db *repoFeedbackRating) Count(queryparam models.ParamList) (result int, er
 		`).Joins(`
 		left join sa_file_upload c
 			on b.file_id = c.file_id 
-	`).Where(sWhere).Count(&result)
+	`).Where(sWhere).Count(&_result)
 	}
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
+	result = int(_result)
 	return result, nil
 }

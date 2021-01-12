@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoOrderH struct {
@@ -44,7 +44,7 @@ func (db *repoOrderH) GetDataBy(ID int, GeoUser models.GeoBarber) (result models
 
 	`, GeoUser.Latitude, GeoUser.Longitude)
 	query := db.Conn.Raw(sSql, ID).Scan(&data) //Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -111,7 +111,7 @@ func (db *repoOrderH) GetList(UserID int, queryparam models.ParamListGeo) (resul
 
 	// query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -128,7 +128,7 @@ func (db *repoOrderH) Create(data *models.OrderH) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -141,7 +141,7 @@ func (db *repoOrderH) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.OrderH{}).Where("order_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -155,7 +155,7 @@ func (db *repoOrderH) Delete(ID int) error {
 	)
 	// query := db.Conn.Where("order_id = ?", ID).Delete(&models.OrderH{})
 	query := db.Conn.Exec("Delete From order_h WHERE order_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -200,7 +200,7 @@ func (db *repoOrderH) Count(UserID int, queryparam models.ParamListGeo) (result 
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err

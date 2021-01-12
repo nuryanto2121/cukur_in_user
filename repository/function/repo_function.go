@@ -41,7 +41,7 @@ func (fn *FN) GenTransactionNo(BarberCd string) (string, error) {
 	conn = postgresdb.Conn
 
 	query := conn.Where("sequence_cd = ?", BarberCd).Find(mSeqNo)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err := query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -73,7 +73,7 @@ func (fn *FN) GenTransactionNo(BarberCd string) (string, error) {
 		seq_no = "0001"
 	}
 	query = conn.Model(models.SsSequenceNo{}).Where("sequence_id = ?", mSeqNo.SequenceID).Updates(mSeqNo)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		return "", err
@@ -98,7 +98,7 @@ func (fn *FN) GenBarberCode() (string, error) {
 	// ss := prefixArr[0]
 	// query := conn.Table("barber").Select("max(barber_cd)") //
 	query := conn.Where("sequence_cd = ?", "seq_barber").Find(mSeqNo)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err := query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -144,7 +144,7 @@ func (fn *FN) GenBarberCode() (string, error) {
 	runes := []rune(strconv.Itoa(sNo))
 	no := string(runes[1:])
 	query = conn.Model(models.SsSequenceNo{}).Where("sequence_id = ?", mSeqNo.SequenceID).Updates(mSeqNo)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		return "", err
@@ -170,7 +170,7 @@ func (fn *FN) GetCountTrxCapster(ID int) int {
 	`).Where(`
 	oh.status in('P','N') AND b.owner_id = ? AND oh.capster_id = ?
 		`, OwnerID, ID).Count(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err := query.Error
 	if err != nil {
 		if err == models.ErrNotFound {
@@ -198,7 +198,7 @@ func (fn *FN) GetCountTrxBarber(ID int) int {
 	`).Where(`
 	oh.status in('P','N') AND b.owner_id = ? AND oh.barber_id = ?
 		`, OwnerID, ID).Count(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err := query.Error
 	if err != nil {
 		if err == models.ErrNotFound {
@@ -217,7 +217,7 @@ func (fn *FN) GetUserData() (result *models.SsUser, err error) {
 	)
 	conn = postgresdb.Conn
 	query := conn.Where("user_id = ? ", fn.Claims.UserID).Find(mCapster)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -236,7 +236,7 @@ func (fn *FN) GetBarberData(BarberID int) (result *models.Barber, err error) {
 	)
 	conn = postgresdb.Conn
 	query := conn.Where("barber_id = ? ", BarberID).Find(mBarber)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -254,7 +254,7 @@ func (fn *FN) GetCapsterData(CapsterID int) (result *models.SsUser, err error) {
 	)
 	conn = postgresdb.Conn
 	query := conn.Where("user_id = ? ", CapsterID).Find(mCapster)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {

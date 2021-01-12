@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoCapsterCollection struct {
@@ -29,7 +29,7 @@ func (db *repoCapsterCollection) GetDataBy(ID int, GeoBarber models.GeoBarber) (
 	`, GeoBarber.Latitude, GeoBarber.Longitude)
 	query := db.Conn.Raw(sSql, ID).First(&mCapsterList)
 	// query := db.Conn.Where("capster_id = ? ", ID).Find(mCapsterList)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -49,7 +49,7 @@ func (db *repoCapsterCollection) GetListFileCapter(ID int) (result []*models.SaF
 	`).Joins(`
 		Inner Join sa_file_upload ON sa_file_upload.file_id = capster_collection.file_id
 	`).Where("capster_id = ?", ID).Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -113,7 +113,7 @@ func (db *repoCapsterCollection) GetList(queryparam models.ParamListGeo) (result
 		`).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -126,9 +126,10 @@ func (db *repoCapsterCollection) GetList(queryparam models.ParamListGeo) (result
 }
 func (db *repoCapsterCollection) Count(queryparam models.ParamListGeo) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
@@ -145,18 +146,18 @@ func (db *repoCapsterCollection) Count(queryparam models.ParamListGeo) (result i
 		}
 		query = db.Conn.Table("v_capster").Select(`
 			v_capster.capster_id,v_capster.name,v_capster.is_active, 0 as rating
-		`).Where(sWhere, queryparam.Search).Count(&result)
+		`).Where(sWhere, queryparam.Search).Count(&_result)
 	} else {
 		query = db.Conn.Table("v_capster").Select(`
 			v_capster.capster_id,v_capster.name,v_capster.is_active, 0 as rating
-		`).Where(sWhere).Count(&result)
+		`).Where(sWhere).Count(&_result)
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

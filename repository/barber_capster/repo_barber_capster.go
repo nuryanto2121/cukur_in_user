@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoBarberCapster struct {
@@ -24,7 +24,7 @@ func (db *repoBarberCapster) GetDataBy(ID int) (result *models.BarberCapster, er
 		mBarberCapster = &models.BarberCapster{}
 	)
 	query := db.Conn.Where("barber_id = ? ", ID).Find(mBarberCapster)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -82,7 +82,7 @@ func (db *repoBarberCapster) GetList(queryparam models.ParamListGeo) (result []*
 
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -99,7 +99,7 @@ func (db *repoBarberCapster) Create(data *models.BarberCapster) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (db *repoBarberCapster) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.BarberCapster{}).Where("barber_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -126,7 +126,7 @@ func (db *repoBarberCapster) Delete(ID int) error {
 	)
 	// query := db.Conn.Where("barber_id = ?", ID).Delete(&models.BarberCapster{})
 	query := db.Conn.Exec("Delete From barber_capster WHERE barber_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -140,7 +140,7 @@ func (db *repoBarberCapster) DeleteByCapster(ID int) error {
 	)
 	// query := db.Conn.Where("barber_id = ?", ID).Delete(&models.BarberCapster{})
 	query := db.Conn.Exec("Delete From barber_capster WHERE capster_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -183,7 +183,7 @@ func (db *repoBarberCapster) Count(queryparam models.ParamListGeo) (result int, 
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err

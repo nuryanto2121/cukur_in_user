@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoNotification struct {
@@ -24,7 +24,7 @@ func (db *repoNotification) GetDataBy(ID int) (result *models.Notification, err 
 		mNotification = &models.Notification{}
 	)
 	query := db.Conn.Where("notification_id = ? ", ID).Find(mNotification)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -102,7 +102,7 @@ func (db *repoNotification) GetList(UserID int, queryparam models.ParamListGeo) 
 		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -120,7 +120,7 @@ func (db *repoNotification) Create(data *models.Notification) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -133,7 +133,7 @@ func (db *repoNotification) Update(ID int, data map[string]interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.Notification{}).Where("notification_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -147,7 +147,7 @@ func (db *repoNotification) Delete(ID int) error {
 		err    error
 	)
 	query := db.Conn.Where("notification_id = ?", ID).Delete(&models.Notification{})
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -157,9 +157,10 @@ func (db *repoNotification) Delete(ID int) error {
 
 func (db *repoNotification) Count(UserID int, queryparam models.ParamListGeo) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
@@ -174,17 +175,17 @@ func (db *repoNotification) Count(UserID int, queryparam models.ParamListGeo) (r
 		} else {
 			sWhere += "(lower(notification_status) LIKE ? )" //queryparam.Search
 		}
-		query = db.Conn.Model(&models.Notification{}).Where(sWhere, queryparam.Search).Count(&result)
+		query = db.Conn.Model(&models.Notification{}).Where(sWhere, queryparam.Search).Count(&_result)
 	} else {
-		query = db.Conn.Model(&models.Notification{}).Where(sWhere).Count(&result)
+		query = db.Conn.Model(&models.Notification{}).Where(sWhere).Count(&_result)
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

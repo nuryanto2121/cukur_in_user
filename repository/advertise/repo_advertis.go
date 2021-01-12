@@ -7,7 +7,7 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoAdvertise struct {
@@ -24,7 +24,7 @@ func (db *repoAdvertise) GetDataBy(ID int) (result *models.Advertise, err error)
 		mAdvertise = &models.Advertise{}
 	)
 	query := db.Conn.Where("advertise_id = ? ", ID).Find(mAdvertise)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -92,7 +92,7 @@ func (db *repoAdvertise) GetList(queryparam models.ParamList) (result []*models.
 		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -110,7 +110,7 @@ func (db *repoAdvertise) Create(data *models.Advertise) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -123,7 +123,7 @@ func (db *repoAdvertise) Update(ID int, data map[string]interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.Advertise{}).Where("advertise_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -137,7 +137,7 @@ func (db *repoAdvertise) Delete(ID int) error {
 		err    error
 	)
 	query := db.Conn.Where("advertise_id = ?", ID).Delete(&models.Advertise{})
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -147,9 +147,10 @@ func (db *repoAdvertise) Delete(ID int) error {
 
 func (db *repoAdvertise) Count(queryparam models.ParamList) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
@@ -164,17 +165,17 @@ func (db *repoAdvertise) Count(queryparam models.ParamList) (result int, err err
 		} else {
 			sWhere += "(lower(title) LIKE ? )" //queryparam.Search
 		}
-		query = db.Conn.Model(&models.Advertise{}).Where(sWhere, queryparam.Search).Count(&result)
+		query = db.Conn.Model(&models.Advertise{}).Where(sWhere, queryparam.Search).Count(&_result)
 	} else {
-		query = db.Conn.Model(&models.Advertise{}).Where(sWhere).Count(&result)
+		query = db.Conn.Model(&models.Advertise{}).Where(sWhere).Count(&_result)
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
-
+	result = int(_result)
 	return result, nil
 }

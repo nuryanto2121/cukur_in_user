@@ -8,7 +8,7 @@ import (
 
 	ibarberfavorit "nuryanto2121/cukur_in_user/interface/barber_favorit"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type repoBarberFavorit struct {
@@ -25,7 +25,7 @@ func (db *repoBarberFavorit) GetDataBy(BarberId int, UserID int) (result *models
 		data   = &models.BarberFavorit{}
 	)
 	query := db.Conn.Raw(`select * from barber_favorit where barber_id = ? and user_id = ? `, BarberId, UserID).Scan(&data) //Find(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -99,7 +99,7 @@ func (db *repoBarberFavorit) GetList(queryparam models.ParamListGeo) (result []*
 	`).Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 
 	if err != nil {
@@ -116,7 +116,7 @@ func (db *repoBarberFavorit) Create(data *models.BarberFavorit) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -129,7 +129,7 @@ func (db *repoBarberFavorit) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.OrderH{}).Where("order_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -143,7 +143,7 @@ func (db *repoBarberFavorit) Delete(BarberId int, UserID int) error {
 	)
 	// query := db.Conn.Where("order_id = ?", ID).Delete(&models.OrderH{})
 	query := db.Conn.Exec("Delete From barber_favorit WHERE barber_id = ? and user_id = ?", BarberId, UserID)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -152,9 +152,10 @@ func (db *repoBarberFavorit) Delete(BarberId int, UserID int) error {
 }
 func (db *repoBarberFavorit) Count(queryparam models.ParamListGeo) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
-		query  *gorm.DB
+		sWhere  = ""
+		logger  = logging.Logger{}
+		query   *gorm.DB
+		_result int64 = 0
 	)
 	result = 0
 
@@ -180,7 +181,7 @@ func (db *repoBarberFavorit) Count(queryparam models.ParamListGeo) (result int, 
 		`).Joins(`
 		left join sa_file_upload c
 			on b.file_id = c.file_id 
-	`).Where(sWhere, queryparam.Search).Count(&result)
+	`).Where(sWhere, queryparam.Search).Count(&_result)
 	} else {
 		query = db.Conn.Table("barber b ").Select(`
 		b.barber_id,b.barber_cd,b.barber_name,
@@ -193,13 +194,13 @@ func (db *repoBarberFavorit) Count(queryparam models.ParamListGeo) (result int, 
 		`).Joins(`
 		left join sa_file_upload c
 			on b.file_id = c.file_id 
-	`).Where(sWhere).Count(&result)
+	`).Where(sWhere).Count(&_result)
 	}
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

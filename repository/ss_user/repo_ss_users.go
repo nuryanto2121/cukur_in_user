@@ -7,8 +7,8 @@ import (
 	"nuryanto2121/cukur_in_user/pkg/logging"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 
-	"github.com/jinzhu/gorm"
 	"github.com/labstack/gommon/log"
+	"gorm.io/gorm"
 )
 
 type repoSysUser struct {
@@ -21,8 +21,8 @@ func NewRepoSysUser(Conn *gorm.DB) iusers.Repository {
 
 func (db *repoSysUser) GetByAccount(Account string) (result models.SsUser, err error) {
 	query := db.Conn.Where("(email ilike ? OR telp = ?) and user_type = 'user' ", Account, Account).First(&result)
-	log.Info(fmt.Sprintf("%v", query.QueryExpr()))
-	// logger.Query(fmt.Sprintf("%v", query.QueryExpr()))
+	log.Info(fmt.Sprintf("%v", query))
+	// logger.Query(fmt.Sprintf("%v", query))
 	err = query.Error
 
 	if err != nil {
@@ -46,7 +46,7 @@ func (db *repoSysUser) UpdatePasswordByEmail(Email string, Password string) erro
 							set password = ?
 						  where user_type IN ('user')
 						  AND email = ?`, Password, Email)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -56,7 +56,7 @@ func (db *repoSysUser) UpdatePasswordByEmail(Email string, Password string) erro
 func (db *repoSysUser) GetDataBy(ID int) (result *models.SsUser, err error) {
 	var sysUser = &models.SsUser{}
 	query := db.Conn.Where("user_id = ? ", ID).Find(sysUser)
-	log.Info(fmt.Sprintf("%v", query.QueryExpr()))
+	log.Info(fmt.Sprintf("%v", query))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -107,11 +107,11 @@ func (db *repoSysUser) GetList(queryparam models.ParamList) (result []*models.Ss
 	// end where
 	if pageNum >= 0 && pageSize > 0 {
 		query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-		fmt.Printf("%v", query.QueryExpr()) //cath to log query string
+		fmt.Printf("%v", query) //cath to log query string
 		err = query.Error
 	} else {
 		query := db.Conn.Where(sWhere).Order(orderBy).Find(&result)
-		fmt.Printf("%v", query.QueryExpr()) //cath to log query string
+		fmt.Printf("%v", query) //cath to log query string
 		err = query.Error
 	}
 
@@ -129,7 +129,7 @@ func (db *repoSysUser) Create(data *models.SsUser) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -142,7 +142,7 @@ func (db *repoSysUser) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.SsUser{}).Where("user_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -155,7 +155,7 @@ func (db *repoSysUser) Delete(ID int) error {
 		err    error
 	)
 	query := db.Conn.Where("user_id = ?", ID).Delete(&models.SsUser{})
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -164,8 +164,9 @@ func (db *repoSysUser) Delete(ID int) error {
 }
 func (db *repoSysUser) Count(queryparam models.ParamList) (result int, err error) {
 	var (
-		sWhere = ""
-		logger = logging.Logger{}
+		sWhere        = ""
+		logger        = logging.Logger{}
+		_result int64 = 0
 	)
 	result = 0
 
@@ -181,12 +182,12 @@ func (db *repoSysUser) Count(queryparam models.ParamList) (result int, err error
 	}
 	// end where
 
-	query := db.Conn.Model(&models.SsUser{}).Where(sWhere).Count(&result)
-	logger.Query(fmt.Sprintf("%v", query.QueryExpr())) //cath to log query string
+	query := db.Conn.Model(&models.SsUser{}).Where(sWhere).Count(&_result)
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
 	}
 
-	return result, nil
+	return int(_result), nil
 }

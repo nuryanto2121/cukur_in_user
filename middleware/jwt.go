@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	version "nuryanto2121/cukur_in_user/middleware/versioning"
-	"nuryanto2121/cukur_in_user/pkg/postgresdb"
+	postgresgorm "nuryanto2121/cukur_in_user/pkg/postgregorm"
 	"nuryanto2121/cukur_in_user/pkg/setting"
 	tool "nuryanto2121/cukur_in_user/pkg/tools"
 	util "nuryanto2121/cukur_in_user/pkg/utils"
@@ -88,7 +88,7 @@ func Versioning(next echo.HandlerFunc) echo.HandlerFunc {
 			OS:      OS,
 			Version: Version,
 		}
-		dataVersion, err := verService.GetVersion(postgresdb.Conn) //sqlxposgresdb.GetVersion(OS)
+		dataVersion, err := verService.GetVersion(postgresgorm.Conn) //sqlxposgresdb.GetVersion(OS)
 		if err != nil {
 			resp := tool.ResponseModel{
 				Msg:  fmt.Sprintf("Versioning : %v", err),
