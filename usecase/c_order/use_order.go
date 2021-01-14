@@ -28,11 +28,15 @@ type useOrder struct {
 	repoBarber         ibarber.Repository
 	repoBookingCapster ibookingcapster.Repository
 	usenotification    inotification.Usecase
+	repoNotif          inotification.Repository
 	repoFeedbackRating ifeedbackrating.Repository
 	contextTimeOut     time.Duration
 }
 
-func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository, d ibookingcapster.Repository, e inotification.Usecase, f ifeedbackrating.Repository, timeout time.Duration) iorderh.Usecase {
+func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Repository,
+	d ibookingcapster.Repository, e inotification.Usecase,
+	f ifeedbackrating.Repository, g inotification.Repository,
+	timeout time.Duration) iorderh.Usecase {
 	return &useOrder{
 		repoOrderH:         a,
 		repoOrderD:         b,
@@ -40,6 +44,7 @@ func NewUserMOrder(a iorderh.Repository, b iorderd.Repository, c ibarber.Reposit
 		repoBookingCapster: d,
 		usenotification:    e,
 		repoFeedbackRating: f,
+		repoNotif:          g,
 		contextTimeOut:     timeout}
 }
 
@@ -244,10 +249,36 @@ func (u *useOrder) Update(ctx context.Context, Claims util.Claims, ID int, data 
 	}
 
 	//delete then insert detail
+	if data.Status == "C" {
+		var notifUpdate = map[string]interface{}{
+			"notofication_status": "C",
+		}
+		u.repoNotif.Update(ID, notifUpdate)
+		if err != nil {
+			return err
+		}
 
-	err = u.repoOrderD.Delete(ID)
-	if err != nil {
-		return err
+	} else {
+		err = u.repoOrderD.Delete(ID)
+		if err != nil {
+			return err
+		}
+
+		// for _, dataDetail := range data.Pakets {
+		// 	var mDetail models.OrderD
+		// 	err = mapstructure.Decode(dataDetail, &mDetail)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// 	mDetail.BarberID = mOrder.BarberID
+		// 	mDetail.OrderID = mOrder.OrderID
+		// 	mDetail.UserEdit = Claims.UserID
+		// 	mDetail.UserInput = Claims.UserID
+		// 	err = u.repoOrderD.Create(&mDetail)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// }
 	}
 
 	return nil

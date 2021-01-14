@@ -132,7 +132,7 @@ func (db *repoNotification) Update(ID int, data map[string]interface{}) error {
 		logger = logging.Logger{}
 		err    error
 	)
-	query := db.Conn.Model(models.Notification{}).Where("notification_id = ?", ID).Updates(data)
+	query := db.Conn.Model(models.Notification{}).Where("link_id = ?", ID).Updates(data)
 	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
 	err = query.Error
 	if err != nil {

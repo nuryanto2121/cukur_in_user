@@ -118,7 +118,10 @@ func (e *EchoRoutes) InitialRouter() {
 
 	repoOrderD := _repoOrderd.NewRepoOrderD(postgresgorm.Conn)
 	repoOrder := _repoOrder.NewRepoOrderH(postgresgorm.Conn)
-	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber, repoBookingCapster, useNotif, repoFeedbackRating, timeoutContext)
+	useOrder := _useOrder.NewUserMOrder(repoOrder, repoOrderD, repoBarber,
+		repoBookingCapster, useNotif,
+		repoFeedbackRating, repoNotif,
+		timeoutContext)
 	_contOrder.NewContOrder(e.E, useOrder)
 
 	_contValidasi.NewContValidasi(e.E)
