@@ -251,9 +251,9 @@ func (u *useOrder) Update(ctx context.Context, Claims util.Claims, ID int, data 
 	//delete then insert detail
 	if data.Status == "C" {
 		var notifUpdate = map[string]interface{}{
-			"notofication_status": "C",
+			"notification_status": "C",
 		}
-		u.repoNotif.Update(ID, notifUpdate)
+		err = u.repoNotif.Update(ID, notifUpdate)
 		if err != nil {
 			return err
 		}
