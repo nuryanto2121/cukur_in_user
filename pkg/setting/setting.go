@@ -111,11 +111,21 @@ func Setup() {
 
 	if viper.GetBool(`debug`) {
 		fmt.Println("Service RUN on DEBUG mode")
-	}
+		err = viper.Unmarshal(FileConfigSetting)
+		if err != nil {
+			log.Fatalf("setting.Setup, fail to Unmarshal 'config.json': %v", err)
+		}
+	} else {
+		viper.SetConfigFile(`config_prod.json`)
+		err := viper.ReadInConfig()
+		if err != nil {
+			log.Fatalf("setting.Setup, fail to parse 'config.json': %v", err)
+		}
+		err = viper.Unmarshal(FileConfigSetting)
+		if err != nil {
+			log.Fatalf("setting.Setup, fail to Unmarshal 'config.json': %v", err)
+		}
 
-	err = viper.Unmarshal(FileConfigSetting)
-	if err != nil {
-		log.Fatalf("setting.Setup, fail to Unmarshal 'config.json': %v", err)
 	}
 
 	timeSpent := time.Since(now)

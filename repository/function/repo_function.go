@@ -290,3 +290,48 @@ func (fn *FN) InTimeActiveBarber(data *models.Barber, orderDate time.Time) bool 
 	}
 
 }
+
+func (fn *FN) CntTrxUser() (int, error) {
+	var (
+		logger   = logging.Logger{}
+		mCapster = &models.OrderH{}
+		conn     *gorm.DB
+		sWhere         = ""
+		_result  int64 = 0
+	)
+	conn = postgresgorm.Conn
+	sDate := time.Now().Format("2006-01-02")
+
+	sWhere = "user_id = ? and order_date::date = ? and status IN('N','P') "
+	query := conn.Model(mCapster).Where(sWhere, fn.Claims.UserID, sDate).Count(&_result)
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	err := query.Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(_result), nil
+
+}
+func (fn *FN) CntTrxCancelUser() (int, error) {
+	var (
+		logger   = logging.Logger{}
+		mCapster = &models.OrderH{}
+		conn     *gorm.DB
+		sWhere         = ""
+		_result  int64 = 0
+	)
+	conn = postgresgorm.Conn
+	sDate := time.Now().Format("2006-01-02")
+
+	sWhere = "user_id = ? and order_date::date = ? and status IN('C') "
+	query := conn.Model(mCapster).Where(sWhere, fn.Claims.UserID, sDate).Count(&_result)
+	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	err := query.Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(_result), nil
+
+}

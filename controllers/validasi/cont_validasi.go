@@ -67,5 +67,24 @@ func (u *ContValidasi) GetDataBy(e echo.Context) error {
 		return appE.Response(http.StatusBadRequest, "Mohon maaf , waktu di luar jam oprasional", nil)
 	}
 
+	// validasi sedang ada order atau progress order
+	cnt, err := fn.CntTrxUser()
+	if err != nil {
+		return appE.Response(http.StatusBadRequest, fmt.Sprintf("%v", err), nil)
+	}
+
+	if cnt > 0 {
+		return appE.Response(http.StatusBadRequest, "Anda ada pesanan yang sedang berlangsung", nil)
+	}
+
+	cntCancel, err := fn.CntTrxCancelUser()
+	if err != nil {
+		return appE.ResponseError(tool.GetStatusCode(err), fmt.Sprintf("%v", err), nil)
+	}
+
+	if cntCancel > 1 {
+		return appE.Response(http.StatusBadRequest, "Mohon maaf, anda sudah mencapai jumlah cancel maksimum hari ini", nil)
+	}
+
 	return appE.Response(http.StatusOK, "Ok", nil)
 }
