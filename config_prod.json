@@ -14,17 +14,9 @@
         "port":587,
         "user":"noreply@cukur-in.com",
         "passwd":"noreply123!@",
-        "Identity":"cukur-In",
+        "Identity":"cukur-in",
         "sender":"cukur-in@cukur-in.com"
-    },
-    "smtpOld":{
-        "server":"smtp.gmail.com",
-        "port":587,
-        "user":"adm.accleog@gmail.com",
-        "passwd":"!@#$%12345",
-        "Identity":"Cukur_In",
-        "sender":"nuryanto@gmail.com"
-    },
+    },    
     "app": {
         "jwt_secret": "don'tPanic",
         "page_size": 10,
@@ -45,24 +37,24 @@
     "database": {
         "type": "postgres",
         "host": "34.101.133.247",
-        "port": "1400",
+        "port": "1401",
         "user": "postgres",
-        "password": "postgres_dev",
-        "name": "cukur_in",
+        "password": "postgres_prod",
+        "name": "postgres",
         "table_prefix": ""
     },
     "redisdb":{
         "host":"34.101.133.247",
-        "port":1200,
+        "port":1201,
         "db":1,
         "key":"ka_email",
-        "password":"redis_dev"
+        "password":"redis_prod"
     },
     "mongodb":{
-    "host": "34.101.133.247",
-        "port": "1300",
-        "user": "mongoadmin_dev",
-        "password": "mongo_dev",
+        "host": "34.101.133.247",
+        "port": "1301",
+        "user": "mongoadmin_prod",
+        "password": "mongo_prod",
         "name": "cukur_logs"
     }
 }
