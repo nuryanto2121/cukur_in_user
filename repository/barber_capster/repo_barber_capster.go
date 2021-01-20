@@ -74,15 +74,27 @@ func (db *repoBarberCapster) GetList(queryparam models.ParamListGeo) (result []*
 			sWhere += "lower(capster_name) LIKE ?" //queryparam.Search
 		}
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql, queryparam.Search).Find(&result)
+		// sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql).Find(&result)
+		// sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	}
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", sSql)) //cath to log query string
 	err = query.Error
 
 	if err != nil {

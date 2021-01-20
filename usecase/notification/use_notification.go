@@ -125,7 +125,7 @@ func (u *useNotification) Create(ctx context.Context, Claims util.Claims, Token 
 	}
 
 	go fcm.SendPushNotification()
-	// err = fcm.SendPushNotification(ctx)
+	// err = fcm.SendPushNotification()
 	// if err != nil {
 	// 	return err
 	// }

@@ -41,7 +41,7 @@ func (u *useBerandaUser) GetClosestBarber(ctx context.Context, Claims util.Claim
 	defer cancel()
 
 	queryparam.PerPage = 5
-	queryparam.SortField = "distance"
+	queryparam.SortField = "distance ASC"
 	queryparam.InitSearch = "is_active = true and is_barber_open = true AND distance <= 10"
 	// queryparam.InitSearch = "is_active = 't' AND distance <= 10 "
 	// result, err = u.useBarber.GetList(ctx, Claims, queryparam)
@@ -110,7 +110,7 @@ func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Clai
 	defer cancel()
 
 	queryparam.PerPage = 5
-	queryparam.SortField = "barber_rating,distance"
+	queryparam.SortField = "barber_rating DESC,distance"
 	// queryparam.InitSearch = "is_active = true and now()::time >= b.operation_start::time  and now()::time <= b.operation_end::time" // (now()::time between b.operation_start::time and b.operation_end::time )"
 	queryparam.InitSearch = "is_active = true and is_barber_open = true"
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)

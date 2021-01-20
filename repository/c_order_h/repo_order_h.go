@@ -99,19 +99,22 @@ func (db *repoOrderH) GetList(UserID int, queryparam models.ParamListGeo) (resul
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		fmt.Println(sSql)
-		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql, queryparam.Search).Find(&result)
+		// query = db.Conn.Debug().Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	} else {
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		fmt.Println(sSql)
-		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql).Find(&result)
 	}
 
-	// end where
-
-	// query := db.Conn.Where(sWhere).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
-
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", sSql)) //cath to log query string
 	err = query.Error
 
 	if err != nil {

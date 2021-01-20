@@ -1,6 +1,7 @@
 package repobarber
 
 import (
+	"context"
 	"fmt"
 	ibarber "nuryanto2121/cukur_in_user/interface/barber"
 	"nuryanto2121/cukur_in_user/models"
@@ -25,7 +26,7 @@ func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
 		mBarber = &models.Barber{}
 	)
 	query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
-	logger.Query(fmt.Sprintf("%v", query))
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String()))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -36,7 +37,7 @@ func (db *repoBarber) GetDataBy(ID int) (result *models.Barber, err error) {
 	return mBarber, nil
 }
 
-func (db *repoBarber) GetDataByList(ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
+func (db *repoBarber) GetDataByList(ctx context.Context, ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error) {
 	var (
 		logger  = logging.Logger{}
 		mBarber = &models.BarbersList{}
@@ -47,9 +48,17 @@ func (db *repoBarber) GetDataByList(ID int, UserID int, GeoBarber models.GeoBarb
 	`, GeoBarber.Latitude, GeoBarber.Longitude, UserID)
 
 	// query := db.Conn.Where("barber_id = ? ", ID).Find(mBarber)
-	query := db.Conn.Raw(sSql, ID).First(&mBarber)
+	// query := db.Conn.Raw(sSql, ID).First(&mBarber)
+	// query := db.Conn.WithContext(ctx).Raw(sSql, ID).First(&mBarber)
+	query := db.Conn.Debug().Raw(sSql, ID).First(&mBarber)
 
+	// query := db.Conn.Session(&Session{DryRun: true}).Raw(sSql, ID).First(&mBarber)
+	// query.SQL.String()
+	// query.Vars
 	logger.Query(fmt.Sprintf("%v", query))
+	// logger.Query(fmt.Sprintf("%v", query.Vars))
+	// logger.Query(fmt.Sprintf("%v", query.Vars))
+
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -73,7 +82,7 @@ func (db *repoBarber) GetDataFirst(OwnerID int, BarberID int) (result *models.Ba
 		limit 1`
 
 		query := db.Conn.Raw(sQuery, OwnerID).Scan(&mBarber)
-		logger.Query(fmt.Sprintf("%v", query))
+		logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String()))
 		err = query.Error
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {
@@ -86,7 +95,7 @@ func (db *repoBarber) GetDataFirst(OwnerID int, BarberID int) (result *models.Ba
 		limit 1`
 
 		query := db.Conn.Raw(sQuery, OwnerID, BarberID).Scan(&mBarber)
-		logger.Query(fmt.Sprintf("%v", query))
+		logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String()))
 		err = query.Error
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {
@@ -105,7 +114,7 @@ func (db *repoBarber) GetDataBarber(BarberID int) (result *models.Barber, err er
 	)
 
 	query := db.Conn.Where("barber_id = ? ", BarberID).Find(mBarber)
-	logger.Query(fmt.Sprintf("%v", query))
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String()))
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -192,7 +201,7 @@ func (db *repoBarber) GetListOld(UserID int, queryparam models.ParamListGeo) (re
 
 	}
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -270,17 +279,29 @@ func (db *repoBarber) GetList(UserID int, queryparam models.ParamListGeo) (resul
 			sWhere += "lower(barber_name) LIKE ?" //queryparam.Search
 		}
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		fmt.Println(sSql)
-		query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql, queryparam.Search).Find(&result)
+		// sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// fmt.Println(sSql)
+		// query = db.Conn.Raw(sSql, queryparam.Search).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
 		sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
-		fmt.Println(sSql)
-		query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
+		if orderBy != "" {
+			sSql += fmt.Sprintf("\n order by %s", orderBy)
+		}
+		sSql += fmt.Sprintf("\n offset %d limit %d", pageNum, pageSize)
+		query = db.Conn.Raw(sSql).Find(&result)
+		// sSql = fmt.Sprintf(sSql+` WHERE %s`, sWhere)
+		// fmt.Println(sSql)
+		// query = db.Conn.Raw(sSql).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	}
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", sSql)) //cath to log query string
 	err = query.Error
 	fmt.Printf("%v", len(result))
 	if err != nil {
@@ -324,7 +345,7 @@ func (db *repoBarber) GetScheduleTime(BarberID int) (result interface{}, err err
 
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
@@ -338,7 +359,7 @@ func (db *repoBarber) Create(data *models.Barber) error {
 		err    error
 	)
 	query := db.Conn.Create(data)
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -351,7 +372,7 @@ func (db *repoBarber) Update(ID int, data interface{}) error {
 		err    error
 	)
 	query := db.Conn.Model(models.Barber{}).Where("barber_id = ?", ID).Updates(data)
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -365,7 +386,7 @@ func (db *repoBarber) Delete(ID int) error {
 	)
 	// query := db.Conn.Where("barber_id = ?", ID).Delete(&models.Barber{})
 	query := db.Conn.Exec("Delete From barber_collection WHERE barber_id = ?", ID)
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return err
@@ -455,7 +476,7 @@ func (db *repoBarber) CountOld(UserID int, queryparam models.ParamListGeo) (resu
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err
@@ -526,7 +547,7 @@ func (db *repoBarber) Count(UserID int, queryparam models.ParamListGeo) (result 
 	}
 	// end where
 
-	logger.Query(fmt.Sprintf("%v", query)) //cath to log query string
+	logger.Query(fmt.Sprintf("%v", query.Statement.SQL.String())) //cath to log query string
 	err = query.Error
 	if err != nil {
 		return 0, err

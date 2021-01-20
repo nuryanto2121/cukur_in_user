@@ -25,6 +25,7 @@ type auditLog struct {
 func (a *auditLog) saveAudit() {
 
 	a.ID = util.GetTimeNow().Unix()
+	a.Message = "API User : " + a.Message
 	result, err := monggodb.MCon.Collection("auditlogs").InsertOne(context.TODO(), a)
 	if err != nil {
 		log.Fatal(err.Error())

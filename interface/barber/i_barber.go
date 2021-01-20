@@ -8,7 +8,7 @@ import (
 
 type Repository interface {
 	GetDataBy(ID int) (result *models.Barber, err error)
-	GetDataByList(ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
+	GetDataByList(ctx context.Context, ID int, UserID int, GeoBarber models.GeoBarber) (result *models.BarbersList, err error)
 	GetDataFirst(OwnerID int, BarberID int) (result *models.Barber, err error)
 	GetList(UserID int, queryparam models.ParamListGeo) (result []*models.BarbersList, err error)
 	GetScheduleTime(BarberID int) (result interface{}, err error)

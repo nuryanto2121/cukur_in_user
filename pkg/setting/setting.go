@@ -116,6 +116,7 @@ func Setup() {
 			log.Fatalf("setting.Setup, fail to Unmarshal 'config.json': %v", err)
 		}
 	} else {
+		fmt.Println("Service RUN on RELEASE mode")
 		viper.SetConfigFile(`config_prod.json`)
 		err := viper.ReadInConfig()
 		if err != nil {

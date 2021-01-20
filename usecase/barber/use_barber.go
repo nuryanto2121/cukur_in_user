@@ -49,7 +49,7 @@ func (u *useBarber) GetDataBy(ctx context.Context, Claims util.Claims, ID int, G
 	queryparam.Longitude = GeoBarber.Longitude
 
 	UserID, _ := strconv.Atoi(Claims.UserID)
-	result, err := u.repoBarber.GetDataByList(ID, UserID, GeoBarber)
+	result, err := u.repoBarber.GetDataByList(ctx, ID, UserID, GeoBarber)
 	if err != nil {
 		return result, err
 	}
