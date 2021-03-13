@@ -7,7 +7,7 @@ import (
 )
 
 type Repository interface {
-	GetDataBy(OrderID int) (result *models.FeedbackRating, err error)
+	GetDataBy(OrderID int) (result models.FeedbackRating, err error)
 	GetList(queryparam models.ParamList) (result []*models.FeedbackRating, err error)
 	Create(data *models.FeedbackRating) (err error)
 	Update(ID int, data interface{}) (err error)

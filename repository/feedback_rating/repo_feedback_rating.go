@@ -19,10 +19,10 @@ func NewRepoFeedbackRating(Conn *gorm.DB) ifeedbackrating.Repository {
 	return &repoFeedbackRating{Conn}
 }
 
-func (db *repoFeedbackRating) GetDataBy(OrderID int) (result *models.FeedbackRating, err error) {
+func (db *repoFeedbackRating) GetDataBy(OrderID int) (result models.FeedbackRating, err error) {
 	var (
 		logger = logging.Logger{}
-		data   = &models.FeedbackRating{}
+		data   = models.FeedbackRating{}
 	)
 	query := db.Conn.Raw(`select * from feedback_rating where order_id = ? `, OrderID).Scan(&data) //Find(&result)
 	logger.Query(fmt.Sprintf("%v", query))

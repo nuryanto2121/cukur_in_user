@@ -72,7 +72,9 @@ func (u *useOrder) GetDataBy(ctx context.Context, Claims util.Claims, ID int, Ge
 
 	result.OrderDGet = dataHeader
 	result.DataDetail = dataDetail
-	result.DataFeedbackRating = dataFeedback
+	if dataFeedback.ID > 0 {
+		result.DataFeedbackRating = &dataFeedback
+	}
 
 	// dataHeader.DataDetail = dataDetail
 	// dataHeader.DataFeedbackRating = dataFeedback
