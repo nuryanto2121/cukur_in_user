@@ -1,5 +1,5 @@
 {
-    "debug": false,
+    "debug": true,
     "jwt_secret": "don'tPanic",
     "expire_jwt":72,
     "server": {

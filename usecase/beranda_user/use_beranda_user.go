@@ -42,7 +42,7 @@ func (u *useBerandaUser) GetClosestBarber(ctx context.Context, Claims util.Claim
 
 	queryparam.PerPage = 5
 	queryparam.SortField = "distance ASC"
-	queryparam.InitSearch = "is_active = true and is_barber_open = true AND distance <= 10"
+	queryparam.InitSearch = "is_active = true AND distance <= 10" //is_barber_open = true
 	// queryparam.InitSearch = "is_active = 't' AND distance <= 10 "
 	// result, err = u.useBarber.GetList(ctx, Claims, queryparam)
 	// if err != nil {
@@ -76,18 +76,16 @@ func (u *useBerandaUser) GetRecomentCapster(ctx context.Context, Claims util.Cla
 		queryparam.Search = strings.ToLower(fmt.Sprintf("%%%s%%", queryparam.Search))
 	}
 
-	if queryparam.InitSearch != "" {
+	if queryparam.InitSearch != "" { //		and is_barber_open = true
 		queryparam.InitSearch += fmt.Sprintf(` 
 		AND distance <= 10
 		and is_barber_active = true
-		and is_barber_open = true
 		and is_active = true`)
 	} else {
 		queryparam.InitSearch = fmt.Sprintf(`
 		distance <= 10 
-		and is_barber_active = true
-		and is_barber_open = true
-		and is_active = true`)
+		and is_barber_active = true		
+		and is_active = true`) //and is_barber_open = true
 	}
 	result.Data, err = u.repoBarberCapster.GetList(queryparam)
 	if err != nil {
@@ -112,7 +110,7 @@ func (u *useBerandaUser) GetRecomentBarber(ctx context.Context, Claims util.Clai
 	queryparam.PerPage = 5
 	queryparam.SortField = "barber_rating DESC,distance"
 	// queryparam.InitSearch = "is_active = true and now()::time >= b.operation_start::time  and now()::time <= b.operation_end::time" // (now()::time between b.operation_start::time and b.operation_end::time )"
-	queryparam.InitSearch = "is_active = true and is_barber_open = true"
+	queryparam.InitSearch = "is_active = true " //and is_barber_open = true
 	result, err = u.useBarber.GetList(ctx, Claims, queryparam)
 	if err != nil {
 		return result, err
