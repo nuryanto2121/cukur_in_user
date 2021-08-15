@@ -28,7 +28,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/fileupload": {
+        "/user-service/api/fileupload": {
             "post": {
                 "security": [
                     {
@@ -86,7 +86,7 @@ var doc = `{
                 }
             }
         },
-        "/user/advertise": {
+        "/user-service/user/advertise": {
             "get": {
                 "security": [
                     {
@@ -158,7 +158,7 @@ var doc = `{
                 }
             }
         },
-        "/user/advertise/{id}": {
+        "/user-service/user/advertise/{id}": {
             "get": {
                 "security": [
                     {
@@ -205,7 +205,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/change_password": {
+        "/user-service/user/auth/change_password": {
             "post": {
                 "produces": [
                     "application/json"
@@ -249,7 +249,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/forgot": {
+        "/user-service/user/auth/forgot": {
             "post": {
                 "produces": [
                     "application/json"
@@ -293,7 +293,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/login": {
+        "/user-service/user/auth/login": {
             "post": {
                 "produces": [
                     "application/json"
@@ -337,7 +337,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/logout": {
+        "/user-service/user/auth/logout": {
             "post": {
                 "security": [
                     {
@@ -377,7 +377,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/register": {
+        "/user-service/user/auth/register": {
             "post": {
                 "produces": [
                     "application/json"
@@ -421,7 +421,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/register/gen_otp": {
+        "/user-service/user/auth/register/gen_otp": {
             "post": {
                 "produces": [
                     "application/json"
@@ -465,7 +465,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/register/verify": {
+        "/user-service/user/auth/register/verify": {
             "post": {
                 "produces": [
                     "application/json"
@@ -509,7 +509,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth/verify": {
+        "/user-service/user/auth/verify": {
             "post": {
                 "produces": [
                     "application/json"
@@ -553,7 +553,7 @@ var doc = `{
                 }
             }
         },
-        "/user/barber": {
+        "/user-service/user/barber": {
             "get": {
                 "security": [
                     {
@@ -686,7 +686,7 @@ var doc = `{
                 }
             }
         },
-        "/user/barber/{id}": {
+        "/user-service/user/barber/{id}": {
             "get": {
                 "security": [
                     {
@@ -846,7 +846,7 @@ var doc = `{
                 }
             }
         },
-        "/user/barber_paket/{id}": {
+        "/user-service/user/barber_paket/{id}": {
             "get": {
                 "security": [
                     {
@@ -893,7 +893,7 @@ var doc = `{
                 }
             }
         },
-        "/user/beranda": {
+        "/user-service/user/beranda": {
             "get": {
                 "security": [
                     {
@@ -947,7 +947,7 @@ var doc = `{
                 }
             }
         },
-        "/user/booking_capster": {
+        "/user-service/user/booking_capster": {
             "get": {
                 "security": [
                     {
@@ -1002,7 +1002,7 @@ var doc = `{
                 }
             }
         },
-        "/user/capster": {
+        "/user-service/user/capster": {
             "get": {
                 "security": [
                     {
@@ -1088,7 +1088,7 @@ var doc = `{
                 }
             }
         },
-        "/user/capster/{id}": {
+        "/user-service/user/capster/{id}": {
             "get": {
                 "security": [
                     {
@@ -1149,7 +1149,7 @@ var doc = `{
                 }
             }
         },
-        "/user/favorit": {
+        "/user-service/user/favorit": {
             "get": {
                 "security": [
                     {
@@ -1282,7 +1282,7 @@ var doc = `{
                 }
             }
         },
-        "/user/feedback_rating": {
+        "/user-service/user/feedback_rating": {
             "post": {
                 "security": [
                     {
@@ -1331,7 +1331,7 @@ var doc = `{
                 }
             }
         },
-        "/user/feedback_rating/{id}": {
+        "/user-service/user/feedback_rating/{id}": {
             "put": {
                 "security": [
                     {
@@ -1387,7 +1387,7 @@ var doc = `{
                 }
             }
         },
-        "/user/notification": {
+        "/user-service/user/notification": {
             "get": {
                 "security": [
                     {
@@ -1473,7 +1473,7 @@ var doc = `{
                 }
             }
         },
-        "/user/notification/beranda": {
+        "/user-service/user/notification/beranda": {
             "get": {
                 "security": [
                     {
@@ -1513,7 +1513,7 @@ var doc = `{
                 }
             }
         },
-        "/user/notification/{id}": {
+        "/user-service/user/notification/{id}": {
             "get": {
                 "security": [
                     {
@@ -1614,7 +1614,7 @@ var doc = `{
                 }
             }
         },
-        "/user/order": {
+        "/user-service/user/order": {
             "get": {
                 "security": [
                     {
@@ -1747,7 +1747,7 @@ var doc = `{
                 }
             }
         },
-        "/user/order/{id}": {
+        "/user-service/user/order/{id}": {
             "get": {
                 "security": [
                     {
@@ -1907,7 +1907,7 @@ var doc = `{
                 }
             }
         },
-        "/user/user": {
+        "/user-service/user/user": {
             "get": {
                 "security": [
                     {
@@ -2026,7 +2026,7 @@ var doc = `{
                 }
             }
         },
-        "/user/user/change_password": {
+        "/user-service/user/user/change_password": {
             "post": {
                 "security": [
                     {
@@ -2075,7 +2075,7 @@ var doc = `{
                 }
             }
         },
-        "/user/user/{id}": {
+        "/user-service/user/user/{id}": {
             "get": {
                 "security": [
                     {
@@ -2221,7 +2221,7 @@ var doc = `{
                 }
             }
         },
-        "/user/validasi/{id}": {
+        "/user-service/user/validasi/{id}": {
             "get": {
                 "security": [
                     {

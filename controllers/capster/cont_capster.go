@@ -43,7 +43,7 @@ func NewContCapster(e *echo.Echo, a icapsters.Usecase) {
 // @Param latitude query number true "Latitude"
 // @Param longitude query number true "Longitude"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/capster/{id} [get]
+// @Router /user-service/user/capster/{id} [get]
 func (u *ContCapster) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -92,7 +92,7 @@ func (u *ContCapster) GetDataBy(e echo.Context) error {
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/capster [get]
+// @Router /user-service/user/capster [get]
 func (u *ContCapster) GetList(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

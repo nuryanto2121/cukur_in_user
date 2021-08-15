@@ -41,7 +41,7 @@ func NewContAdvertise(e *echo.Echo, a iadvertise.Usecase) {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/advertise/{id} [get]
+// @Router /user-service/user/advertise/{id} [get]
 func (u *contAdvertise) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -83,7 +83,7 @@ func (u *contAdvertise) GetDataBy(e echo.Context) error {
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/advertise [get]
+// @Router /user-service/user/advertise [get]
 func (u *contAdvertise) GetList(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

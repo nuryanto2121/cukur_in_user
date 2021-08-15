@@ -212,7 +212,7 @@ info:
   title: User Cukur-in
   version: "1.0"
 paths:
-  /api/fileupload:
+  /user-service/api/fileupload:
     post:
       consumes:
       - multipart/form-data
@@ -250,7 +250,7 @@ paths:
       summary: File Upload
       tags:
       - FileUpload
-  /user/advertise:
+  /user-service/user/advertise:
     get:
       parameters:
       - description: OS Device
@@ -297,7 +297,7 @@ paths:
       summary: GetList Advertise
       tags:
       - Advertise
-  /user/advertise/{id}:
+  /user-service/user/advertise/{id}:
     get:
       parameters:
       - description: OS Device
@@ -327,7 +327,7 @@ paths:
       summary: GetById Advertise
       tags:
       - Advertise
-  /user/auth/change_password:
+  /user-service/user/auth/change_password:
     post:
       parameters:
       - description: OS Device
@@ -356,7 +356,7 @@ paths:
       summary: Change Password
       tags:
       - Auth
-  /user/auth/forgot:
+  /user-service/user/auth/forgot:
     post:
       parameters:
       - description: OS Device
@@ -385,7 +385,7 @@ paths:
       summary: Forgot Password
       tags:
       - Auth
-  /user/auth/login:
+  /user-service/user/auth/login:
     post:
       parameters:
       - description: OS Device
@@ -414,7 +414,7 @@ paths:
       summary: Login
       tags:
       - Auth
-  /user/auth/logout:
+  /user-service/user/auth/logout:
     post:
       parameters:
       - description: OS Device
@@ -439,7 +439,7 @@ paths:
       summary: logout
       tags:
       - Auth
-  /user/auth/register:
+  /user-service/user/auth/register:
     post:
       parameters:
       - description: OS Device
@@ -468,7 +468,7 @@ paths:
       summary: Register
       tags:
       - Auth
-  /user/auth/register/gen_otp:
+  /user-service/user/auth/register/gen_otp:
     post:
       parameters:
       - description: OS Device
@@ -497,7 +497,7 @@ paths:
       summary: Gen OTP Register
       tags:
       - Auth
-  /user/auth/register/verify:
+  /user-service/user/auth/register/verify:
     post:
       parameters:
       - description: OS Device
@@ -526,7 +526,7 @@ paths:
       summary: Register Verify
       tags:
       - Auth
-  /user/auth/verify:
+  /user-service/user/auth/verify:
     post:
       parameters:
       - description: OS Device
@@ -555,7 +555,7 @@ paths:
       summary: Verify
       tags:
       - Auth
-  /user/barber:
+  /user-service/user/barber:
     get:
       parameters:
       - description: OS Device
@@ -642,7 +642,7 @@ paths:
       summary: Add Barber
       tags:
       - Barber
-  /user/barber/{id}:
+  /user-service/user/barber/{id}:
     delete:
       parameters:
       - description: OS Device
@@ -746,7 +746,7 @@ paths:
       summary: Rubah Barber
       tags:
       - Barber
-  /user/barber_paket/{id}:
+  /user-service/user/barber_paket/{id}:
     get:
       parameters:
       - description: OS Device
@@ -776,7 +776,7 @@ paths:
       summary: GetById
       tags:
       - Barber Paket
-  /user/beranda:
+  /user-service/user/beranda:
     get:
       parameters:
       - description: OS Device
@@ -811,7 +811,7 @@ paths:
       summary: Get Data Beranda
       tags:
       - User Beranda
-  /user/booking_capster:
+  /user-service/user/booking_capster:
     get:
       parameters:
       - description: OS Device
@@ -845,7 +845,7 @@ paths:
       summary: GetData Booking Capster
       tags:
       - BookingCapster
-  /user/capster:
+  /user-service/user/capster:
     get:
       parameters:
       - description: OS Device
@@ -902,7 +902,7 @@ paths:
       summary: GetList Capster
       tags:
       - Capster
-  /user/capster/{id}:
+  /user-service/user/capster/{id}:
     get:
       parameters:
       - description: OS Device
@@ -942,7 +942,7 @@ paths:
       summary: GetById
       tags:
       - Capster
-  /user/favorit:
+  /user-service/user/favorit:
     get:
       parameters:
       - description: OS Device
@@ -1029,7 +1029,7 @@ paths:
       summary: Add Or Delete Barber Favorit
       tags:
       - Barber Favorit
-  /user/feedback_rating:
+  /user-service/user/feedback_rating:
     post:
       parameters:
       - description: OS Device
@@ -1060,7 +1060,7 @@ paths:
       summary: Add FeedbackRating
       tags:
       - FeedbackRating
-  /user/feedback_rating/{id}:
+  /user-service/user/feedback_rating/{id}:
     put:
       parameters:
       - description: OS Device
@@ -1096,7 +1096,7 @@ paths:
       summary: Rubah FeedbackRating
       tags:
       - FeedbackRating
-  /user/notification:
+  /user-service/user/notification:
     get:
       parameters:
       - description: OS Device
@@ -1153,7 +1153,7 @@ paths:
       summary: GetList Notification
       tags:
       - Notification
-  /user/notification/{id}:
+  /user-service/user/notification/{id}:
     get:
       parameters:
       - description: OS Device
@@ -1218,7 +1218,7 @@ paths:
       summary: Rubah Status Notification
       tags:
       - Notification
-  /user/notification/beranda:
+  /user-service/user/notification/beranda:
     get:
       parameters:
       - description: OS Device
@@ -1243,7 +1243,7 @@ paths:
       summary: Jumlah Notif yg belum dibuka
       tags:
       - Notification
-  /user/order:
+  /user-service/user/order:
     get:
       parameters:
       - description: OS Device
@@ -1330,7 +1330,7 @@ paths:
       summary: Add Order
       tags:
       - Order
-  /user/order/{id}:
+  /user-service/user/order/{id}:
     delete:
       parameters:
       - description: OS Device
@@ -1434,7 +1434,7 @@ paths:
       summary: Cancel Order user
       tags:
       - Order
-  /user/user:
+  /user-service/user/user:
     get:
       parameters:
       - description: OS Device
@@ -1511,7 +1511,7 @@ paths:
       summary: Add User
       tags:
       - User
-  /user/user/{id}:
+  /user-service/user/user/{id}:
     delete:
       parameters:
       - description: OS Device
@@ -1605,7 +1605,7 @@ paths:
       summary: Rubah Profile
       tags:
       - User
-  /user/user/change_password:
+  /user-service/user/user/change_password:
     post:
       parameters:
       - description: OS Device
@@ -1636,7 +1636,7 @@ paths:
       summary: Rubah Password
       tags:
       - User
-  /user/validasi/{id}:
+  /user-service/user/validasi/{id}:
     get:
       parameters:
       - description: OS Device

@@ -41,7 +41,7 @@ func NewContBerandaUser(e *echo.Echo, a iberandauser.Usecase) {
 // @Param latitude query number true "Latitude"
 // @Param longitude query number true "Longitude"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/beranda [get]
+// @Router /user-service/user/beranda [get]
 func (c *contBerandaUser) GetBeranda(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

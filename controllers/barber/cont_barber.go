@@ -46,7 +46,7 @@ func NewContBarber(e *echo.Echo, a ibarbers.Usecase) {
 // @Param latitude query number true "Latitude"
 // @Param longitude query number true "Longitude"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/barber/{id} [get]
+// @Router /user-service/user/barber/{id} [get]
 func (u *ContBarber) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -97,7 +97,7 @@ func (u *ContBarber) GetDataBy(e echo.Context) error {
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/barber [get]
+// @Router /user-service/user/barber [get]
 func (u *ContBarber) GetList(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -146,7 +146,7 @@ func (u *ContBarber) GetList(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.BarbersPost true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/barber [post]
+// @Router /user-service/user/barber [post]
 func (u *ContBarber) Create(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -192,7 +192,7 @@ func (u *ContBarber) Create(e echo.Context) error {
 // @Param id path string true "ID"
 // @Param req body models.BarbersPost true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/barber/{id} [put]
+// @Router /user-service/user/barber/{id} [put]
 func (u *ContBarber) Update(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -244,7 +244,7 @@ func (u *ContBarber) Update(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/barber/{id} [delete]
+// @Router /user-service/user/barber/{id} [delete]
 func (u *ContBarber) Delete(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

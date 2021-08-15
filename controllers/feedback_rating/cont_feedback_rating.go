@@ -41,7 +41,7 @@ func NewContFeedbackRating(e *echo.Echo, a ifeedbackrating.Usecase) {
 // @Param Version header string true "OS Device"
 // @Param req body models.AddFeedbackRating true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/feedback_rating [post]
+// @Router /user-service/user/feedback_rating [post]
 func (u *ContFeedbackRating) Create(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -84,7 +84,7 @@ func (u *ContFeedbackRating) Create(e echo.Context) error {
 // @Param id path string true "ID"
 // @Param req body models.AddFeedbackRating true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/feedback_rating/{id} [put]
+// @Router /user-service/user/feedback_rating/{id} [put]
 func (u *ContFeedbackRating) Update(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

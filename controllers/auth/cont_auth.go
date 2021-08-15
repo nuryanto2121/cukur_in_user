@@ -57,7 +57,7 @@ func NewContAuth(e *echo.Echo, useAuth iauth.Usecase) {
 // @Param OS header string true "OS Device"
 // @Param Version header string true "OS Device"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/logout [post]
+// @Router /user-service/user/auth/logout [post]
 func (u *ContAuth) Logout(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -89,7 +89,7 @@ func (u *ContAuth) Logout(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.LoginForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/login [post]
+// @Router /user-service/user/auth/login [post]
 func (u *ContAuth) Login(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -126,7 +126,7 @@ func (u *ContAuth) Login(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.ResetPasswd true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/change_password [post]
+// @Router /user-service/user/auth/change_password [post]
 func (u *ContAuth) ChangePassword(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -161,7 +161,7 @@ func (u *ContAuth) ChangePassword(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.RegisterForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/register [post]
+// @Router /user-service/user/auth/register [post]
 func (u *ContAuth) Register(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -198,7 +198,7 @@ func (u *ContAuth) Register(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.VerifyForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/verify [post]
+// @Router /user-service/user/auth/verify [post]
 func (u *ContAuth) Verify(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -235,7 +235,7 @@ func (u *ContAuth) Verify(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.VerifyForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/register/verify [post]
+// @Router /user-service/user/auth/register/verify [post]
 func (u *ContAuth) RegisterVerify(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -272,7 +272,7 @@ func (u *ContAuth) RegisterVerify(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.ForgotForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/forgot [post]
+// @Router /user-service/user/auth/forgot [post]
 func (u *ContAuth) ForgotPassword(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -312,7 +312,7 @@ func (u *ContAuth) ForgotPassword(e echo.Context) error {
 // @Param Version header string true "OS Device"
 // @Param req body models.ForgotForm true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/auth/register/gen_otp [post]
+// @Router /user-service/user/auth/register/gen_otp [post]
 func (u *ContAuth) GenOTP(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

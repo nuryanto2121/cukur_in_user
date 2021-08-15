@@ -35,7 +35,7 @@ func NewContValidasi(e *echo.Echo) {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID Barber"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/validasi/{id} [get]
+// @Router /user-service/user/validasi/{id} [get]
 func (u *ContValidasi) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

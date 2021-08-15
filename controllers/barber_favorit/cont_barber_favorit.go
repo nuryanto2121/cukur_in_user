@@ -40,7 +40,7 @@ func NewContBarberFavorit(e *echo.Echo, a ibarberfavorit.Usecase) {
 // @Param Version header string true "OS Device"
 // @Param req body models.AddBarberFavorit true "req param #changes are possible to adjust the form of the registration form from frontend"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/favorit [post]
+// @Router /user-service/user/favorit [post]
 func (u *contBarberFavorit) Create(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
@@ -87,7 +87,7 @@ func (u *contBarberFavorit) Create(e echo.Context) error {
 // @Param initsearch query string false "InitSearch"
 // @Param sortfield query string false "SortField"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/favorit [get]
+// @Router /user-service/user/favorit [get]
 func (u *contBarberFavorit) GetList(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

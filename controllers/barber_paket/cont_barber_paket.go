@@ -37,7 +37,7 @@ func NewContBarberPaket(e *echo.Echo, a ibarberpaket.Usecase) {
 // @Param Version header string true "OS Device"
 // @Param id path string true "ID Barber"
 // @Success 200 {object} tool.ResponseModel
-// @Router /user/barber_paket/{id} [get]
+// @Router /user-service/user/barber_paket/{id} [get]
 func (u *ContBarberPaket) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {

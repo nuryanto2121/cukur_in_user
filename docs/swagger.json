@@ -11,7 +11,7 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/fileupload": {
+        "/user-service/api/fileupload": {
             "post": {
                 "security": [
                     {
@@ -69,7 +69,7 @@
                 }
             }
         },
-        "/user/advertise": {
+        "/user-service/user/advertise": {
             "get": {
                 "security": [
                     {
@@ -141,7 +141,7 @@
                 }
             }
         },
-        "/user/advertise/{id}": {
+        "/user-service/user/advertise/{id}": {
             "get": {
                 "security": [
                     {
@@ -188,7 +188,7 @@
                 }
             }
         },
-        "/user/auth/change_password": {
+        "/user-service/user/auth/change_password": {
             "post": {
                 "produces": [
                     "application/json"
@@ -232,7 +232,7 @@
                 }
             }
         },
-        "/user/auth/forgot": {
+        "/user-service/user/auth/forgot": {
             "post": {
                 "produces": [
                     "application/json"
@@ -276,7 +276,7 @@
                 }
             }
         },
-        "/user/auth/login": {
+        "/user-service/user/auth/login": {
             "post": {
                 "produces": [
                     "application/json"
@@ -320,7 +320,7 @@
                 }
             }
         },
-        "/user/auth/logout": {
+        "/user-service/user/auth/logout": {
             "post": {
                 "security": [
                     {
@@ -360,7 +360,7 @@
                 }
             }
         },
-        "/user/auth/register": {
+        "/user-service/user/auth/register": {
             "post": {
                 "produces": [
                     "application/json"
@@ -404,7 +404,7 @@
                 }
             }
         },
-        "/user/auth/register/gen_otp": {
+        "/user-service/user/auth/register/gen_otp": {
             "post": {
                 "produces": [
                     "application/json"
@@ -448,7 +448,7 @@
                 }
             }
         },
-        "/user/auth/register/verify": {
+        "/user-service/user/auth/register/verify": {
             "post": {
                 "produces": [
                     "application/json"
@@ -492,7 +492,7 @@
                 }
             }
         },
-        "/user/auth/verify": {
+        "/user-service/user/auth/verify": {
             "post": {
                 "produces": [
                     "application/json"
@@ -536,7 +536,7 @@
                 }
             }
         },
-        "/user/barber": {
+        "/user-service/user/barber": {
             "get": {
                 "security": [
                     {
@@ -669,7 +669,7 @@
                 }
             }
         },
-        "/user/barber/{id}": {
+        "/user-service/user/barber/{id}": {
             "get": {
                 "security": [
                     {
@@ -829,7 +829,7 @@
                 }
             }
         },
-        "/user/barber_paket/{id}": {
+        "/user-service/user/barber_paket/{id}": {
             "get": {
                 "security": [
                     {
@@ -876,7 +876,7 @@
                 }
             }
         },
-        "/user/beranda": {
+        "/user-service/user/beranda": {
             "get": {
                 "security": [
                     {
@@ -930,7 +930,7 @@
                 }
             }
         },
-        "/user/booking_capster": {
+        "/user-service/user/booking_capster": {
             "get": {
                 "security": [
                     {
@@ -985,7 +985,7 @@
                 }
             }
         },
-        "/user/capster": {
+        "/user-service/user/capster": {
             "get": {
                 "security": [
                     {
@@ -1071,7 +1071,7 @@
                 }
             }
         },
-        "/user/capster/{id}": {
+        "/user-service/user/capster/{id}": {
             "get": {
                 "security": [
                     {
@@ -1132,7 +1132,7 @@
                 }
             }
         },
-        "/user/favorit": {
+        "/user-service/user/favorit": {
             "get": {
                 "security": [
                     {
@@ -1265,7 +1265,7 @@
                 }
             }
         },
-        "/user/feedback_rating": {
+        "/user-service/user/feedback_rating": {
             "post": {
                 "security": [
                     {
@@ -1314,7 +1314,7 @@
                 }
             }
         },
-        "/user/feedback_rating/{id}": {
+        "/user-service/user/feedback_rating/{id}": {
             "put": {
                 "security": [
                     {
@@ -1370,7 +1370,7 @@
                 }
             }
         },
-        "/user/notification": {
+        "/user-service/user/notification": {
             "get": {
                 "security": [
                     {
@@ -1456,7 +1456,7 @@
                 }
             }
         },
-        "/user/notification/beranda": {
+        "/user-service/user/notification/beranda": {
             "get": {
                 "security": [
                     {
@@ -1496,7 +1496,7 @@
                 }
             }
         },
-        "/user/notification/{id}": {
+        "/user-service/user/notification/{id}": {
             "get": {
                 "security": [
                     {
@@ -1597,7 +1597,7 @@
                 }
             }
         },
-        "/user/order": {
+        "/user-service/user/order": {
             "get": {
                 "security": [
                     {
@@ -1730,7 +1730,7 @@
                 }
             }
         },
-        "/user/order/{id}": {
+        "/user-service/user/order/{id}": {
             "get": {
                 "security": [
                     {
@@ -1890,7 +1890,7 @@
                 }
             }
         },
-        "/user/user": {
+        "/user-service/user/user": {
             "get": {
                 "security": [
                     {
@@ -2009,7 +2009,7 @@
                 }
             }
         },
-        "/user/user/change_password": {
+        "/user-service/user/user/change_password": {
             "post": {
                 "security": [
                     {
@@ -2058,7 +2058,7 @@
                 }
             }
         },
-        "/user/user/{id}": {
+        "/user-service/user/user/{id}": {
             "get": {
                 "security": [
                     {
@@ -2204,7 +2204,7 @@
                 }
             }
         },
-        "/user/validasi/{id}": {
+        "/user-service/user/validasi/{id}": {
             "get": {
                 "security": [
                     {

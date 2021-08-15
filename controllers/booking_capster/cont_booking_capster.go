@@ -40,7 +40,7 @@ func NewContBookingCapster(e *echo.Echo, a ibookingcapster.Usecase) {
 // // @Param Version header string true "OS Device"
 // // @Param req body models.AddBookingCapster true "req param #changes are possible to adjust the form of the registration form from frontend"
 // // @Success 200 {object} tool.ResponseModel
-// // @Router /user/booking_capster [post]
+// // @Router /user-service/user/booking_capster [post]
 // func (u *ContBookingCapster) Create(e echo.Context) error {
 // 	ctx := e.Request().Context()
 // 	if ctx == nil {
@@ -82,7 +82,7 @@ func NewContBookingCapster(e *echo.Echo, a ibookingcapster.Usecase) {
 // @Param Version header string true "Version Device"
 // @Param req query models.AddBookingCapster true "ss"
 // @Success 200 {object} models.ResponseModelList
-// @Router /user/booking_capster [get]
+// @Router /user-service/user/booking_capster [get]
 func (u *ContBookingCapster) GetDataBy(e echo.Context) error {
 	ctx := e.Request().Context()
 	if ctx == nil {
